@@ -1,8 +1,15 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { Button, ButtonGroup, Container, Link, Stack, Typography } from '@mui/material';
+import { Icons } from '@/lib/Icons';
 
-const inter = Inter({ subsets: ['latin'] })
+const welcomeButtonStyle = {
+  fontSize: "1.8rem",
+  padding: "0.5rem 1.25rem",
+  textTransform: "none",
+  border: "2px solid",
+  borderColor: "primary.main",
+};
+
 
 export default function WelcomePage() {
   return (
@@ -13,9 +20,60 @@ export default function WelcomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        Hello NextJs
-      </div>
+      <Container>
+        <Stack
+          spacing={0}
+          minHeight={"100vh"}
+          alignItems="center"
+          justifyContent="center"
+          textAlign={"center"}
+        >
+          <Icons.Logo size={160} />
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: "4.5rem",
+              lineHeight: "1.2",
+              fontWeight: "900",
+              marginTop: "1rem",
+            }}
+          >
+            Welcome to Noti
+          </Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              fontSize: "2,25rem",
+              lineHeight: "2.5rem",
+              fontWeight: "500",
+            }}
+          >
+            {"Let's create some notes"}
+          </Typography>
+          <Stack direction={"row"} spacing={2} sx={{ marginTop: "1rem" }} justifyContent="center">
+            <Link href={"login"}>
+              <Button
+                variant="contained"
+                color="primary"
+                component="button"
+                sx={welcomeButtonStyle}
+              >
+                Log In
+              </Button>
+            </Link>
+            <Link href={"signup"}>
+              <Button
+                variant="contained"
+                color="secondary"
+                component="button"
+                sx={welcomeButtonStyle}
+              >
+                Sign Up
+              </Button>
+            </Link>
+          </Stack>
+        </Stack>
+      </Container>
     </>
-  )
+  );
 }
