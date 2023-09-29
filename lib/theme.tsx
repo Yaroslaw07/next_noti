@@ -16,7 +16,7 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 12,
+    borderRadius: 8,
   },
   components: {
     MuiTypography: {
@@ -26,15 +26,6 @@ const theme = createTheme({
         },
       },
     },
-    // MuiButton: {
-    //   styleOverrides: {
-    //     root: {
-    //       "&:hover": {
-    //         backgroundColor: "#404040",
-    //       },
-    //     },
-    //   },
-    // },
   },
 });
 
