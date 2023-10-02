@@ -1,5 +1,5 @@
 import Link from "@/components/Link";
-import { Icons } from "@/lib/Icons";
+import { Icons } from "@/components/Icons";
 import {
   Box,
   Button,

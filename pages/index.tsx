@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Button, Container, Stack, Typography } from '@mui/material';
-import { Icons } from '@/lib/Icons';
+import { Icons } from '@/components/Icons';
 import Link from '@/components/Link';
 
 const welcomeButtonStyle = {

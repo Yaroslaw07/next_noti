@@ -1,5 +1,5 @@
-import createEmotionCache from '@/lib/emotionCache';
-import theme from '@/lib/theme';
+import createEmotionCache from '@/lib/ui/emotionCache';
+import theme from '@/lib/ui/theme';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app'

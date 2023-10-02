@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import { Icons } from "@/lib/Icons";
+import { Icons } from "@/components/Icons";
 import Link from "@/components/Link";
 
 export default function LoginPage() {
