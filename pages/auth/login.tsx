@@ -3,16 +3,37 @@ import Head from "next/head";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Icons } from "@/components/Icons";
 import Link from "@/components/Link";
+import { useRouter } from "next/router";
+
 
 export default function LoginPage() {
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    };
+
+    const response = await fetch("/api/auth/login", options);
+
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem("jwt-token", data.token);
+      router.push("/note");
+    } else {
+      console.error(response.statusText);
+    }
   };
 
 

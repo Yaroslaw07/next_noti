@@ -1,9 +1,16 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "your-secret-key"; 
+const JWT_SECRET = "your-secret-key";
 
-export function generateToken(user: User): string {
-  return jwt.sign(user, JWT_SECRET, { expiresIn: "1h" });
+type UserJwt = {
+  id: string;
+  email: string;
+  username: string;
+  isRegistered: boolean;
+}
+
+export function generateToken(user: UserJwt): string {
+  return jwt.sign(user, JWT_SECRET);
 }
 
 export function verifyToken(token: string): any {

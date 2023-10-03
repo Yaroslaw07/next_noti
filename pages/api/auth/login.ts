@@ -1,7 +1,6 @@
-import passport from "../../../lib/auth/passport";
 import { NextApiRequest, NextApiResponse } from "next";
-import { hashPassword, verifyPassword } from "@/lib/auth/hasher";
-import { findUser } from "@/services/user";
+import { verifyPassword } from "@/lib/auth/hasher";
+import { GetUserByEmail } from "@/services/user";
 import { generateToken } from "@/lib/auth/jwt";
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
@@ -10,10 +9,15 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     res.status(405).json({ message: `Method ${req.method} not allowed` });
     return;
   }
-  
+
   const {email, password} = req.body;
 
-  const user = findUser(email);
+  if (!email || !password) {
+    res.status(400).json({ message: "Missing fields" });
+    return;
+  }
+
+  const user = GetUserByEmail(email);
 
   if (!user) {
     res.status(401).json({ message: "Invalid credentials" });

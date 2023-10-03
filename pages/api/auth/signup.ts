@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { generateToken } from "@/lib/auth/jwt";
 import { v4 as uuid } from "uuid";
-import { createUser, findUser } from "@/services/user";
+import { CreateUser, GetUserByEmail } from "@/services/user";
 import { hashPassword } from "@/lib/auth/hasher";
 
 
@@ -16,7 +16,7 @@ export default async function handler(
       return res.status(400).json({ message: "Missing fields" });
     }
 
-    if (findUser(email)) {
+    if (GetUserByEmail(email)) {
       return res.status(409).json({ message: "Email already exists" });
     }
 
@@ -24,11 +24,15 @@ export default async function handler(
 
     const newUser: User = {
       id: uuid(),
+      username:"",
       email: email,
       password: hashedPassword,
+      isRegistered: false,
+      createdAt: Date.now(),
     };
 
-    createUser(newUser);
+    CreateUser(newUser);
+    console.log(newUser);
 
     const token = generateToken(newUser);
 

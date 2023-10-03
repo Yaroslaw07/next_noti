@@ -1,22 +1,36 @@
 import Link from "@/components/Link";
 import { Icons } from "@/components/Icons";
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function SignUpPage() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    };
+  
+    const response = await fetch("/api/auth/signup", options);
+
+     if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem("jwt-token", data.token);
+      router.push("/note");
+    } else {
+      console.error(response.statusText);
+    }
   };
 
   return (
@@ -82,7 +96,7 @@ export default function SignUpPage() {
               variant="contained"
               sx={{ mt: 2, mb: 2 }}
             >
-              Sign In
+              Sign Up
             </Button>
             <Link
               href="login"

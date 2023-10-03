@@ -1,6 +1,7 @@
-import { GetUser } from '@/services/user';
+import { GetUserById } from '@/services/user';
 import passport from 'passport'
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
+import { verifyToken } from './jwt';
 
 const JWT_SECRET = 'your-secret-key';
 
@@ -10,15 +11,19 @@ const jwtOptions = {
 };
 
 passport.use('jwt',
-  new JwtStrategy(jwtOptions, (jwtPayload, done) => {
+  new JwtStrategy(jwtOptions,async (jwtToken, done) => {
 
-    const user = GetUser(jwtPayload.id);
+    if (verifyToken(jwtToken)) {
+      return done(null, false,{message: "Invalid token"});
+    }
+
+    const user = GetUserById(jwtToken.id);
 
     if (!user) {
       return done(null, false);
     }
 
-    return done(null, user);
+    return done(null, true);
   })
 );
 

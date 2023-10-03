@@ -1,16 +1,16 @@
 
 let user: User[] = [];
 
-export const createUser = (newUser: User) => {
+export const CreateUser = (newUser: User) => {
   user.push(newUser);
   return newUser;
 };
 
-export const findUser = (email: string) => {
+export const GetUserByEmail = (email: string) => {
   console.log(email,user);
   return user.find((u) => u.email === email);
 };
 
-export const GetUser = (id: string) => { 
+export const GetUserById = (id: string) => { 
   return user.find((u) => u.id === id);
 }
