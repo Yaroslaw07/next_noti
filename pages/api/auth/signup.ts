@@ -16,7 +16,7 @@ export default async function handler(
       return res.status(400).json({ message: "Missing fields" });
     }
 
-    if (GetUserByEmail(email)) {
+    if (await GetUserByEmail(email)) {
       return res.status(409).json({ message: "Email already exists" });
     }
 
@@ -31,10 +31,10 @@ export default async function handler(
       createdAt: Date.now(),
     };
 
-    CreateUser(newUser);
-    console.log(newUser);
+    const addedUser = await CreateUser(newUser);
+    console.log(addedUser)
 
-    const token = generateToken(newUser);
+    const token = generateToken(addedUser);
 
     res.status(200).json({ token });
   } else {

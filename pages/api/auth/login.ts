@@ -17,7 +17,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     return;
   }
 
-  const user = GetUserByEmail(email);
+  const user = await GetUserByEmail(email);
 
   if (!user) {
     res.status(401).json({ message: "Invalid credentials" });
