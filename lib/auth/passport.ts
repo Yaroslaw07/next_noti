@@ -3,11 +3,10 @@ import passport from 'passport'
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { verifyToken } from './jwt';
 
-const JWT_SECRET = 'your-secret-key';
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: JWT_SECRET,
+  secretOrKey: process.env.JWT_SECRET!,
 };
 
 passport.use('jwt',

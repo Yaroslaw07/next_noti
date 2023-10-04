@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "your-secret-key";
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 type UserJwt = {
   id: string;
