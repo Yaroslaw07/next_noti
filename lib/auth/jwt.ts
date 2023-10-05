@@ -16,3 +16,7 @@ export function generateToken(user: UserJwt): string {
 export function verifyToken(token: string): any {
   return jwt.verify(token, JWT_SECRET);
 }
+
+export function decodeToken(token: string) {
+  return jwt.decode(token);
+}

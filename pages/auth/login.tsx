@@ -30,7 +30,9 @@ export default function LoginPage() {
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("jwt-token", data.token);
-      router.push("/note");
+
+      data.isRegistered ? router.push("/noti") :
+      router.push("/auth/register");
     } else {
       console.error(response.statusText);
     }

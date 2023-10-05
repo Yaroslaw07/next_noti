@@ -17,6 +17,16 @@ model User {
   password  String
   createdAt DateTime @default(now())
   isRegistered Boolean @default(false)
+  vautls    Vault[] 
 }
+
+model Vault {
+  id        String   @id @default(uuid())
+  name      String
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+}
+
+
 
 

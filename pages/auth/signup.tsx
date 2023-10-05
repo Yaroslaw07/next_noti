@@ -27,7 +27,7 @@ export default function SignUpPage() {
      if (response.ok) {
       const data = await response.json();
       localStorage.setItem("jwt-token", data.token);
-      router.push("/note");
+      router.push("/auth/register");
     } else {
       console.error(response.statusText);
     }

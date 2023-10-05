@@ -33,9 +33,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     return;
   }
 
-  // Generate a JWT token
+  // Get all we need from the user
   const token = generateToken(user);
+  const isRegistered = user.isRegistered;
 
   // Return the JWT token to the user
-  res.status(200).json({ token });
+  res.status(200).json({ token, isRegistered });
 };
