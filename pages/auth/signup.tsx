@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { sign } from "crypto";
 import { signIn } from "next-auth/react";
+import { AuthenticationType } from "@/lib/auth/next-auth";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function SignUpPage() {
 
     const email = data.get("email");
     const password = data.get("password");
-    const authenticateType = "signUp";
+    const authenticateType = AuthenticationType.SignUp;
 
 
     const res = await signIn("credentials", {

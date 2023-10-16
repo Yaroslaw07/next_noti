@@ -5,8 +5,6 @@ export default function Note() {
 
     const user = useSession();
 
-    console.log(user);
-
     return (
       <>
         <Head>

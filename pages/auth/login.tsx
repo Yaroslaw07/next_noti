@@ -4,10 +4,10 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Icons } from "@/components/Icons";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
-
+import { AuthenticationType } from "@/lib/auth/next-auth";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
-
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -16,11 +16,22 @@ export default function LoginPage() {
 
     const email = data.get("email");
     const password = data.get("password");
-    const authenticateType = "signIn";
+    const authenticateType = AuthenticationType.LogIn;
 
-    console.log(email, password, authenticateType);
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+      authenticateType,
+    });
+
+    if (res?.ok) {
+      console.log();
+      router.push("/note");
+    } else {
+      console.log(res?.error);
+    }
   };
-
 
   return (
     <>

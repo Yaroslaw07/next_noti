@@ -6,8 +6,12 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import db from "../db";
-import { use } from "react";
-import { hashPassword } from "./hasher";
+import { hashPassword, verifyPassword } from "./hasher";
+
+export const AuthenticationType = {
+  LogIn: "LogIn",
+  SignUp: "SignUp",
+};
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -35,30 +39,38 @@ export const authOptions: NextAuthOptions = {
         const { authenticateType, email, password } = credentials!;
         
         switch (authenticateType) {
-          case "signUp": {
-
-            
-            if (await db.user.findFirst({ where: { email: email } }) != null) {
+          case AuthenticationType.SignUp: {
+            if (
+              (await db.user.findUnique({ where: { email: email } })) != null
+            ) {
               throw new Error("User already exists");
             }
 
             const hashedPassword = await hashPassword(password);
-            
+
             const user = await db.user.create({
               data: {
-                name: email.substring(0, email.indexOf("@")) ,
+                name: email.substring(0, email.indexOf("@")),
                 email: email,
                 password: hashedPassword,
               },
             });
 
-            console.log(user);
-
             return user;
           }
 
-          case "signIn": {
-            console.log("signIn");
+          case AuthenticationType.LogIn: {
+            const user = await db.user.findUnique({ where: { email: email } });
+
+            if (user == null) {
+              throw new Error("No user with this email");
+            }
+
+            if (!(await verifyPassword(password, user.password!))) {
+              throw new Error("Wrong password. Try another");
+            }
+
+            return user;
           }
         }
 
