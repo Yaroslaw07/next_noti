@@ -31,13 +31,17 @@ export const authOptions: NextAuthOptions = {
         authenticateType: { label: "Authenticate Type", type: "text" },
       },
       async authorize(credentials, req) {
-
-        if (!credentials || !credentials.authenticateType || !credentials.email || !credentials.password) {
+        if (
+          !credentials ||
+          !credentials.authenticateType ||
+          !credentials.email ||
+          !credentials.password
+        ) {
           return null;
         }
 
         const { authenticateType, email, password } = credentials!;
-        
+
         switch (authenticateType) {
           case AuthenticationType.SignUp: {
             if (
@@ -78,6 +82,22 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }) {
+      session.user.isRegistered = token.isRegistered;
+      session.user.id = token.id;
+
+      return session;
+    },
+
+    async jwt({ token, trigger, session, user }) {
+      if (trigger === "update") {
+        return { ...token, ...session.user };
+      }
+
+      return { ...token, ...user };
+    },
+  },
 
   //   -- code from noti_old
   //   providers: [
@@ -90,18 +110,6 @@ export const authOptions: NextAuthOptions = {
   //       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
   //     }),
   //   ],
-  //   callbacks: {
-  //     async session({ session, token }) {
-  //       session.user.isRegistered = token.isRegistered;
-  //       session.user.id = token.id;
-
-  //       return session;
-  //     },
-
-  //     async jwt({ token, user }) {
-  //       return { ...token, ...user };
-  //     },
-  //   },
 };
 
 export const getSession = () => getServerSession(authOptions);

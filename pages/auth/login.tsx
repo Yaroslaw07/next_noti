@@ -1,14 +1,24 @@
 import Head from "next/head";
 
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Icons } from "@/components/Icons";
 import Link from "@/components/Link";
 import { useRouter } from "next/router";
 import { AuthenticationType } from "@/lib/auth/next-auth";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function LoginPage() {
   const router = useRouter();
+
+  const { data: session, status } = useSession();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,12 +36,17 @@ export default function LoginPage() {
     });
 
     if (res?.ok) {
-      console.log();
-      router.push("/note");
+      session?.user?.isRegistered
+        ? router.push("/note")
+        : router.push("register");
     } else {
       console.log(res?.error);
     }
   };
+
+  if (status === "authenticated") {
+    session?.user?.isRegistered ? router.push("/note") : router.push("register");
+  }
 
   return (
     <>
@@ -39,6 +54,9 @@ export default function LoginPage() {
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
+      <Backdrop open={status === "loading"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <CircularProgress color="primary" size={80}/>
+      </Backdrop>
       <Container component="main" maxWidth="xs">
         <Box
           sx={{

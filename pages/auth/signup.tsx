@@ -1,14 +1,23 @@
 import Link from "@/components/Link";
 import { Icons } from "@/components/Icons";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { sign } from "crypto";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 
 export default function SignUpPage() {
   const router = useRouter();
+
+  const { data: session, status, update } = useSession();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,7 +27,6 @@ export default function SignUpPage() {
     const password = data.get("password");
     const authenticateType = AuthenticationType.SignUp;
 
-
     const res = await signIn("credentials", {
       redirect: false,
       email,
@@ -26,12 +34,25 @@ export default function SignUpPage() {
       authenticateType,
     });
 
+    await update({
+      ...session,
+      user: { ...session?.user, isRegistered: true },
+    });
+
     if (res!.ok) {
-      router.push("/note");
+      session?.user?.isRegistered
+        ? router.push("/note")
+        : router.push("register");
     } else {
       console.log(res?.error);
-    }    
+    }
   };
+
+  if (status === "authenticated") {
+    session?.user?.isRegistered
+      ? router.push("/note")
+      : router.push("register");
+  }
 
   return (
     <>
@@ -39,6 +60,12 @@ export default function SignUpPage() {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
+      <Backdrop
+        open={status === "loading"}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <CircularProgress color="primary" size={80} />
+      </Backdrop>
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
