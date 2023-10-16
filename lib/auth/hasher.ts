@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-const saltRounds = 10; // Number of salt rounds for hashing
+const saltRounds = 10;
 
 export const hashPassword = async (password: string): Promise<string> => {
   const salt = await bcrypt.genSalt(saltRounds);

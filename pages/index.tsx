@@ -31,7 +31,7 @@ export default function WelcomePage() {
           <Typography
             variant="h1"
             sx={{
-              fontSize: "4.5rem",
+              fontSizse: "4.5rem",
               lineHeight: "1.2",
               fontWeight: "900",
               marginTop: "1rem",

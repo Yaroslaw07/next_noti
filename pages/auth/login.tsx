@@ -16,26 +16,9 @@ export default function LoginPage() {
 
     const email = data.get("email");
     const password = data.get("password");
+    const authenticateType = "signIn";
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    };
-
-    const response = await fetch("/api/auth/login", options);
-
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem("jwt-token", data.token);
-
-      data.isRegistered ? router.push("/noti") :
-      router.push("/auth/register");
-    } else {
-      console.error(response.statusText);
-    }
+    console.log(email, password, authenticateType);
   };
 
 

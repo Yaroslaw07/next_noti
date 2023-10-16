@@ -3,6 +3,8 @@ import { Icons } from "@/components/Icons";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { sign } from "crypto";
+import { signIn } from "next-auth/react";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -13,24 +15,21 @@ export default function SignUpPage() {
 
     const email = data.get("email");
     const password = data.get("password");
+    const authenticateType = "signUp";
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    };
-  
-    const response = await fetch("/api/auth/signup", options);
 
-     if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem("jwt-token", data.token);
-      router.push("/auth/register");
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+      authenticateType,
+    });
+
+    if (res!.ok) {
+      router.push("/note");
     } else {
-      console.error(response.statusText);
-    }
+      console.log(res?.error);
+    }    
   };
 
   return (

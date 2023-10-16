@@ -1,19 +1,12 @@
-import createEmotionCache from '@/lib/ui/emotionCache';
+import { Providers } from '@/components/Providers';
 import theme from '@/lib/ui/theme';
-import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app'
 import Head from 'next/head';
 
-const clientSideEmotionCache = createEmotionCache();
-
-export interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
-}
-
-export default function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <CacheProvider value={emotionCache}>
+    <Providers>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
@@ -21,6 +14,6 @@ export default function MyApp({ Component, pageProps, emotionCache = clientSideE
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>
-    </CacheProvider>
+    </Providers>
   );
 }
