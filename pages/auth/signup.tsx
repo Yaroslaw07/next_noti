@@ -1,22 +1,19 @@
 import Link from "@/components/Link";
 import { Icons } from "@/components/Icons";
 import {
-  Backdrop,
   Box,
-  Button,
-  CircularProgress,
   Container,
-  TextField,
   Typography,
 } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { AuthenticationType } from "@/lib/auth/next-auth";
+import AuthForm from "@/components/auth/authForm";
+import Backdrop from "@/components/Backdrop";
 
 export default function SignUpPage() {
   const router = useRouter();
-
   const { data: session, status, update } = useSession();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,11 +36,7 @@ export default function SignUpPage() {
       user: { ...session?.user, isRegistered: true },
     });
 
-    if (res!.ok) {
-      session?.user?.isRegistered
-        ? router.push("/note")
-        : router.push("register");
-    } else {
+    if (!res?.ok) {
       console.log(res?.error);
     }
   };
@@ -54,18 +47,23 @@ export default function SignUpPage() {
       : router.push("register");
   }
 
+  const AnotherAuthLink = () => (
+    <Link
+      href="login"
+      variant="body2"
+      style={{ textAlign: "center", width: "100%" }}
+    >
+      {"Already have an account? Log In"}
+    </Link>
+  );
+
   return (
     <>
       <Head>
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <Backdrop
-        open={status === "loading"}
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <CircularProgress color="primary" size={80} />
-      </Backdrop>
+      <Backdrop open={status === "loading"} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -84,55 +82,10 @@ export default function SignUpPage() {
           >
             Sign Up to Noti
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              mt: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 2, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Link
-              href="login"
-              variant="body2"
-              style={{ textAlign: "center", width: "100%" }}
-            >
-              {"Already have an account? Log In"}
-            </Link>
-          </Box>
+          <AuthForm
+            handleSubmit={handleSubmit}
+            AnotherAuthLink={AnotherAuthLink}
+          />
         </Box>
       </Container>
     </>

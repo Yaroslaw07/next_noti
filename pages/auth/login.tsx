@@ -14,6 +14,7 @@ import Link from "@/components/Link";
 import { useRouter } from "next/router";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import { signIn, useSession } from "next-auth/react";
+import AuthForm from "@/components/auth/authForm";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,18 +36,26 @@ export default function LoginPage() {
       authenticateType,
     });
 
-    if (res?.ok) {
-      session?.user?.isRegistered
-        ? router.push("/note")
-        : router.push("register");
-    } else {
+    if (!res?.ok) {
       console.log(res?.error);
     }
   };
 
   if (status === "authenticated") {
-    session?.user?.isRegistered ? router.push("/note") : router.push("register");
+    session?.user?.isRegistered
+      ? router.push("/note")
+      : router.push("register");
   }
+
+  const AnotherAuthLink = () => (
+    <Link
+      href="/auth/signup"
+      variant="body2"
+      style={{ textAlign: "center", width: "100%" }}
+    >
+      {"Don't have an account? Sign Up"}
+    </Link>
+  );
 
   return (
     <>
@@ -54,9 +63,7 @@ export default function LoginPage() {
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
-      <Backdrop open={status === "loading"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <CircularProgress color="primary" size={80}/>
-      </Backdrop>
+      <Backdrop open={status === "loading"} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -75,55 +82,10 @@ export default function LoginPage() {
           >
             Log In to Noti
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              mt: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 2, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Link
-              href="signup"
-              variant="body2"
-              style={{ textAlign: "center", width: "100%" }}
-            >
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Box>
+          <AuthForm
+            handleSubmit={handleSubmit}
+            AnotherAuthLink={AnotherAuthLink}
+          />
         </Box>
       </Container>
     </>
