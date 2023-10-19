@@ -27,14 +27,13 @@ export default function WelcomePage() {
           justifyContent="center"
           textAlign={"center"}
         >
-          <Icons.Logo size={160} />
+          <Icons.Logo size={200} />
           <Typography
             variant="h1"
             sx={{
-              fontSizse: "4.5rem",
               lineHeight: "1.2",
               fontWeight: "900",
-              marginTop: "1rem",
+              marginTop: "0.5rem",
             }}
           >
             Welcome to Noti

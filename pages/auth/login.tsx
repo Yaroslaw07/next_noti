@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import { signIn, useSession } from "next-auth/react";
 import AuthForm from "@/components/auth/authForm";
+import { useEffect } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,11 +42,13 @@ export default function LoginPage() {
     }
   };
 
-  if (status === "authenticated") {
-    session?.user?.isRegistered
-      ? router.push("/note")
-      : router.push("register");
-  }
+  useEffect(() => {
+    if (status === "authenticated") {
+      session?.user?.isRegistered
+        ? router.push("/note")
+        : router.push("register");
+    }
+  }, [status]);
 
   const AnotherAuthLink = () => (
     <Link

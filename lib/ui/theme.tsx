@@ -12,7 +12,7 @@ const theme = createTheme({
     },
 
     background: {
-      default: "secondary.main",
+      default: "#fafafa",
     },
   },
   shape: {
@@ -23,6 +23,15 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           color: "primary.main",
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: "none",
+          backgroundColor: "#fafafa",
+          color: "#262626",
         },
       },
     },

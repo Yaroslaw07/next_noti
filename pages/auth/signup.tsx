@@ -1,16 +1,13 @@
 import Link from "@/components/Link";
 import { Icons } from "@/components/Icons";
-import {
-  Box,
-  Container,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import AuthForm from "@/components/auth/authForm";
 import Backdrop from "@/components/Backdrop";
+import { useEffect } from "react";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -41,11 +38,13 @@ export default function SignUpPage() {
     }
   };
 
-  if (status === "authenticated") {
-    session?.user?.isRegistered
-      ? router.push("/note")
-      : router.push("register");
-  }
+  useEffect(() => {
+    if (status === "authenticated") {
+      session?.user?.isRegistered
+        ? router.push("/note")
+        : router.push("register");
+    }
+  }, [status]);
 
   const AnotherAuthLink = () => (
     <Link
@@ -63,7 +62,7 @@ export default function SignUpPage() {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <Backdrop open={status === "loading"} />
+      <Backdrop open={true}/>
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
