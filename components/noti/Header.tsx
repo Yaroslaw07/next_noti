@@ -5,9 +5,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Icons } from "./Icons";
-import theme from "@/lib/ui/theme";
-import { useState } from "react";
+import { Icons } from "../Icons";
 
 const MyToolbar = styled(Toolbar)({
   // Define styles for your custom toolbar
@@ -29,8 +27,8 @@ const MyToolbar = styled(Toolbar)({
 const Header = () => {
 
   return (
-    <AppBar component="nav" position="static" sx={{ height: "40px" }}>
-      <MyToolbar sx={{}}>
+    <AppBar component="nav" position="static" sx={{ height: "10%" }}>
+      <MyToolbar >
         <Typography variant="subtitle1" sx={{ paddingTop: "0px"}}>
           No note open
         </Typography>
