@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Button, Container, Stack, Typography } from '@mui/material';
 import { Icons } from '@/components/Icons';
-import Link from '@/components/Link';
+import Link from '@/components/ui/Link';
 
 const welcomeButtonStyle = {
   fontSize: "1.5rem",

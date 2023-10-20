@@ -1,4 +1,4 @@
-import Link from "@/components/Link";
+import Link from "@/components/ui/Link";
 import { Icons } from "@/components/Icons";
 import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import AuthForm from "@/components/auth/authForm";
-import Backdrop from "@/components/Backdrop";
+import Backdrop from "@/components/ui/Backdrop";
 import { useEffect } from "react";
 
 export default function SignUpPage() {

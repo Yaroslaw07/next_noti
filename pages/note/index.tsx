@@ -1,9 +1,6 @@
-import Header from "@/components/noti/Header";
 import { Icons } from "@/components/Icons";
-import Sidebar from "@/components/noti/Sidebar";
 import {
   Container,
-  Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -28,7 +25,7 @@ export default function NoNotePage() {
             component="section"
           >
             <Icons.NoNoteOpen size={180} />
-            <Typography variant="h2" sx={{ fontWeight: "600" }}>
+            <Typography variant="h3" sx={{ fontWeight: "600" }}>
               No note open
             </Typography>
           </Stack>

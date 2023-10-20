@@ -27,12 +27,19 @@ const MyToolbar = styled(Toolbar)({
 const Header = () => {
 
   return (
-    <AppBar component="nav" position="static" sx={{ height: "10%" }}>
-      <MyToolbar >
-        <Typography variant="subtitle1" sx={{ paddingTop: "0px"}}>
+    <AppBar
+      component="nav"
+      position="static"
+      sx={{ height: "40px" }}
+    >
+      <MyToolbar sx={{}}>
+        <Typography
+          variant="subtitle1"
+          sx={{ paddingTop: "0px", fontSize: "1.1rem" }}
+        >
           No note open
         </Typography>
-        <IconButton  sx={{}}>
+        <IconButton sx={{}}>
           <Icons.More size={30} />
         </IconButton>
       </MyToolbar>

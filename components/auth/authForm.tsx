@@ -1,7 +1,5 @@
 import { Box, Button, TextField } from "@mui/material"
-import Link from "../Link";
 import { FC } from "react";
-import { Container } from "react-dom";
 
 
 interface AuthFormProps {

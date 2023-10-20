@@ -1,5 +1,4 @@
 import { Icons } from "@/components/Icons";
-import Link from "@/components/Link";
 import {
   Backdrop,
   Box,
