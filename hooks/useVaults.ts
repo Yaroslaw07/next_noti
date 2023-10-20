@@ -30,12 +30,10 @@ const useVaults = (userId: string) => {
             
             const fetchVaults = async () => {
               try {
-                // Simulate fetching vaults from an API (replace with actual API calls)
-                const userVaults = await fetchUserVaults(userId); // Implement this function
+                const payload = await fetchUserVaults(userId);
 
-                if (userVaults.length > 0) {
-                  // Save the fetched vaults to Redux
-                  dispatch(setVaults(userVaults));
+                if (payload !== null) {
+                  dispatch(setVaults(payload));
                 }
               } catch (error) {
                 throw new Error("Failed to fetch user vaults.");

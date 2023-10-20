@@ -1,7 +1,12 @@
 import { Box, Container, Typography } from "@mui/material";
 import { Icons } from "../../Icons";
+import { RootState } from "@/lib/store";
+import { useSelector } from "react-redux";
 
 const VaultModule = () => {
+
+  const currentVault = useSelector((state:RootState) => state.vault.currentVault);
+
   return (
     <Box
       sx={{
@@ -23,10 +28,14 @@ const VaultModule = () => {
     >
       <Icons.Vault size={25} />
       <Typography variant="subtitle1" sx={{ fontSize: "1.1rem",paddingTop:"5px" }}>
-        Vault Name
+        {currentVault?.name}        
       </Typography>
     </Box>
   );
 };
 
 export default VaultModule;
+function useVault() {
+  throw new Error("Function not implemented.");
+}
+
