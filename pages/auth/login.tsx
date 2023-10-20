@@ -12,7 +12,7 @@ import { AuthenticationType } from "@/lib/auth/next-auth";
 import { signIn, useSession } from "next-auth/react";
 import AuthForm from "@/components/auth/authForm";
 import { useEffect } from "react";
-import Backdrop from "@/components/ui/Backdrop";
+import MyBackdrop from "@/components/ui/Backdrop";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -63,7 +63,7 @@ export default function LoginPage() {
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
-      <Backdrop open={status === "loading"} />
+      <MyBackdrop open={status === "loading"} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
