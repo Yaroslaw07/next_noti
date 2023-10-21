@@ -1,7 +1,9 @@
+import store from "@/lib/store";
 import createEmotionCache from "@/lib/ui/emotionCache";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { Session } from "inspector";
 import { SessionProvider } from "next-auth/react";
+import { Provider } from "react-redux";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -16,7 +18,9 @@ export const Providers = ({
 }: ProvidersProps) => {
   return (
     <CacheProvider value={emotionCache}>
-      <SessionProvider>{children}</SessionProvider>
+      <Provider store={store}>
+        <SessionProvider>{children}</SessionProvider>
+      </Provider>
     </CacheProvider>
   );
 };

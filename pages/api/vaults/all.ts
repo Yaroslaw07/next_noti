@@ -1,12 +1,15 @@
+import { authOptions } from "@/lib/auth/next-auth";
 import db from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions);
+
+  console.log({session});
 
   if (!session) {
     return res.status(401).json({ message: "Not authenticated" });
@@ -15,10 +18,6 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       const userId = session.user.id;
-
-      if (!userId || userId !== req.body.userId) {
-        return res.status(401).json({ message: "Not authenticated" });
-      }
 
       const user = await db.user.findUnique({
         where: { id: userId },
@@ -31,7 +30,7 @@ export default async function handler(
 
       const vaults = user.vaults;
 
-      return res.status(200).json({ vaults });
+      return res.status(200).json({ vaults, currentUserId: userId, currentVault: vaults[0] });
     } catch (error) {
       return res.status(500).json({ message: "Internal server error" });
     }

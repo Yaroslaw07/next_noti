@@ -1,11 +1,12 @@
 import { Box, Container, Typography } from "@mui/material";
 import { Icons } from "../../Icons";
-import { RootState } from "@/lib/store";
-import { useSelector } from "react-redux";
+import useVaults from "@/hooks/useVaults";
+import { useEffect } from "react";
+import { Vault } from "@prisma/client";
 
 const VaultModule = () => {
 
-  const currentVault = useSelector((state:RootState) => state.vault.currentVault);
+  const {currentVault} = useVaults();
 
   return (
     <Box
@@ -28,14 +29,10 @@ const VaultModule = () => {
     >
       <Icons.Vault size={25} />
       <Typography variant="subtitle1" sx={{ fontSize: "1.1rem",paddingTop:"5px" }}>
-        {currentVault?.name}        
+        {currentVault?.name}   
       </Typography>
     </Box>
   );
 };
 
 export default VaultModule;
-function useVault() {
-  throw new Error("Function not implemented.");
-}
-
