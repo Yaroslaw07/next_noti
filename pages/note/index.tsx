@@ -13,7 +13,7 @@ import MyBackdrop from "@/components/ui/Backdrop";
 export default function NoNotePage() {
 
   const router = useRouter();
-  const {data,status} = useSession();
+  const {status} = useSession();
 
   if (status == "unauthenticated") {
     router.push("/login");

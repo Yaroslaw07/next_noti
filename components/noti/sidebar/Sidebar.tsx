@@ -6,7 +6,8 @@ import {
 import { FC } from "react";
 import VaultModule from "./VaultModule";
 import HR from "@/components/ui/HR";
-import SidebarOptions from "./SidebarOptions";
+import SettingsModule from "./SettingsModule";
+import AddModule from "./AddModules";
 
 const Sidebar: FC = () => {
   return (
@@ -25,13 +26,18 @@ const Sidebar: FC = () => {
         gap: "2px",
       }}
     >
-      <VaultModule />
-      <HR />
-      List of notes
-      <Box sx={{marginTop:"auto"}}>
-        <SidebarOptions/>
+      <Box>
+        <VaultModule />
+        <AddModule />
         <HR />
-        <Typography sx={{textAlign:"center",fontSize:"0.8rem"}}>Noti v0.1.0</Typography>
+      </Box>
+      List of notes
+      <Box sx={{ marginTop: "auto" }}>
+        <SettingsModule />
+        <HR />
+        <Typography sx={{ textAlign: "center", fontSize: "0.8rem" }}>
+          Noti v0.1.0
+        </Typography>
       </Box>
     </Paper>
   );

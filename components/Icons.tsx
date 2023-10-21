@@ -1,4 +1,4 @@
-import { TbNotebook,TbDots, TbNotesOff, TbDoor, TbSettings } from "react-icons/tb";
+import { TbNotebook,TbDots, TbNotesOff, TbDoor, TbSettings, TbPlus } from "react-icons/tb";
 
 export const Icons = {
   Logo: TbNotebook,
@@ -6,4 +6,5 @@ export const Icons = {
   NoNoteOpen: TbNotesOff,
   Vault: TbDoor,
   Settings: TbSettings,
+  NewNote: TbPlus,
 };
