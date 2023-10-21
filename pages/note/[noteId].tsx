@@ -1,14 +1,14 @@
+import NotiLayout from "@/components/noti/Layout";
 import { useRouter } from "next/router";
-import { use } from "react";
 
 export default function NotePage() {
-    const router = useRouter();
+  const router = useRouter();
 
-    const id = router.query.noteId;
+  const id = router.query.noteId;
 
-    return <div>
-        <h1>Note {id}</h1>
-    </div>
-
-
+  return (
+    <NotiLayout>
+      <h1>Note {id}</h1>
+    </NotiLayout>
+  );
 }

@@ -6,7 +6,6 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 import NotiLayout from "@/components/noti/Layout";
-import useVaults from "@/hooks/useVaults";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import MyBackdrop from "@/components/ui/Backdrop";

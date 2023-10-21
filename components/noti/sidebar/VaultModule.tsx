@@ -1,8 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import { Icons } from "../../Icons";
 import useVaults from "@/hooks/useVaults";
-import { useEffect } from "react";
-import { Vault } from "@prisma/client";
 
 const VaultModule = () => {
 

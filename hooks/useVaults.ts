@@ -1,12 +1,10 @@
 import { setAll } from "@/lib/reducers/vaults";
 import { RootState } from "@/lib/store";
-import { useRadioGroup } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const fetchUserVaults = async (userId:string) => {
+const fetchUserVaults = async () => {
   try {
     const response = await fetch("/api/vaults/all", {
         method: "GET",
@@ -24,35 +22,36 @@ const fetchUserVaults = async (userId:string) => {
 
 
 const useVaults = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const {vaults,currentVault,currentUserId} = useSelector((state: RootState) => state.vault);
+  const { vaults, currentVault, currentUserId } = useSelector(
+    (state: RootState) => state.vault
+  );
 
-    const {data} = useSession();
+  const { data,status } = useSession();
 
-    const userId = data?.user.id;
+  const userId = data?.user.id;
 
-    useEffect(() => {
-        if (currentUserId !== userId || currentVault !== null) {
-            
-            const fetchVaults = async () => {
-              try {
-                const payload = await fetchUserVaults(userId!);
+  useEffect(() => {
+    if (status == "authenticated" && (currentUserId !== userId || currentVault === null)) {
 
-                if (payload !== null) {
-                  dispatch(setAll(payload));
-                }
-              } catch (error) {
-                throw error;
-              }
-            };
+      const fetchVaults = async () => {
+        try {
+          const payload = await fetchUserVaults();
 
-            fetchVaults();
-
+          if (payload !== null) {
+            dispatch(setAll(payload));
+          }
+        } catch (error) {
+          throw error;
         }
-    },[]);
+      };
 
-    return {vaults,currentVault,currentUserId};
-}
+      fetchVaults();
+    }
+  }, [status]);
+
+  return { vaults, currentVault, currentUserId };
+};
 
 export default useVaults;
