@@ -10,4 +10,8 @@ class Note {
     }
 }
 
-export default Note;
+const notes:Array<Note> = [
+    {id:"1",title:"Note 1",content:"Content 1"},
+];
+
+export {Note,notes};

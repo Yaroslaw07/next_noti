@@ -9,6 +9,7 @@ import NotiLayout from "@/components/noti/Layout";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import MyBackdrop from "@/components/ui/Backdrop";
+import NoNote from "@/components/noti/NoNote";
 
 export default function NoNotePage() {
 
@@ -24,23 +25,9 @@ export default function NoNotePage() {
       <Head>
         <title>No note open</title>
       </Head>
-      <MyBackdrop open={status=="loading"} />
+      <MyBackdrop open={status == "loading"} />
       <NotiLayout>
-        <Container component="main" sx={{ height: "90%" }}>
-          <Stack
-            spacing={1}
-            minHeight={"100%"}
-            alignItems="center"
-            justifyContent="center"
-            textAlign={"center"}
-            component="section"
-          >
-            <Icons.NoNoteOpen size={180} />
-            <Typography variant="h3" sx={{ fontWeight: "600" }}>
-              No note open
-            </Typography>
-          </Stack>
-        </Container>
+        <NoNote/>
       </NotiLayout>
     </>
   );

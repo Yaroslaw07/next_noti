@@ -56,6 +56,16 @@ model Vault {
   name      String
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   String
+
+  notes     Note[]
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  vault     Vault    @relation(fields: [vaultId], references: [id])
+  vaultId   String
 }
 
 

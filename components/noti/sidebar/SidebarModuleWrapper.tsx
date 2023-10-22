@@ -4,9 +4,10 @@ import React, { FC } from "react";
 interface SidebarModuleProps {
   children: React.ReactNode;
   opts?: BoxProps;
+  onClick?: () => void;
 }
 
-const SidebarModuleWrapper: FC<SidebarModuleProps> = ({ children,opts }) => {
+const SidebarModuleWrapper: FC<SidebarModuleProps> = ({ children,opts,onClick }) => {
   return (
     <Box
       sx={{
@@ -28,6 +29,7 @@ const SidebarModuleWrapper: FC<SidebarModuleProps> = ({ children,opts }) => {
         alignContent: "center",
         cursor: "pointer",
       }}
+      onClick={onClick}
       {...opts}
     >
       {children}
