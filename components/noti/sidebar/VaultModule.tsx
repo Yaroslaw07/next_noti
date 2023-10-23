@@ -2,14 +2,14 @@ import { Box, Container, Typography } from "@mui/material";
 import { Icons } from "../../Icons";
 import useVaults from "@/hooks/useVaults";
 import Sidebar from "./Sidebar";
-import SidebarModuleWrapper from "./SidebarModuleWrapper";
+import SidebarModule from "./SidebarModule";
 
 const VaultModule = () => {
 
   const {currentVault} = useVaults();
 
   return (
-    <SidebarModuleWrapper>
+    <SidebarModule>
       <Icons.Vault size={25} />
       <Typography
         variant="subtitle1"
@@ -17,7 +17,7 @@ const VaultModule = () => {
       >
         {currentVault?.name}
       </Typography>
-    </SidebarModuleWrapper>
+    </SidebarModule>
   );
 };
 

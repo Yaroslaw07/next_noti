@@ -7,6 +7,8 @@ import {
 } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
+import SidebarModule from "./SidebarModule";
+import Link from "@/components/ui/Link";
 
 const fetchNotes = () => {
   return [
@@ -16,19 +18,24 @@ const fetchNotes = () => {
 };
 
 const NotesList = () => {
+
+  
+
   return (
     <>
-      <Box sx={{ display: "flex", paddingLeft: "4%", gap: "3px" }}>
-        <Icons.Logo size={32} />
-        <Typography variant="h6" sx={{ color: "primary.dark" }}>
-          My notes
-        </Typography>
-      </Box>
+      <Link href="/note" sx={{ textDecoration: "none" }}>
+        <SidebarModule sx={{ gap: "4px", paddingLeft: "8px" }}>
+          <Icons.Logo size={34} />
+          <Typography variant="h5" sx={{ color: "primary.dark" }}>
+            My notes
+          </Typography>
+        </SidebarModule>
+      </Link>
 
-      <List sx={{ height: "100",paddingY:"2px" }}>
-          {fetchNotes().map((note) => (
-            <NotesItem key={note.id} note={note} />
-          ))}
+      <List sx={{ height: "100", paddingY: "2px" }}>
+        {fetchNotes().map((note) => (
+          <NotesItem key={note.id} note={note} />
+        ))}
       </List>
     </>
   );

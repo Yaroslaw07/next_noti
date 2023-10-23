@@ -10,26 +10,14 @@ import SidebarPaper from "./SidebarPaper";
 const Sidebar: FC = () => {
   return (
     <SidebarPaper>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "2px" }}>
         <VaultModule />
         <HR />
-        <AddModule />
-        <Box sx={{height:"10px"}}></Box>
-        <NotesList />
-      </Box>
-      <Box
-        sx={{
-          marginTop: "auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: "2px",
-        }}
-      >
         <SettingsModule />
+        <AddModule />
         <HR />
-        <Typography sx={{ textAlign: "center", fontSize: "0.8rem" }}>
-          Noti v0.1.0
-        </Typography>
+        <Box sx={{ height: "10px" }}></Box>
+        <NotesList />
       </Box>
     </SidebarPaper>
   );

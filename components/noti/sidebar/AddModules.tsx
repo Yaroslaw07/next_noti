@@ -1,7 +1,7 @@
 
 import { Icons } from "@/components/Icons";
 import { Typography } from "@mui/material";
-import SidebarModuleWrapper from "./SidebarModuleWrapper";
+import SidebarModule from "./SidebarModule";
 import useVaults from "@/hooks/useVaults";
 import { useEffect } from "react";
 import { notes } from "@/types/types";
@@ -39,14 +39,14 @@ const AddModule = () => {
 
 
   return (
-<SidebarModuleWrapper onClick={handleClick}>
+<SidebarModule onClick={handleClick}>
       <Icons.NewNote size={20} />
       <Typography
         variant="subtitle1"
       >
         New Note
       </Typography>
-    </SidebarModuleWrapper>
+    </SidebarModule>
   );
 };
 
