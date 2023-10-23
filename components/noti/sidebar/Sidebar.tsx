@@ -14,6 +14,7 @@ const Sidebar: FC = () => {
         <VaultModule />
         <HR />
         <AddModule />
+        <Box sx={{height:"10px"}}></Box>
         <NotesList />
       </Box>
       <Box
@@ -21,7 +22,7 @@ const Sidebar: FC = () => {
           marginTop: "auto",
           display: "flex",
           flexDirection: "column",
-          gap: "3px",
+          gap: "2px",
         }}
       >
         <SettingsModule />

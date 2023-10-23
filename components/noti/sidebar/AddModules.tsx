@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import SidebarModuleWrapper from "./SidebarModuleWrapper";
 import useVaults from "@/hooks/useVaults";
 import { useEffect } from "react";
-import { notes } from "@/types/note";
+import { notes } from "@/types/types";
 import { useRouter } from "next/router";
 
 const AddModule = () => {
