@@ -6,38 +6,27 @@ import Link from "@/components/ui/Link";
 import useVaults from "@/hooks/useVaults";
 import { NoteInfo } from "@/types/types";
 import { useEffect, useState } from "react";
-
-const fetchNotes = async (currentVaultId: string) => {
-  // const notes = await fetch("/api/notes/?vaultId=currentVaultId", {
-  //   method: "GET",
-  // })
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     console.log(data);
-  //   });
-
-  return [
-    { id: "dasda", title: "Hello" },
-    { id: "da5", title: "Hello2" },
-  ];
-};
+import MyBackdrop from "@/components/ui/Backdrop";
 
 const NotesList = () => {
   const { currentVault } = useVaults();
   const [notes, setNotes] = useState<NoteInfo[]>([]);
 
   useEffect(() => {
-    if (currentVault) {
-      fetchNotes(currentVault.id)
-        .then((data) => {
-          console.log(data); // Optionally log the data
-          setNotes(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
+    if (!currentVault) return;
+
+    const fetchData = async () => {
+      const response = await fetch(`/api/notes/getNotesInfo/?vaultId=${currentVault.id}`, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      setNotes(data.notes);
+    };
+
+    fetchData();
   }, [currentVault]);
+
 
   return (
     <>
@@ -56,11 +45,23 @@ const NotesList = () => {
         </SidebarModule>
       </Link>
 
-      <List sx={{ paddingY: "0px" }}>
-        {notes.map((note) => (
-          <NotesItem key={note.id} note={note} />
-        ))}
-      </List>
+      {!notes ? (
+        "Loading..."
+      ) : (
+        <List
+          sx={{
+            paddingY: "0px",
+            overflow: "auto",
+            maxHeight: "100%",
+            overflowY: "auto",
+            marginBottom:"12px"
+          }}
+        >
+          {notes.map((note) => (
+            <NotesItem key={note.id} note={note} />
+          ))}
+        </List>
+      )}
     </>
   );
 };

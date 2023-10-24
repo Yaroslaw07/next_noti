@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 const useVaults = () => {
   const dispatch = useDispatch<AppDispatch>();
-
   const {vaults,currentVault,currentUserId} = useSelector((state: RootState) => state.vault);
 
   useEffect(() => {

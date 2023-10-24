@@ -10,7 +10,7 @@ import SidebarPaper from "./SidebarPaper";
 const Sidebar: FC = () => {
   return (
     <SidebarPaper>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "2px"}}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "2px",flexWrap:"nowrap",height:"100%"}}>
         <VaultModule />
         <HR />
         <SettingsModule />

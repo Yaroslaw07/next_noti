@@ -6,7 +6,7 @@ const HR = () => {
     <Box
       sx={{
         width: "33%",
-        height: "2px",
+        minHeight: "2px",
         backgroundColor: "primary.dark",
         margin: "0 auto",
       }}
