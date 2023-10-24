@@ -13,7 +13,7 @@ const VaultModule = () => {
       <Icons.Vault size={25} />
       <Typography
         variant="subtitle1"
-        sx={{ fontSize: "1.1rem", paddingTop: "5px" }}
+        sx={{ fontSize: "1.2rem", paddingTop: "5px" }}
       >
         {currentVault?.name}
       </Typography>

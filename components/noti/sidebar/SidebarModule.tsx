@@ -1,4 +1,4 @@
-import { Box, BoxProps, SxProps } from "@mui/material";
+import { Box, BoxProps, ButtonBase, SxProps } from "@mui/material";
 import React, { FC } from "react";
 
 interface SidebarModuleProps {
@@ -10,6 +10,7 @@ interface SidebarModuleProps {
 const defaultSidebarModuleSx = {
   height: "40px",
   display: "flex",
+  width:"100%",
   alignItems: "center",
   justifyItems: "center",
   paddingY: "5px",
@@ -29,15 +30,14 @@ const defaultSidebarModuleSx = {
 
 const SidebarModule: FC<SidebarModuleProps> = ({ children,sx,onClick }) => {
 
-   const mergedSx = { ...defaultSidebarModuleSx, ...sx };
+   const mergedSx = { ...defaultSidebarModuleSx, ...sx};
 
   return (
-    <Box
-      sx={mergedSx}
-      onClick={onClick}
-    >
-      {children}
-    </Box>
+    <ButtonBase sx={{justifyContent:"start",width:"100%"}}>
+      <Box sx={mergedSx} onClick={onClick}>
+        {children}
+      </Box>
+    </ButtonBase>
   );
 };
 

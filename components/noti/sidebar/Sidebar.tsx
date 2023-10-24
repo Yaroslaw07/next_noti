@@ -10,13 +10,12 @@ import SidebarPaper from "./SidebarPaper";
 const Sidebar: FC = () => {
   return (
     <SidebarPaper>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "2px"}}>
         <VaultModule />
         <HR />
         <SettingsModule />
         <AddModule />
         <HR />
-        <Box sx={{ height: "10px" }}></Box>
         <NotesList />
       </Box>
     </SidebarPaper>

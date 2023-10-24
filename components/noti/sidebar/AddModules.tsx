@@ -1,10 +1,7 @@
-
 import { Icons } from "@/components/Icons";
 import { Typography } from "@mui/material";
 import SidebarModule from "./SidebarModule";
 import useVaults from "@/hooks/useVaults";
-import { useEffect } from "react";
-import { notes } from "@/types/types";
 import { useRouter } from "next/router";
 
 const AddModule = () => {
@@ -32,10 +29,6 @@ const AddModule = () => {
       console.log({ body , noteId});
     }
   }
-
-  useEffect(
-    () => console.log(notes)
-  ,[notes])
 
 
   return (
