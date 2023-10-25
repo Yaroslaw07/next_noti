@@ -1,4 +1,5 @@
 import NotiLayout from "@/components/noti/Layout";
+import Note from "@/components/noti/Note";
 import { useRouter } from "next/router";
 
 export default function NotePage() {
@@ -8,7 +9,7 @@ export default function NotePage() {
 
   return (
     <NotiLayout>
-      <h1>Note {id}</h1>
+      <Note/>
     </NotiLayout>
   );
 }
