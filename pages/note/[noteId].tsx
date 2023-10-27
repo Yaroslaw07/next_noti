@@ -1,5 +1,6 @@
 import NotiLayout from "@/components/noti/Layout";
 import Note from "@/components/noti/Note";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 export default function NotePage() {
@@ -8,8 +9,13 @@ export default function NotePage() {
   const id = router.query.noteId;
 
   return (
-    <NotiLayout>
-      <Note/>
-    </NotiLayout>
+    <>
+    <Head>
+      <title>Noti Note</title>
+    </Head>
+      <NotiLayout>
+        <Note />
+      </NotiLayout>
+    </>
   );
 }

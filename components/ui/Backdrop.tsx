@@ -1,14 +1,14 @@
-import { BackdropProps, CircularProgress,Backdrop } from "@mui/material";
+import { BackdropProps, CircularProgress,Backdrop as MuiBackdrop } from "@mui/material";
 
 
-export default function MyBackdrop(props: BackdropProps ) {
+export default function Backdrop(props: BackdropProps ) {
     return (
-      <Backdrop
+      <MuiBackdrop
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         {...props}
       >
         <CircularProgress color="primary" size={80} />
-      </Backdrop>
+      </MuiBackdrop>
     );
 
 }

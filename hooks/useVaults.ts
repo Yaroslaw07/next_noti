@@ -1,4 +1,4 @@
-import { fetchVaultData, setAll } from "@/lib/reducers/vaults";
+import { fetchVaultData, setVautls } from "@/lib/reducers/vaults";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";

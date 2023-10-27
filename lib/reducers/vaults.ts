@@ -7,7 +7,7 @@ interface VaultState {
   vaults: Vault[];
   currentVault: Vault | null;
   currentUserId: string | null;
-  loading: boolean;
+  isLoading: boolean;
 }
 
 
@@ -15,21 +15,21 @@ const initialState: VaultState = {
   vaults: [],
   currentVault: null,
   currentUserId: null,
-  loading: false
+  isLoading: false
 };
 
 const vaultSlice = createSlice({
   name: "vault",
   initialState:initialState,
   reducers: {
-    setAll: (state, action: PayloadAction<VaultState>) => {
+    setVaults: (state, action: PayloadAction<VaultState>) => {
       state.vaults = action.payload.vaults;
       state.currentUserId = action.payload.currentUserId;
       state.currentVault = action.payload.currentVault;
-      state.loading = false;
+      state.isLoading = false;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
+      state.isLoading = action.payload;
     },
   },
 });
@@ -39,7 +39,7 @@ export const fetchVaultData = createAsyncThunk<VaultState, void>(
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState; // Use RootState to access other slices if needed
 
-    if (!state.vault.vaults.length && !state.vault.loading) {
+    if (!state.vault.vaults.length && !state.vault.isLoading) {
       dispatch(vaultSlice.actions.setLoading(true));
 
       try {
@@ -47,7 +47,7 @@ export const fetchVaultData = createAsyncThunk<VaultState, void>(
         const response = await fetch("/api/vaults/", {
           method: "GET",
         }).then((res) => res.json());
-        dispatch(vaultSlice.actions.setAll(response));
+        dispatch(vaultSlice.actions.setVaults(response));
         return response;
       } catch (error) {
         // Handle errors as needed
@@ -61,5 +61,5 @@ export const fetchVaultData = createAsyncThunk<VaultState, void>(
   }
 );
 
-export const { setAll } = vaultSlice.actions;
+export const { setVaults: setAll } = vaultSlice.actions;
 export default  vaultSlice.reducer;
