@@ -15,10 +15,18 @@ const currentNoteSlice = createSlice({
     name: "currentNote",
     initialState:initialState,
     reducers: {
-
+      setCurrentNote: (state, action) => {
+        state.note = action.payload.note;
+        if (state.note) {
+          state.status = "success";
+        } else {
+          state.status = "failed";
+        }
+      }
     }
 });
 
+export const { setCurrentNote } = currentNoteSlice.actions;
 export default currentNoteSlice.reducer;
 
 

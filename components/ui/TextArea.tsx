@@ -1,3 +1,4 @@
+import useCurrentNote from "@/hooks/useCurrentNote";
 import { TextareaAutosize, styled } from "@mui/material";
 
 const TextAreaAuto = styled(TextareaAutosize)(
@@ -26,12 +27,14 @@ const TextAreaAuto = styled(TextareaAutosize)(
 );
 
 export default function TextArea() {
+
+  const {note, status} = useCurrentNote();
+
   return (
     <TextAreaAuto
       aria-label="empty textarea"
       placeholder="Empty content"
-      defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    ut labore et dolore magna aliqua."
+      defaultValue={note?.content!}
     />
   );
 }

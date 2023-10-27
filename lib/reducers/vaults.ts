@@ -61,5 +61,5 @@ export const fetchVaultData = createAsyncThunk<VaultState, void>(
   }
 );
 
-export const { setVaults: setAll } = vaultSlice.actions;
+export const { setVaults,setLoading } = vaultSlice.actions;
 export default  vaultSlice.reducer;

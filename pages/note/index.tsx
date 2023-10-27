@@ -1,9 +1,3 @@
-import { Icons } from "@/components/Icons";
-import {
-  Container,
-  Stack,
-  Typography,
-} from "@mui/material";
 import Head from "next/head";
 import NotiLayout from "@/components/noti/Layout";
 import { useSession } from "next-auth/react";

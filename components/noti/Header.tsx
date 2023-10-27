@@ -7,6 +7,8 @@ import {
 import { styled } from "@mui/material/styles";
 import { Icons } from "../Icons";
 import theme from "@/lib/ui/theme";
+import { useSelector } from "react-redux";
+import useCurrentNote from "@/hooks/useCurrentNote";
 
 const ToolbarSx = {
   display: "flex",
@@ -23,6 +25,8 @@ const ToolbarSx = {
 
 const Header = () => {
 
+const {note, status} = useCurrentNote();
+
   return (
     <AppBar
       component="nav"
@@ -34,7 +38,9 @@ const Header = () => {
           variant="subtitle1"
           sx={{ paddingTop: "0px", fontSize: "1.1rem" }}
         >
-          No note open
+          {status === "loading" && "No page opened"}
+          {status === "success" && note?.title}
+          {status === "error" && "Error"}
         </Typography>
         <IconButton sx={{}}>
           <Icons.More size={30} />
