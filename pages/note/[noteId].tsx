@@ -9,19 +9,10 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useDispatch } from "react-redux";
 
-const fetchNote = async (id: string) => ({
-  id,
-  title: "Hello World",
-  content:
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt accusamus aliquam error numquam amet, consectetur totam, doloremque odit perferendis iste doloribus quod magnam tempore optio quo, tempora suscipit ullam assumenda?",
-});
-
 export default function NotePage(note: NoteType) {
-  
-
   const dispatch = useDispatch<AppDispatch>();
-  dispatch(setCurrentNote(note))
-  const {status} = useSession();
+  dispatch(setCurrentNote(note));
+  const { status } = useSession();
 
   return (
     <>
@@ -37,15 +28,18 @@ export default function NotePage(note: NoteType) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-
   const noteId = context.query.noteId as string;
 
-  const note = await fetchNote(noteId);  
+  const {note} = await fetch("http://localhost:3000/api/notes/" + noteId, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
 
-  // Return the data as props
   return {
     props: {
-      note
+      note: note ?? null,
     },
   };
 }
