@@ -4,11 +4,15 @@ import { Icons } from "@/components/Icons";
 import SidebarModule from "./SidebarModule";
 import Link from "@/components/ui/Link";
 import useVaults from "@/hooks/useVaults";
-import { NoteInfo } from "@/types/types";
-import { useEffect, useState } from "react";
-import MyBackdrop from "@/components/ui/Backdrop";
+import { NoteInfo } from "@/types/noteInfo";
+import { FC, useEffect, useState } from "react";
 
-const NotesList = () => {
+interface NotesListProps {
+  newNoteAdded: boolean;
+}
+
+
+const NotesList:FC<NotesListProps> = (newNoteAdded) => {
   const { currentVault } = useVaults();
   const [notes, setNotes] = useState<NoteInfo[]>([]);
 
@@ -25,7 +29,7 @@ const NotesList = () => {
     };
 
     fetchData();
-  }, [currentVault]);
+  }, [currentVault, newNoteAdded]);
 
 
   return (

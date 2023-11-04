@@ -3,8 +3,14 @@ import { Typography } from "@mui/material";
 import SidebarModule from "./SidebarModule";
 import useVaults from "@/hooks/useVaults";
 import { useRouter } from "next/router";
+import { FC } from "react";
 
-const AddModule = () => {
+interface SidebarProps {
+  onNewNoteAdded: () => void;
+}
+
+
+const AddModule:FC<SidebarProps> = ({onNewNoteAdded}) => {
 
   const router = useRouter();
   const { currentVault} = useVaults();
@@ -25,8 +31,9 @@ const AddModule = () => {
 
       const body = await res.json();
       const noteId = body.note.id;
+
+      onNewNoteAdded();
       router.push(`/note/${noteId}`);
-      console.log({ body , noteId});
     }
   }
 
