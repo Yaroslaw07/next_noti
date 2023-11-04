@@ -38,7 +38,7 @@ const {note, status} = useCurrentNote();
           variant="subtitle1"
           sx={{ paddingTop: "0px", fontSize: "1.1rem" }}
         >
-          {status === "loading" && "No page opened"}
+          {status === "loading" && "No note opened"}
           {status === "success" && note?.title}
           {status === "error" && "Error"}
         </Typography>

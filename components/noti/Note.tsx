@@ -4,15 +4,25 @@ import TextArea from "../ui/TextArea";
 import useCurrentNote from "@/hooks/useCurrentNote";
 
 const Note = () => {
-
-  const {note, status} = useCurrentNote();
+  const { note, status } = useCurrentNote();
 
   return (
-    <Container component="main" maxWidth="md" sx={{ height: "90%" }}>
-       <Box sx={{height:"80px"}}></Box>
-       <Typography variant="h3" sx={{fontWeight:"600",marginBottom:"20px"}}>{note?.title!}</Typography>
-       <TextArea></TextArea>
-    </Container>
+    <Box sx={{ paddingX: "80px" }}>
+      <Container
+        component="main"
+        maxWidth="md"
+        sx={{ height: "90%", marginX: "auto" }}
+      >
+        <Box sx={{ height: "80px" }}></Box>
+        <Typography
+          variant="h3"
+          sx={{ fontWeight: "600", marginBottom: "20px" }}
+        >
+          {note?.title!}
+        </Typography>
+        <TextArea></TextArea>
+      </Container>
+    </Box>
   );
 };
 

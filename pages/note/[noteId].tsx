@@ -7,12 +7,16 @@ import { Note as NoteType } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function NotePage(note: NoteType) {
   const dispatch = useDispatch<AppDispatch>();
-  dispatch(setCurrentNote(note));
   const { status } = useSession();
+
+  useEffect(() => {
+    dispatch(setCurrentNote(note));
+  }, [dispatch, note]);
 
   return (
     <>

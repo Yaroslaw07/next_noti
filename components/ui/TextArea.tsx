@@ -1,5 +1,6 @@
 import useCurrentNote from "@/hooks/useCurrentNote";
 import { TextareaAutosize, styled } from "@mui/material";
+import { useEffect } from "react";
 
 const TextAreaAuto = styled(TextareaAutosize)(
   ({ theme }) => `
@@ -30,11 +31,18 @@ export default function TextArea() {
 
   const {note, status} = useCurrentNote();
 
+  if (note == undefined) {
+    return (
+      <h1>Loading...</h1>
+    );
+  }
+
+
   return (
     <TextAreaAuto
       aria-label="empty textarea"
       placeholder="Empty content"
-      defaultValue={note?.content!}
+      value={note.content}
     />
   );
 }
