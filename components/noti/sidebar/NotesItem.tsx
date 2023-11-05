@@ -1,32 +1,65 @@
 import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
-import { NoteInfo } from "@/types/types";
-import { ListItemButton, ListItemText, Typography } from "@mui/material";
+import { NoteInfo } from "@/types/noteInfo";
+import { IconButton, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { FC } from "react";
 
 interface NotesItemProps {
   note: NoteInfo;
+  active: boolean
 }
 
-const NotesItem: FC<NotesItemProps> = ({ note }) => {
+const NotesItem: FC<NotesItemProps> = ({ note, active }) => {
+  const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const response = await fetch(`/api/notes/${note.id}`, {
+      method: "DELETE",
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
-    
     <Link href={`/note/${note.id}`} sx={{ textDecoration: "none" }}>
-      <ListItemButton
+      <ListItem
         sx={{
-          gap: "6px",
+          position: "relative",
+          gap: "8px",
           paddingY: "2px",
-          paddingLeft: "14px",
+          paddingLeft: "10px",
           borderTopRightRadius: "8px",
           borderBottomRightRadius: "8px",
           "&:hover": {
             backgroundColor: "#d6d6d6",
           },
+          "&:hover .remove-button": {
+            display: "block",
+          },
+          ...(active && {
+            backgroundColor: "#e0e0e0",
+          }),
         }}
       >
         <Icons.ClearNote size={26} />
         <ListItemText>{note.title}</ListItemText>
-      </ListItemButton>
+
+        <IconButton
+          className="remove-button"
+          onClick={onDelete}
+          sx={{
+            position: "absolute",
+            right: "0",
+            top: "50%",
+            transform: "translateY(-50%)",
+            display: "none",
+          }}
+        >
+          <Icons.DeleteNote size={18} />
+        </IconButton>
+      </ListItem>
     </Link>
   );
 };

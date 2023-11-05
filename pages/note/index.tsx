@@ -4,6 +4,10 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import MyBackdrop from "@/components/ui/Backdrop";
 import NoNote from "@/components/noti/NoNote";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/lib/store";
+import { setCurrentNote } from "@/lib/reducers/currentNote";
+import { useEffect } from "react";
 
 export default function NoNotePage() {
 
@@ -14,6 +18,14 @@ export default function NoNotePage() {
     router.push("/login");
   }
 
+  const dispatch = useDispatch<AppDispatch>();
+  const note = null;
+
+  useEffect(() => {
+    dispatch(setCurrentNote({ note }));
+  },);
+  
+  
   return (
     <>
       <Head>

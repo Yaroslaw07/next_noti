@@ -4,10 +4,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import { Icons } from "../Icons";
 import theme from "@/lib/ui/theme";
-import { useSelector } from "react-redux";
 import useCurrentNote from "@/hooks/useCurrentNote";
 
 const ToolbarSx = {
@@ -38,8 +36,8 @@ const {note, status} = useCurrentNote();
           variant="subtitle1"
           sx={{ paddingTop: "0px", fontSize: "1.1rem" }}
         >
-          {status === "loading" && "No note opened"}
-          {status === "success" && note?.title}
+          {status === "loading"  && "No note opened"}
+          {status === "success" && note?.title || "No note opened"}
           {status === "error" && "Error"}
         </Typography>
         <IconButton sx={{}}>

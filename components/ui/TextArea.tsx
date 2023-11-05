@@ -41,7 +41,7 @@ export default function TextArea() {
     <TextAreaAuto
       aria-label="empty textarea"
       placeholder="Empty content"
-      defaultValue={note.content}
+      defaultValue={note.content ? note.content : ""}
     />
   );
 }
