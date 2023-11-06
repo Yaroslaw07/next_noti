@@ -22,11 +22,16 @@ const currentNoteSlice = createSlice({
         } else {
           state.status = "failed";
         }
+      },
+      updateTitle: (state, action) => {
+        if (state.note) {
+          state.note.title = action.payload.title;
+        }
       }
     }
 });
 
-export const { setCurrentNote } = currentNoteSlice.actions;
+export const { setCurrentNote, updateTitle } = currentNoteSlice.actions;
 export default currentNoteSlice.reducer;
 
 

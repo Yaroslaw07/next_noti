@@ -1,15 +1,18 @@
 import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
+import useCurrentNote from "@/hooks/useCurrentNote";
 import { NoteInfo } from "@/types/noteInfo";
 import { IconButton, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { FC } from "react";
 
 interface NotesItemProps {
   note: NoteInfo;
-  active: boolean
+  active: boolean;
+  title?: string;
 }
 
-const NotesItem: FC<NotesItemProps> = ({ note, active }) => {
+const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
+
   const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     event.preventDefault();
@@ -44,7 +47,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active }) => {
         }}
       >
         <Icons.ClearNote size={26} />
-        <ListItemText>{note.title}</ListItemText>
+        <ListItemText>{active ? title : note.title}</ListItemText>
 
         <IconButton
           className="remove-button"

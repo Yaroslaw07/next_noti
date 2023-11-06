@@ -34,7 +34,7 @@ const NotesList: FC<NotesListProps> = ({ newNoteAdded }) => {
     };
 
     fetchData();
-  }, [currentVault]);
+  }, [currentVault,newNoteAdded]);
 
   return (
     <>
@@ -66,6 +66,7 @@ const NotesList: FC<NotesListProps> = ({ newNoteAdded }) => {
               key={note.id}
               note={note}
               active={note.id === currentNote?.id}
+              title={note.id === currentNote?.id ? currentNote?.title : undefined}
             />
           ))}
         </List>
