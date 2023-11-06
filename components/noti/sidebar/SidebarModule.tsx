@@ -4,36 +4,43 @@ import React, { FC } from "react";
 interface SidebarModuleProps {
   children: React.ReactNode;
   sx?: SxProps;
-  onClick?: () => void;
+  onClick?: (event?: any) => void;
 }
 
 const defaultSidebarModuleSx = {
   height: "40px",
+  width: "100%",
+
   display: "flex",
-  width:"100%",
+  alignContent: "center",
   alignItems: "center",
   justifyItems: "center",
-  paddingY: "5px",
+  gap: "8px",
+
   margin: "auto 0",
-  paddingLeft: "12px",
-  paddingRight: "12px",
+
   borderTopRightRadius: "8px",
   borderBottomRightRadius: "8px",
-  gap: "8px",
+
+  paddingX: "12px",
+  paddingY: "5px",
+
   transition: "box-shadow 0.3s ease",
   "&:hover": {
     backgroundColor: "#d6d6d6",
   },
-  alignContent: "center",
+
   cursor: "pointer",
-}
+};
 
-const SidebarModule: FC<SidebarModuleProps> = ({ children,sx,onClick }) => {
-
-   const mergedSx = { ...defaultSidebarModuleSx, ...sx};
+const SidebarModule: FC<SidebarModuleProps> = ({ children, sx, onClick }) => {
+  
+  const mergedSx = { ...defaultSidebarModuleSx, ...sx };
 
   return (
-    <ButtonBase sx={{justifyContent:"start",width:"100%",color: "primary.dark"}}>
+    <ButtonBase
+      sx={{ justifyContent: "start", width: "100%", color: "primary.dark" }}
+    >
       <Box sx={mergedSx} onClick={onClick}>
         {children}
       </Box>

@@ -3,20 +3,31 @@ import Note from "@/components/noti/Note";
 import Backdrop from "@/components/ui/Backdrop";
 import { setCurrentNote } from "@/lib/reducers/currentNote";
 import { AppDispatch } from "@/lib/store";
+import { red } from "@mui/material/colors";
 import { Note as NoteType } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-export default function NotePage(note: NoteType) {
+export default function NotePage(props: {note: NoteType}) {
   const dispatch = useDispatch<AppDispatch>();
   const { status } = useSession();
 
+  const router = useRouter();
+
+
   useEffect(() => {
-    dispatch(setCurrentNote(note));
-  }, [dispatch, note]);
+
+    if (props.note == null) {
+      console.log("if");
+      router.push("../");
+    }
+
+    dispatch(setCurrentNote(props));
+  }, [dispatch, props.note]);
 
   return (
     <>
@@ -43,7 +54,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      note: note ?? null,
+      note: note,
     },
   };
 }

@@ -7,6 +7,7 @@ import {
   TbPlus,
   TbNotes,
   TbTrash,
+  TbLogout2,
 } from "react-icons/tb";
 
 export const Icons = {
@@ -18,4 +19,5 @@ export const Icons = {
   NewNote: TbPlus,
   DeleteNote: TbTrash,
   ClearNote: TbNotes,
+  Logout: TbLogout2,
 };
