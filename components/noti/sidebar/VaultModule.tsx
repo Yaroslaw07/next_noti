@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import { Icons } from "../../Icons";
-import useVaults from "@/hooks/useVaults";
+import useVaults from "@/lib/hooks/useVaults";
 import Sidebar from "./Sidebar";
 import SidebarModule from "./SidebarModule";
 

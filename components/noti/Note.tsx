@@ -1,6 +1,6 @@
 import { Box, Container, Input, Stack, Typography } from "@mui/material";
 import TextArea from "../ui/TextArea";
-import useCurrentNote from "@/hooks/useCurrentNote";
+import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useEffect, useState } from "react";
 import Backdrop from "../ui/Backdrop";
 import { useDispatch } from "react-redux";

@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { Icons } from "../Icons";
 import theme from "@/lib/ui/theme";
-import useCurrentNote from "@/hooks/useCurrentNote";
+import useCurrentNote from "@/lib/hooks/useCurrentNote";
 
 const ToolbarSx = {
   display: "flex",

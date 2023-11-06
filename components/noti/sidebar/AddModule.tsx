@@ -1,22 +1,17 @@
 import { Icons } from "@/components/Icons";
 import { Typography } from "@mui/material";
 import SidebarModule from "./SidebarModule";
-import useVaults from "@/hooks/useVaults";
+import useVaults from "@/lib/hooks/useVaults";
 import { useRouter } from "next/router";
 import { FC } from "react";
+import { useSidebarUpdate } from "@/lib/hooks/useSidebarUpdate";
 
-interface SidebarProps {
-  onNewNoteAdded: () => void;
-}
-
-
-const AddModule:FC<SidebarProps> = ({onNewNoteAdded}) => {
-
+const AddModule: FC = () => {
   const router = useRouter();
-  const { currentVault} = useVaults();
+  const {setToUpdate} = useSidebarUpdate();
+  const { currentVault } = useVaults();
 
   const handleClick = async () => {
-    
     const res = await fetch("/api/notes/newNote", {
       method: "POST",
       headers: {
@@ -28,24 +23,17 @@ const AddModule:FC<SidebarProps> = ({onNewNoteAdded}) => {
     });
 
     if (res.ok) {
-
       const body = await res.json();
       const noteId = body.note.id;
-
-      onNewNoteAdded();
+      setToUpdate(true);
       router.push(`/note/${noteId}`);
     }
-  }
-
+  };
 
   return (
-<SidebarModule onClick={handleClick}>
+    <SidebarModule onClick={handleClick}>
       <Icons.NewNote size={20} />
-      <Typography
-        variant="subtitle1"
-      >
-        New Note
-      </Typography>
+      <Typography variant="subtitle1">New Note</Typography>
     </SidebarModule>
   );
 };

@@ -3,20 +3,18 @@ import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
 import SidebarModule from "./SidebarModule";
 import Link from "@/components/ui/Link";
-import useVaults from "@/hooks/useVaults";
+import useVaults from "@/lib/hooks/useVaults";
 import { NoteInfo } from "@/types/noteInfo";
 import { FC, useEffect, useState } from "react";
-import useCurrentNote from "@/hooks/useCurrentNote";
+import useCurrentNote from "@/lib/hooks/useCurrentNote";
+import { useSidebarUpdate } from "@/lib/hooks/useSidebarUpdate";
 
-interface NotesListProps {
-  newNoteAdded: boolean;
-}
-
-const NotesList: FC<NotesListProps> = ({ newNoteAdded }) => {
+const NotesList: FC = () => {
   const { currentVault } = useVaults();
-  const [notes, setNotes] = useState<NoteInfo[]>([]);
-
   const { note: currentNote } = useCurrentNote();
+  const {toUpdate,setToUpdate} = useSidebarUpdate();
+
+  const [notes, setNotes] = useState<NoteInfo[]>([]);  
 
   useEffect(() => {
     if (!currentVault) return;
@@ -33,8 +31,11 @@ const NotesList: FC<NotesListProps> = ({ newNoteAdded }) => {
       setNotes(data.notes);
     };
 
+    setToUpdate(false);
     fetchData();
-  }, [currentVault,newNoteAdded]);
+  }, [currentVault, toUpdate]);
+
+
 
   return (
     <>

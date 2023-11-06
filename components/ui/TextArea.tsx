@@ -1,6 +1,5 @@
-import useCurrentNote from "@/hooks/useCurrentNote";
+import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { TextareaAutosize, styled } from "@mui/material";
-import { useEffect } from "react";
 
 const TextAreaAuto = styled(TextareaAutosize)(
   ({ theme }) => `

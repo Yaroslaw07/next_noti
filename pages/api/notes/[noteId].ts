@@ -27,8 +27,6 @@ export default async function handler(
 
   if (req.method === "DELETE") {
 
-    console.log(noteId)
-
     const result = await db.note.delete({
       where: {
         id: noteId,
