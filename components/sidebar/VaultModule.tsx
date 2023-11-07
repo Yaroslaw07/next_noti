@@ -20,6 +20,10 @@ const VaultModule = () => {
     signOut();
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <SidebarModule onClick={handleClick}>
@@ -35,8 +39,8 @@ const VaultModule = () => {
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleLogout}
-        sx={{ marginLeft: "-6px",marginTop:"10px", paddingY: "-15px" }}
+        onClose={handleClose}
+        sx={{ marginLeft: "-6px", marginTop: "10px", paddingY: "-15px" }}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}

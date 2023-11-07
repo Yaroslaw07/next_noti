@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import AuthForm from "@/components/auth/authForm";
-import MyBackdrop from "@/components/ui/Backdrop";
+import Backdrop from "@/components/ui/Backdrop";
 import { useEffect } from "react";
 
 export default function SignUpPage() {
@@ -62,7 +62,7 @@ export default function SignUpPage() {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <MyBackdrop open={true}/>
+      <Backdrop open={status==="loading"}/>
       <Container component="main" maxWidth="xs">
         <Box
           sx={{

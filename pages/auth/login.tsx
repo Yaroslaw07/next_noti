@@ -12,7 +12,7 @@ import { AuthenticationType } from "@/lib/auth/next-auth";
 import { signIn, useSession } from "next-auth/react";
 import AuthForm from "@/components/auth/authForm";
 import { useEffect, useRef } from "react";
-import MyBackdrop from "@/components/ui/Backdrop";
+import Backdrop from "@/components/ui/Backdrop";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -70,16 +70,13 @@ export default function LoginPage() {
     </Link>
   );
 
-  if (displayBackdrop.current) {
-    return <MyBackdrop open={true} />;
-  }
-
   return (
     <>
       <Head>
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
+      <Backdrop open={displayBackdrop.current} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{

@@ -24,7 +24,6 @@ const NotesList: FC = () => {
     } 
 
     if (toUpdate) {
-      console.log("Updating notes list");
 
       const fetchData = async () => {
         const response = await fetch(
@@ -65,7 +64,7 @@ const NotesList: FC = () => {
           sx={{
             overflowY: "auto",
             maxHeight: "100%",
-            marginBottom: "12px",
+            paddingY: "6px",
           }}
         >
           {notes.map((note) => (

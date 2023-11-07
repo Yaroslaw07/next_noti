@@ -29,7 +29,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         ) : (
           <Component {...pageProps} />
         )}
-        <Component {...pageProps} />
       </ThemeProvider>
     </Providers>
   );

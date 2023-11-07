@@ -23,14 +23,12 @@ const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(props);
-
     if (props.note == null) {
       router.push("/note");
     }
 
     dispatch(setCurrentNote(props));
-  }, [dispatch, props.note]);
+  });
 
   return (
     <>
