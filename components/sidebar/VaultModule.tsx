@@ -1,5 +1,5 @@
 import { Menu, MenuItem, Typography } from "@mui/material";
-import { Icons } from "../../Icons";
+import { Icons } from "../Icons";
 import useVaults from "@/lib/hooks/useVaults";
 import SidebarModule from "./SidebarModule";
 import { useState } from "react";

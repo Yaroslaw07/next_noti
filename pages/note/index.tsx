@@ -8,11 +8,11 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
 import { setCurrentNote } from "@/lib/reducers/currentNote";
 import { useEffect } from "react";
+import { NextPageWithLayout } from "../_app";
 
-export default function NoNotePage() {
-
+const NoNotePage: NextPageWithLayout = () => {
   const router = useRouter();
-  const {status} = useSession();
+  const { status } = useSession();
 
   if (status == "unauthenticated") {
     router.push("/login");
@@ -23,18 +23,25 @@ export default function NoNotePage() {
 
   useEffect(() => {
     dispatch(setCurrentNote({ note }));
-  },);
-  
-  
+  });
+
+  return (
+    <>
+      <MyBackdrop open={status === "loading"} />
+      <NoNote />
+    </>
+  );
+};
+
+NoNotePage.getLayout = (page) => {
   return (
     <>
       <Head>
         <title>No note open</title>
       </Head>
-      <MyBackdrop open={status == "loading"} />
-      <NotiLayout>
-        <NoNote/>
-      </NotiLayout>
+      <NotiLayout>{page}</NotiLayout>
     </>
   );
-}
+};
+
+export default NoNotePage;

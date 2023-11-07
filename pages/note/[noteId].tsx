@@ -3,27 +3,30 @@ import Note from "@/components/noti/Note";
 import Backdrop from "@/components/ui/Backdrop";
 import { setCurrentNote } from "@/lib/reducers/currentNote";
 import { AppDispatch } from "@/lib/store";
-import { red } from "@mui/material/colors";
 import { Note as NoteType } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { NextPageWithLayout } from "../_app";
 
-export default function NotePage(props: {note: NoteType}) {
+interface NotePageProps {
+  note: NoteType;
+}
+
+const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { status } = useSession();
 
   const router = useRouter();
 
-
   useEffect(() => {
+    console.log(props);
 
     if (props.note == null) {
-      console.log("if");
-      router.push("../");
+      router.push("/note");
     }
 
     dispatch(setCurrentNote(props));
@@ -31,21 +34,16 @@ export default function NotePage(props: {note: NoteType}) {
 
   return (
     <>
-      <Head>
-        <title>Noti Note</title>
-      </Head>
       <Backdrop open={status == "loading"} />
-      <NotiLayout>
-        <Note />
-      </NotiLayout>
+      <Note />
     </>
   );
-}
+};
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const noteId = context.query.noteId as string;
 
-  const {note} = await fetch("http://localhost:3000/api/notes/" + noteId, {
+  const { note } = await fetch("http://localhost:3000/api/notes/" + noteId, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -58,3 +56,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   };
 }
+
+NotePage.getLayout = (page) => {
+  return (
+    <>
+      <Head>
+        <title>Noti Note</title>
+      </Head>
+      <NotiLayout>{page}</NotiLayout>
+    </>
+  );
+};
+
+export default NotePage;

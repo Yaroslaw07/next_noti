@@ -5,37 +5,43 @@ import SidebarModule from "./SidebarModule";
 import Link from "@/components/ui/Link";
 import useVaults from "@/lib/hooks/useVaults";
 import { NoteInfo } from "@/types/noteInfo";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useSidebarUpdate } from "@/lib/hooks/useSidebarUpdate";
 
 const NotesList: FC = () => {
   const { currentVault } = useVaults();
   const { note: currentNote } = useCurrentNote();
-  const {toUpdate,setToUpdate} = useSidebarUpdate();
+  const { toUpdate, setToUpdate } = useSidebarUpdate();
 
-  const [notes, setNotes] = useState<NoteInfo[]>([]);  
+  const [notes, setNotes] = useState<NoteInfo[]>([]);
 
   useEffect(() => {
-    if (!currentVault) return;
 
-    const fetchData = async () => {
-      const response = await fetch(
-        `/api/notes/getNotesInfo/?vaultId=${currentVault.id}`,
-        {
-          method: "GET",
-        }
-      );
+    if (!currentVault) {
+      setNotes([]);
+      return;
+    } 
 
-      const data = await response.json();
-      setNotes(data.notes);
-    };
+    if (toUpdate) {
+      console.log("Updating notes list");
 
-    setToUpdate(false);
-    fetchData();
+      const fetchData = async () => {
+        const response = await fetch(
+          `/api/notes/getNotesInfo/?vaultId=${currentVault.id}`,
+          {
+            method: "GET",
+          }
+        );
+
+        const data = await response.json();
+        setNotes(data.notes);
+      };
+
+      setToUpdate(false);
+      fetchData();
+    }
   }, [currentVault, toUpdate]);
-
-
 
   return (
     <>
@@ -67,7 +73,9 @@ const NotesList: FC = () => {
               key={note.id}
               note={note}
               active={note.id === currentNote?.id}
-              title={note.id === currentNote?.id ? currentNote?.title : undefined}
+              title={
+                note.id === currentNote?.id ? currentNote?.title : undefined
+              }
             />
           ))}
         </List>

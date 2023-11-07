@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import Sidebar from "./sidebar/Sidebar";
+import Sidebar from "../sidebar/Sidebar";
 import Header from "./Header";
 import { FC } from "react";
 

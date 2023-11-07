@@ -11,13 +11,15 @@ import { useRouter } from "next/router";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import { signIn, useSession } from "next-auth/react";
 import AuthForm from "@/components/auth/authForm";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import MyBackdrop from "@/components/ui/Backdrop";
 
 export default function LoginPage() {
   const router = useRouter();
 
   const { data: session, status } = useSession();
+
+  let displayBackdrop = useRef(true);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,6 +46,17 @@ export default function LoginPage() {
       session?.user?.isRegistered
         ? router.push("/note")
         : router.push("register");
+    } 
+    else {
+      displayBackdrop.current = false;
+    }
+  }, [status])
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      session?.user?.isRegistered
+        ? router.push("/note")
+        : router.push("register");
     }
   }, [status]);
 
@@ -57,13 +70,16 @@ export default function LoginPage() {
     </Link>
   );
 
+  if (displayBackdrop.current) {
+    return <MyBackdrop open={true} />;
+  }
+
   return (
     <>
       <Head>
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
-      <MyBackdrop open={status === "loading"} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{

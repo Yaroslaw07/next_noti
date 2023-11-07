@@ -16,7 +16,7 @@ interface ChildrenProps {
 
 export const SidebarUpdateProvider: React.FC<ChildrenProps> = ({children}) => {
 
-  const [toUpdate, setToUpdate] = useState(false);
+  const [toUpdate, setToUpdate] = useState(true);
 
   const contextValue:SidebarUpdateContextType  = {
     toUpdate,
