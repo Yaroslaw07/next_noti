@@ -33,10 +33,15 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
         sx={{
           position: "relative",
           gap: "8px",
-          paddingY: "2px",
-          paddingLeft: "10px",
+
           borderTopRightRadius: "8px",
           borderBottomRightRadius: "8px",
+
+          paddingY: "2px",
+          paddingLeft: "10px",
+
+          height: "40px",
+
           "&:hover": {
             backgroundColor: "#d6d6d6",
           },
