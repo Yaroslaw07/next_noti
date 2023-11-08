@@ -27,11 +27,16 @@ const currentNoteSlice = createSlice({
         if (state.note) {
           state.note.title = action.payload.title;
         }
+      },
+      updateContent: (state, action) => {
+        if (state.note) {
+          state.note.content = action.payload.content;
+        }
       }
     }
 });
 
-export const { setCurrentNote, updateTitle } = currentNoteSlice.actions;
+export const { setCurrentNote, updateTitle,updateContent } = currentNoteSlice.actions;
 export default currentNoteSlice.reducer;
 
 

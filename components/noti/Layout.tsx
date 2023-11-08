@@ -19,7 +19,6 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
 
   return (
       <Grid container>
-        
         <Grid item>
           <Sidebar />
         </Grid>

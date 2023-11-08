@@ -5,9 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 import Backdrop from "../ui/Backdrop";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store";
-import { updateTitle } from "@/lib/reducers/currentNote";
+import { updateContent, updateTitle } from "@/lib/reducers/currentNote";
 import { Socket, io } from "socket.io-client";
-
 
 let socket: Socket;
 
@@ -16,14 +15,17 @@ const Note = () => {
 
   const { note, status } = useCurrentNote();
   const [title, setTitle] = useState(note?.title || "");
-  
+  const [content, setContent] = useState(note?.content || "");
 
   useEffect(() => {
     setTitle(note?.title! || "");
-  }, [note]);
+  }, [note?.title]);
+
+  useEffect(() => {
+    setContent(note?.content! || "");
+  }, [note?.content]);
 
   const socketInitializer = useCallback(async () => {
-
     if (note === undefined) return;
 
     await fetch("/api/socket");
@@ -35,23 +37,28 @@ const Note = () => {
     socket.on("connect", () => {
       console.log("Connected", socket.id);
     });
-
-    socket.on("updateTitle", (newTitle) => {
-      console.log("New message in client", newTitle);
-      setTitle(newTitle);
-    });
-  },[]);
+  }, []);
 
   useEffect(() => {
     socketInitializer();
-  },[socketInitializer]);
+
+    return () => {
+      socket?.disconnect();
+    };
+  }, [socketInitializer]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
     const newTitle = event.target.value;
     dispatch(updateTitle({ title: newTitle }));
-    socket?.emit("updateTitle", newTitle);
-    console.log(title);
+    socket?.emit("updateTitle", { newTitle, noteId: note?.id });
+  };
+
+  const handleContentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const newContent = event.target.value;
+    dispatch(updateContent({ content: newContent }));
+    socket?.emit("updateContent", { newContent, noteId: note?.id });
   };
 
   if (status === "loading" && title !== "") return <Backdrop open={true} />;
@@ -69,7 +76,7 @@ const Note = () => {
           value={title}
           onChange={handleTitleChange}
         ></Input>
-        <TextArea></TextArea>
+        <TextArea value={content} onChange={handleContentChange}></TextArea>
       </Container>
     </Box>
   );

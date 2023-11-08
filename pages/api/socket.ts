@@ -29,38 +29,42 @@ const SocketHandler = async (
 ) => {
   if (res.socket.server.io) {
     console.log("Socket is already running.");
-  } else {
-    console.log("Socket is initializing...");
-
-    const io = new Server(res.socket.server,{
-        path:"/api/socket.io",
-        addTrailingSlash: false,
-    });
-
-    io.on("connection", (socket) => {
-      () => console.log(`Socket ${socket.id} connected.`);
-
-      socket.on("updateTitle", async (title) => {
-        () => console.log(`Socket ${socket.id} sent updateTitle event.`)
-        try {
-          // Update the title in the database using Prisma
-          const updatedTitle = await db.note.update({
-            where: { id: "cead310d-b4d4-40d6-bb0b-866acdc23bb4" },
-            data: { title: title },
-          });
-
-          // Broadcast the updated title to all connected clients
-          io.emit("titleUpdated", updatedTitle);
-        } catch (error) {
-          console.error("Error updating title:", error);
-        }
-      });
-
-    });
-
-    res.socket.server.io = io;
+    res.end();
   }
-  res.end();
+
+  console.log("Socket is initializing...");
+
+  const io = new Server(res.socket.server, {
+    path: "/api/socket.io",
+    addTrailingSlash: false,
+  });
+
+  io.on("connection", (socket) => {
+
+    socket.on("updateContent", async ({ newContent, noteId }) => {
+      try {
+        const updatedContent = await db.note.update({
+          where: { id: noteId },
+          data: { content: newContent },
+        });
+      } catch (error) {
+        console.error("Error updating content:", error);
+      }
+    });
+
+    socket.on("updateTitle", async ({ newTitle, noteId }) => {
+      try {
+        const updatedTitle = await db.note.update({
+          where: { id: noteId },
+          data: { title: newTitle },
+        });
+      } catch (error) {
+        console.error("Error updating title:", error);
+      }
+    });    
+  });
+
+  res.socket.server.io = io;
 };
 
 export default SocketHandler;
