@@ -29,42 +29,42 @@ const SocketHandler = async (
 ) => {
   if (res.socket.server.io) {
     console.log("Socket is already running.");
-    res.end();
-  }
+  } else {
+    console.log("Socket is initializing...");
 
-  console.log("Socket is initializing...");
-
-  const io = new Server(res.socket.server, {
-    path: "/api/socket.io",
-    addTrailingSlash: false,
-  });
-
-  io.on("connection", (socket) => {
-
-    socket.on("updateContent", async ({ newContent, noteId }) => {
-      try {
-        const updatedContent = await db.note.update({
-          where: { id: noteId },
-          data: { content: newContent },
-        });
-      } catch (error) {
-        console.error("Error updating content:", error);
-      }
+    const io = new Server(res.socket.server, {
+      path: "/api/socket.io",
+      addTrailingSlash: false,
     });
 
-    socket.on("updateTitle", async ({ newTitle, noteId }) => {
-      try {
-        const updatedTitle = await db.note.update({
-          where: { id: noteId },
-          data: { title: newTitle },
-        });
-      } catch (error) {
-        console.error("Error updating title:", error);
-      }
-    });    
-  });
+    io.on("connection", (socket) => {
+      socket.on("updateContent", async ({ newContent, noteId }) => {
+        try {
+          const updatedContent = await db.note.update({
+            where: { id: noteId },
+            data: { content: newContent },
+          });
+        } catch (error) {
+          console.error("Error updating content:", error);
+        }
+      });
 
-  res.socket.server.io = io;
+      socket.on("updateTitle", async ({ newTitle, noteId }) => {
+        try {
+          const updatedTitle = await db.note.update({
+            where: { id: noteId },
+            data: { title: newTitle },
+          });
+        } catch (error) {
+          console.error("Error updating title:", error);
+        }
+      });
+    });
+
+    res.socket.server.io = io;
+  }
+
+  res.end();
 };
 
 export default SocketHandler;

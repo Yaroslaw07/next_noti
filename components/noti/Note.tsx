@@ -28,7 +28,7 @@ const Note = () => {
   const socketInitializer = useCallback(async () => {
     if (note === undefined) return;
 
-    await fetch("/api/socket");
+     await fetch("/api/socket");
 
     socket = io({
       path: "/api/socket.io",
