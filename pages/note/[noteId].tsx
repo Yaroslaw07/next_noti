@@ -40,12 +40,15 @@ const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const noteId = context.query.noteId as string;
 
-  const { note } = await fetch("http://localhost:3000/api/notes/" + noteId, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => res.json());
+  const { note } = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/notes/${noteId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((res) => res.json());
 
   return {
     props: {

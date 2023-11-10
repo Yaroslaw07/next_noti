@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { getNotiLayout } from "@/components/noti/Layout";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";

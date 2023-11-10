@@ -66,6 +66,7 @@ model Note {
   content   String
   vault     Vault    @relation(fields: [vaultId], references: [id])
   vaultId   String
+  createdAt DateTime @default(now())
 }
 
 

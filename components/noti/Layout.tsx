@@ -3,7 +3,6 @@ import Sidebar from "../sidebar/Sidebar";
 import Header from "./Header";
 import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
 import useVaults from "@/lib/hooks/useVaults";
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import Backdrop from "../ui/Backdrop";
 import { Provider } from "react-redux";
 import store from "@/lib/store";

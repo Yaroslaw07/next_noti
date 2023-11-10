@@ -5,7 +5,7 @@ import SidebarModule from "./SidebarModule";
 import Link from "@/components/ui/Link";
 import useVaults from "@/lib/hooks/useVaults";
 import { NoteInfo } from "@/types/noteInfo";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
 
@@ -65,16 +65,18 @@ const NotesList: FC = () => {
             paddingY: "6px",
           }}
         >
-          {notes.map((note) => (
-            <NotesItem
-              key={note.id}
-              note={note}
-              active={note.id === currentNote?.id}
-              title={
-                note.id === currentNote?.id ? currentNote?.title : undefined
-              }
-            />
-          ))}
+          {notes
+            .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
+            .map((note) => (
+              <NotesItem
+                key={note.id}
+                note={note}
+                active={note.id === currentNote?.id}
+                title={
+                  note.id === currentNote?.id ? currentNote?.title : undefined
+                }
+              />
+            ))}
         </List>
       )}
     </>

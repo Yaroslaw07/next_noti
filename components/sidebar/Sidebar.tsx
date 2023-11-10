@@ -1,5 +1,5 @@
-import { Box, Paper, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { Box } from "@mui/material";
+import { FC } from "react";
 import VaultModule from "./VaultModule";
 import HR from "@/components/ui/HR";
 import SettingsModule from "./SettingsModule";

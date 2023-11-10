@@ -1,12 +1,5 @@
 import { Icons } from "@/components/Icons";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";

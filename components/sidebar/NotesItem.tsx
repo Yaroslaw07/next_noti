@@ -1,13 +1,10 @@
 import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
+import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
 import { NoteInfo } from "@/types/noteInfo";
-import {
-  IconButton,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
+import { IconButton, ListItem, ListItemText } from "@mui/material";
+import { useRouter } from "next/router";
 import { FC } from "react";
 
 interface NotesItemProps {
@@ -17,6 +14,8 @@ interface NotesItemProps {
 }
 
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
+  const router = useRouter();
+  const { note: currentNote } = useCurrentNote();
   const { setToNotesListUpdate } = useNotesListUpdate();
 
   const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,8 +26,14 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
       method: "DELETE",
     });
 
-    const data = await response.json();
-    setToNotesListUpdate(true);
+    if (response.ok) {
+      if (currentNote && currentNote!.id === note.id) {
+        router.push("/note/");
+      }
+      setToNotesListUpdate(true);
+    } else {
+      // error handling
+    }
   };
 
   return (

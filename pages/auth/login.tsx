@@ -1,17 +1,13 @@
 import Head from "next/head";
 
-import {
-  Box,
-  Container,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
 import { useRouter } from "next/router";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import { signIn, useSession } from "next-auth/react";
 import AuthForm from "@/components/auth/authForm";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import Backdrop from "@/components/ui/Backdrop";
 
 export default function LoginPage() {
@@ -19,7 +15,7 @@ export default function LoginPage() {
 
   const { data: session, status } = useSession();
 
-  let displayBackdrop = useRef(true);
+  const [displayBackdrop, setDisplayBackdrop] = useState<boolean>(true);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,11 +42,10 @@ export default function LoginPage() {
       session?.user?.isRegistered
         ? router.push("/note")
         : router.push("register");
-    } 
-    else {
-      displayBackdrop.current = false;
+    } else {
+      setDisplayBackdrop(false);
     }
-  }, [status])
+  }, [status]);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -76,7 +71,7 @@ export default function LoginPage() {
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
-      <Backdrop open={displayBackdrop.current} />
+      <Backdrop open={displayBackdrop} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{

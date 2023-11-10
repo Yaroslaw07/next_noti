@@ -1,8 +1,6 @@
-import store from "@/lib/store";
 import createEmotionCache from "@/lib/ui/emotionCache";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { SessionProvider } from "next-auth/react";
-import { Provider } from "react-redux";
 
 const clientSideEmotionCache = createEmotionCache();
 
