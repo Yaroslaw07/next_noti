@@ -26,18 +26,18 @@ const Note = () => {
   }, [note?.content]);
 
   const socketInitializer = useCallback(async () => {
-    if (note === undefined) return;
+    if (status === "success") {
+      await fetch("/api/socket");
 
-     await fetch("/api/socket");
+      socket = io({
+        path: "/api/socket.io",
+      });
 
-    socket = io({
-      path: "/api/socket.io",
-    });
-
-    socket.on("connect", () => {
-      console.log("Connected", socket.id);
-    });
-  }, []);
+      socket.on("connect", () => {
+        console.log("Connected", socket.id);
+      });
+    }
+  }, [status]);
 
   useEffect(() => {
     socketInitializer();

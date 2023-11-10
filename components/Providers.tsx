@@ -17,9 +17,7 @@ export const Providers = ({
 }: ProvidersProps) => {
   return (
     <CacheProvider value={emotionCache}>
-      <Provider store={store}>
-        <SessionProvider>{children}</SessionProvider>
-      </Provider>
+      <SessionProvider>{children}</SessionProvider>
     </CacheProvider>
   );
 };

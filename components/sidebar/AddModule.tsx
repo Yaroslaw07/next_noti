@@ -4,11 +4,11 @@ import SidebarModule from "./SidebarModule";
 import useVaults from "@/lib/hooks/useVaults";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { useSidebarUpdate } from "@/lib/hooks/useSidebarUpdate";
+import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
 
 const AddModule: FC = () => {
   const router = useRouter();
-  const {setToUpdate} = useSidebarUpdate();
+  const { setToNotesListUpdate } = useNotesListUpdate();
   const { currentVault } = useVaults();
 
   const handleClick = async () => {
@@ -25,7 +25,7 @@ const AddModule: FC = () => {
     if (res.ok) {
       const body = await res.json();
       const noteId = body.note.id;
-      setToUpdate(true);
+      setToNotesListUpdate(true);
       router.push(`/note/${noteId}`);
     }
   };

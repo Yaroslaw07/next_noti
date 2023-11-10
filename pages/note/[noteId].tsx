@@ -1,4 +1,4 @@
-import NotiLayout from "@/components/noti/Layout";
+import { getNotiLayout } from "@/components/noti/Layout";
 import Note from "@/components/noti/Note";
 import Backdrop from "@/components/ui/Backdrop";
 import { setCurrentNote } from "@/lib/reducers/currentNote";
@@ -6,7 +6,6 @@ import { AppDispatch } from "@/lib/store";
 import { Note as NoteType } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
 import { useSession } from "next-auth/react";
-import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -56,14 +55,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 NotePage.getLayout = (page) => {
-  return (
-    <>
-      <Head>
-        <title>Noti Note</title>
-      </Head>
-      <NotiLayout>{page}</NotiLayout>
-    </>
-  );
+  return getNotiLayout(page);
 };
 
 export default NotePage;

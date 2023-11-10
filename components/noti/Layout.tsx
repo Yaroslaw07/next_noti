@@ -1,10 +1,12 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "./Header";
-import { FC, useEffect } from "react";
+import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
 import useVaults from "@/lib/hooks/useVaults";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import Backdrop from "../ui/Backdrop";
+import { Provider } from "react-redux";
+import store from "@/lib/store";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
@@ -18,16 +20,26 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
   }
 
   return (
-      <Grid container>
-        <Grid item>
-          <Sidebar />
-        </Grid>
-        <Grid xs item>
-          <Header />
-          {children}
-        </Grid>
+    <Grid container>
+      <Grid item>
+        <Sidebar />
       </Grid>
+      <Grid xs item>
+        <Header />
+        {children}
+      </Grid>
+    </Grid>
   );
 };
 
-export default NotiLayout;
+const getNotiLayout = (
+  page: ReactElement<any, string | JSXElementConstructor<any>>
+) => {
+  return (
+    <Provider store={store}>
+      <NotiLayout>{page}</NotiLayout>
+    </Provider>
+  );
+};
+
+export { NotiLayout, getNotiLayout };

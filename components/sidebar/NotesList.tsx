@@ -7,24 +7,22 @@ import useVaults from "@/lib/hooks/useVaults";
 import { NoteInfo } from "@/types/noteInfo";
 import { FC, useEffect, useRef, useState } from "react";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { useSidebarUpdate } from "@/lib/hooks/useSidebarUpdate";
+import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
 
 const NotesList: FC = () => {
   const { currentVault } = useVaults();
   const { note: currentNote } = useCurrentNote();
-  const { toUpdate, setToUpdate } = useSidebarUpdate();
+  const { toNotesListUpdate, setToNotesListUpdate } = useNotesListUpdate();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
 
   useEffect(() => {
-
     if (!currentVault) {
       setNotes([]);
       return;
-    } 
+    }
 
-    if (toUpdate) {
-
+    if (toNotesListUpdate) {
       const fetchData = async () => {
         const response = await fetch(
           `/api/notes/getNotesInfo/?vaultId=${currentVault.id}`,
@@ -37,10 +35,10 @@ const NotesList: FC = () => {
         setNotes(data.notes);
       };
 
-      setToUpdate(false);
+      setToNotesListUpdate(false);
       fetchData();
     }
-  }, [currentVault, toUpdate]);
+  }, [currentVault, toNotesListUpdate]);
 
   return (
     <>

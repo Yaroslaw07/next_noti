@@ -1,8 +1,13 @@
 import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
-import { useSidebarUpdate } from "@/lib/hooks/useSidebarUpdate";
+import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
 import { NoteInfo } from "@/types/noteInfo";
-import { IconButton, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import {
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 import { FC } from "react";
 
 interface NotesItemProps {
@@ -12,8 +17,7 @@ interface NotesItemProps {
 }
 
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
-
-  const {setToUpdate} = useSidebarUpdate();
+  const { setToNotesListUpdate } = useNotesListUpdate();
 
   const onDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -24,7 +28,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
     });
 
     const data = await response.json();
-    setToUpdate(true);
+    setToNotesListUpdate(true);
   };
 
   return (

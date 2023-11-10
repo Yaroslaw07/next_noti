@@ -1,6 +1,5 @@
-// reducers/vaultReducer.ts
 import { Vault } from "@prisma/client";
-import { createSlice, PayloadAction,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 interface VaultState {
@@ -10,17 +9,16 @@ interface VaultState {
   isLoading: boolean;
 }
 
-
 const initialState: VaultState = {
   vaults: [],
   currentVault: null,
   currentUserId: null,
-  isLoading: false
+  isLoading: false,
 };
 
 const vaultSlice = createSlice({
   name: "vault",
-  initialState:initialState,
+  initialState: initialState,
   reducers: {
     setVaults: (state, action: PayloadAction<VaultState>) => {
       state.vaults = action.payload.vaults;
@@ -37,20 +35,18 @@ const vaultSlice = createSlice({
 export const fetchVaultData = createAsyncThunk<VaultState, void>(
   "vault/fetchData",
   async (_, { getState, dispatch }) => {
-    const state = getState() as RootState; // Use RootState to access other slices if needed
+    const state = getState() as RootState;
 
     if (!state.vault.vaults.length && !state.vault.isLoading) {
       dispatch(vaultSlice.actions.setLoading(true));
 
       try {
-        // Simulate an API call (replace with your actual API call)
         const response = await fetch("/api/vaults/", {
           method: "GET",
         }).then((res) => res.json());
         dispatch(vaultSlice.actions.setVaults(response));
         return response;
       } catch (error) {
-        // Handle errors as needed
         throw error;
       } finally {
         dispatch(vaultSlice.actions.setLoading(false));
@@ -61,5 +57,5 @@ export const fetchVaultData = createAsyncThunk<VaultState, void>(
   }
 );
 
-export const { setVaults,setLoading } = vaultSlice.actions;
-export default  vaultSlice.reducer;
+export const { setVaults, setLoading } = vaultSlice.actions;
+export default vaultSlice.reducer;
