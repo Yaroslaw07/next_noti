@@ -1,12 +1,10 @@
 import { isEmailValid, isStrongPassword } from "@/lib/auth/validate";
-import { useToast } from "@/lib/hooks/useToast";
 import {
   Box,
   Button,
   IconButton,
   InputAdornment,
   TextField,
-  buttonBaseClasses,
 } from "@mui/material";
 import React from "react";
 import { FC } from "react";
