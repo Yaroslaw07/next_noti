@@ -28,7 +28,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
 
     if (response.ok) {
       if (currentNote && currentNote!.id === note.id) {
-        router.push("/note/");
+        router.replace("/note/");
       }
       setToNotesListUpdate(true);
     } else {

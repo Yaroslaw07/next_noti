@@ -28,11 +28,13 @@ export default async function handler(
 
       const vaults = user.vaults;
 
-      return res.status(200).json({ vaults, currentUserId: userId, currentVault: vaults[0] });
+      return res
+        .status(200)
+        .json({ vaults, currentUserId: userId, currentVault: vaults[0] });
     } catch (error) {
       return res.status(500).json({ message: "Internal server error" });
     }
   }
-  
+
   return res.status(405).json({ message: "Method not allowed" });
 }

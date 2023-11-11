@@ -8,13 +8,14 @@ import { AuthenticationType } from "@/lib/auth/next-auth";
 import AuthForm from "@/components/auth/authForm";
 import Backdrop from "@/components/ui/Backdrop";
 import { useEffect } from "react";
+import { useToast } from "@/lib/hooks/useToast";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { data: session, status, update } = useSession();
+  const { openToast } = useToast();
+  const { data: session, status } = useSession();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
@@ -28,21 +29,17 @@ export default function SignUpPage() {
       authenticateType,
     });
 
-    await update({
-      ...session,
-      user: { ...session?.user, isRegistered: true },
-    });
-
-    if (!res?.ok) {
-      console.log(res?.error);
+    if (res?.ok) {
+    } else {
+      openToast(res?.error || "Invalid credentials", "error");
     }
   };
 
   useEffect(() => {
     if (status === "authenticated") {
       session?.user?.isRegistered
-        ? router.push("/note")
-        : router.push("register");
+        ? router.replace("/note")
+        : router.replace("/auth/register");
     }
   }, [status]);
 
@@ -62,7 +59,7 @@ export default function SignUpPage() {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <Backdrop open={status==="loading"}/>
+      <Backdrop open={status === "loading"} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -82,6 +79,7 @@ export default function SignUpPage() {
             Sign Up to Noti
           </Typography>
           <AuthForm
+            buttonText="Sign Up"
             handleSubmit={handleSubmit}
             AnotherAuthLink={AnotherAuthLink}
           />

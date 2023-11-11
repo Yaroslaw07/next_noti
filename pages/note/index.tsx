@@ -14,7 +14,7 @@ const NoNotePage: NextPageWithLayout = () => {
   const { status } = useSession();
 
   if (status == "unauthenticated") {
-    router.push("/login");
+    router.replace("/login");
   }
 
   const dispatch = useDispatch<AppDispatch>();

@@ -42,19 +42,10 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
-
 model Vault {
   id        String   @id @default(uuid())
   name      String
-  owner     User     @relation(fields: [ownerId], references: [id])
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String
 
   notes     Note[]
@@ -64,7 +55,7 @@ model Note {
   id        String   @id @default(uuid())
   title     String
   content   String
-  vault     Vault    @relation(fields: [vaultId], references: [id])
+  vault     Vault    @relation(fields: [vaultId], references: [id], onDelete: Cascade)
   vaultId   String
   createdAt DateTime @default(now())
 }

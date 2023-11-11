@@ -6,6 +6,7 @@ import Link from "@/components/ui/Link";
 import { useRouter } from "next/router";
 import { AuthenticationType } from "@/lib/auth/next-auth";
 import { signIn, useSession } from "next-auth/react";
+import { useToast } from "@/lib/hooks/useToast";
 import AuthForm from "@/components/auth/authForm";
 import { useEffect, useState } from "react";
 import Backdrop from "@/components/ui/Backdrop";
@@ -14,11 +15,11 @@ export default function LoginPage() {
   const router = useRouter();
 
   const { data: session, status } = useSession();
+  const { openToast } = useToast();
 
   const [displayBackdrop, setDisplayBackdrop] = useState<boolean>(true);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
@@ -33,15 +34,15 @@ export default function LoginPage() {
     });
 
     if (!res?.ok) {
-      console.log(res?.error);
+      openToast(res?.error || "Invalid credentials", "error");
     }
   };
 
   useEffect(() => {
     if (status === "authenticated") {
       session?.user?.isRegistered
-        ? router.push("/note")
-        : router.push("register");
+        ? router.replace("/note")
+        : router.replace("/register");
     } else {
       setDisplayBackdrop(false);
     }
@@ -91,6 +92,7 @@ export default function LoginPage() {
             Log In to Noti
           </Typography>
           <AuthForm
+            buttonText="Log In"
             handleSubmit={handleSubmit}
             AnotherAuthLink={AnotherAuthLink}
           />

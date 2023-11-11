@@ -5,18 +5,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Backdrop from "@/components/ui/Backdrop";
+import { useToast } from "@/lib/hooks/useToast";
 
 export default function RegisterPage() {
   const router = useRouter();
   const { data: session, status, update } = useSession();
+  const { openToast } = useToast();
 
   const [username, setUsername] = useState("");
   const [vaultName, setVaultName] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    console.log(session?.user?.id, username, vaultName);
 
     const result = await fetch("/api/auth/register", {
       method: "POST",
@@ -35,12 +35,8 @@ export default function RegisterPage() {
       user: { ...session?.user, isRegistered: true },
     });
 
-    if (result.ok) {
-      session?.user?.isRegistered
-        ? router.push("/note")
-        : router.push("register");
-    } else {
-      console.log();
+    if (!result.ok) {
+      openToast("Invalid credentials", "error");
     }
   };
 
@@ -53,7 +49,9 @@ export default function RegisterPage() {
     router.push("/auth/login");
   }
 
-  if (session?.user?.isRegistered) router.push("/note");
+  if (session?.user?.isRegistered) {
+    router.replace("/note");
+  }
 
   return (
     <>

@@ -1,4 +1,5 @@
 import { Providers } from "@/components/Providers";
+import { ToastProvider } from "@/lib/context/toastContext";
 import theme from "@/lib/ui/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { NextPage } from "next";
@@ -24,11 +25,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {getLayout ? (
-          getLayout(<Component {...pageProps} />)
-        ) : (
-          <Component {...pageProps} />
-        )}
+        <ToastProvider>
+          {getLayout ? (
+            getLayout(<Component {...pageProps} />)
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </ToastProvider>
       </ThemeProvider>
     </Providers>
   );
