@@ -8,6 +8,8 @@ import {
   TbNotes,
   TbTrash,
   TbLogout2,
+  TbEyeClosed,
+  TbEye,
 } from "react-icons/tb";
 
 export const Icons = {
@@ -20,4 +22,7 @@ export const Icons = {
   DeleteNote: TbTrash,
   ClearNote: TbNotes,
   Logout: TbLogout2,
+
+  ShowPassword: TbEye,
+  HidePassword: TbEyeClosed,
 };

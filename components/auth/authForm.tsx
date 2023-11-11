@@ -1,8 +1,16 @@
 import { isEmailValid, isStrongPassword } from "@/lib/auth/validate";
 import { useToast } from "@/lib/hooks/useToast";
-import { Box, Button, TextField, buttonBaseClasses } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  buttonBaseClasses,
+} from "@mui/material";
 import React from "react";
 import { FC } from "react";
+import { Icons } from "../Icons";
 
 interface AuthFormProps {
   buttonText: string;
@@ -17,6 +25,16 @@ const AuthForm: FC<AuthFormProps> = ({
 }) => {
   const [emailErrorText, setEmailErrorText] = React.useState("");
   const [passwordErrorText, setPasswordErrorText] = React.useState("");
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,11 +106,24 @@ const AuthForm: FC<AuthFormProps> = ({
         fullWidth
         name="password"
         label="Password"
-        type="password"
+        type={showPassword ? "text" : "password"}
         id="password"
         autoComplete="current-password"
         error={!!passwordErrorText}
         helperText={passwordErrorText}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+              >
+                {showPassword ? <Icons.HidePassword /> : <Icons.ShowPassword />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
         {buttonText}
