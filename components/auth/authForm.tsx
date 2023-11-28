@@ -6,8 +6,17 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  buttonBaseClasses,
+} from "@mui/material";
 import React from "react";
 import { FC } from "react";
+import { Icons } from "../Icons";
 import { Icons } from "../Icons";
 
 interface AuthFormProps {
@@ -23,6 +32,16 @@ const AuthForm: FC<AuthFormProps> = ({
 }) => {
   const [emailErrorText, setEmailErrorText] = React.useState("");
   const [passwordErrorText, setPasswordErrorText] = React.useState("");
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -104,6 +123,7 @@ const AuthForm: FC<AuthFormProps> = ({
         fullWidth
         name="password"
         label="Password"
+        type={showPassword ? "text" : "password"}
         type={showPassword ? "text" : "password"}
         id="password"
         autoComplete="current-password"
