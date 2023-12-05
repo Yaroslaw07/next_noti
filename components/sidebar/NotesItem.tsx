@@ -2,13 +2,12 @@ import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
-import { NoteInfo } from "@/types/noteInfo";
 import { IconButton, ListItem, ListItemText } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
 interface NotesItemProps {
-  note: NoteInfo;
+  note: any;
   active: boolean;
   title?: string;
 }

@@ -1,11 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import vaultReducer from "./reducers/vaults";
 import currentNoteReducer from "./reducers/currentNote";
-import uiUpdate from "./reducers/uiUpdate";
+import uiUpdateReducer from "./reducers/uiUpdate";
+import { useDispatch } from "react-redux";
+import authReducer from "./reducers/auth";
 
 const store = configureStore({
   reducer: {
-    ui: uiUpdate,
+    auth: authReducer,
+    uiUpdate: uiUpdateReducer,
     vault: vaultReducer,
     currentNote: currentNoteReducer,
   },
@@ -15,4 +18,5 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 export default store;

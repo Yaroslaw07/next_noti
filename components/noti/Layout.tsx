@@ -34,11 +34,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
 const getNotiLayout = (
   page: ReactElement<any, string | JSXElementConstructor<any>>
 ) => {
-  return (
-    <Provider store={store}>
-      <NotiLayout>{page}</NotiLayout>
-    </Provider>
-  );
+  return <NotiLayout>{page}</NotiLayout>;
 };
 
 export { NotiLayout, getNotiLayout };

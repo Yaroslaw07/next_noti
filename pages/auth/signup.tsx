@@ -1,57 +1,49 @@
-import Link from "@/components/ui/Link";
 import { Icons } from "@/components/Icons";
 import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { signIn, useSession } from "next-auth/react";
-import { AuthenticationType } from "@/lib/auth/next-auth";
-import AuthForm from "@/components/auth/authForm";
+import SignupForm from "@/components/auth/signupForm";
 import Backdrop from "@/components/ui/Backdrop";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/lib/hooks/useToast";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { AuthStatuses, SignupCredentials } from "@/types/auth";
+import Link from "@/components/ui/Link";
 
 export default function SignUpPage() {
   const router = useRouter();
+
+  const { signup, status } = useAuth();
   const { openToast } = useToast();
-  const { data: session, status } = useSession();
+
+  const [displayBackdrop, setDisplayBackdrop] = useState<boolean>(true);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const data = new FormData(event.currentTarget);
 
+    const username = data.get("username");
     const email = data.get("email");
     const password = data.get("password");
-    const authenticateType = AuthenticationType.SignUp;
 
-    const res = await signIn("credentials", {
-      redirect: false,
+    const { ok, message } = await signup({
+      username,
       email,
       password,
-      authenticateType,
-    });
+    } as SignupCredentials);
 
-    if (res?.ok) {
-    } else {
-      openToast(res?.error || "Invalid credentials", "error");
+    if (!ok) {
+      openToast(message, "error");
     }
   };
 
   useEffect(() => {
     if (status === "authenticated") {
-      session?.user?.isRegistered
-        ? router.replace("/note")
-        : router.replace("/auth/register");
+      //router.replace("/vaults");
+      openToast("Logged in successfully", "success");
+    } else {
+      setDisplayBackdrop(false);
     }
   }, [status]);
-
-  const AnotherAuthLink = () => (
-    <Link
-      href="login"
-      variant="body2"
-      style={{ textAlign: "center", width: "100%" }}
-    >
-      {"Already have an account? Log In"}
-    </Link>
-  );
 
   return (
     <>
@@ -59,7 +51,7 @@ export default function SignUpPage() {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <Backdrop open={status === "loading"} />
+      <Backdrop open={displayBackdrop} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -68,6 +60,7 @@ export default function SignUpPage() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            marginX: "1rem",
           }}
         >
           <Icons.Logo size={140} />
@@ -78,11 +71,14 @@ export default function SignUpPage() {
           >
             Sign Up to Noti
           </Typography>
-          <AuthForm
-            buttonText="Sign Up"
-            handleSubmit={handleSubmit}
-            AnotherAuthLink={AnotherAuthLink}
-          />
+          <SignupForm handleSubmit={handleSubmit} />
+          <Link
+            href="login"
+            variant="body2"
+            style={{ textAlign: "center", width: "100%" }}
+          >
+            {"Already have an account? Log In"}
+          </Link>
         </Box>
       </Container>
     </>

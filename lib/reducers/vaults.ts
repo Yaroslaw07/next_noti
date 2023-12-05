@@ -1,4 +1,3 @@
-import { Vault } from "@prisma/client";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 

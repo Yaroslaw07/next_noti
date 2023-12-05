@@ -4,17 +4,17 @@ import { Box, Container, Typography } from "@mui/material";
 import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
 import { useRouter } from "next/router";
-import { AuthenticationType } from "@/lib/auth/next-auth";
-import { signIn, useSession } from "next-auth/react";
 import { useToast } from "@/lib/hooks/useToast";
-import AuthForm from "@/components/auth/authForm";
+import LoginForm from "@/components/auth/loginForm";
 import { useEffect, useState } from "react";
 import Backdrop from "@/components/ui/Backdrop";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { AuthStatuses, LoginCredentials } from "@/types/auth";
 
 export default function LoginPage() {
   const router = useRouter();
 
-  const { data: session, status } = useSession();
+  const { login, status } = useAuth();
   const { openToast } = useToast();
 
   const [displayBackdrop, setDisplayBackdrop] = useState<boolean>(true);
@@ -24,47 +24,27 @@ export default function LoginPage() {
 
     const email = data.get("email");
     const password = data.get("password");
-    const authenticateType = AuthenticationType.LogIn;
 
-    const res = await signIn("credentials", {
-      redirect: false,
+    const { ok, message } = await login({
       email,
       password,
-      authenticateType,
-    });
+    } as LoginCredentials);
 
-    if (!res?.ok) {
-      openToast(res?.error || "Invalid credentials", "error");
+    if (!ok) {
+      openToast(message, "error");
     }
   };
 
   useEffect(() => {
     if (status === "authenticated") {
-      session?.user?.isRegistered
-        ? router.replace("/note")
-        : router.replace("/register");
-    } else {
+      //router.replace("/vaults");
+      openToast("Logged in successfully", "success");
+    }
+
+    if (status !== "loading") {
       setDisplayBackdrop(false);
     }
   }, [status]);
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      session?.user?.isRegistered
-        ? router.push("/note")
-        : router.push("register");
-    }
-  }, [status]);
-
-  const AnotherAuthLink = () => (
-    <Link
-      href="/auth/signup"
-      variant="body2"
-      style={{ textAlign: "center", width: "100%" }}
-    >
-      {"Don't have an account? Sign Up"}
-    </Link>
-  );
 
   return (
     <>
@@ -81,6 +61,7 @@ export default function LoginPage() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            marginX: "1rem",
           }}
         >
           <Icons.Logo size={140} />
@@ -91,11 +72,14 @@ export default function LoginPage() {
           >
             Log In to Noti
           </Typography>
-          <AuthForm
-            buttonText="Log In"
-            handleSubmit={handleSubmit}
-            AnotherAuthLink={AnotherAuthLink}
-          />
+          <LoginForm handleSubmit={handleSubmit} />
+          <Link
+            href="/auth/signup"
+            variant="body2"
+            style={{ textAlign: "center", width: "100%" }}
+          >
+            {"Don't have an account? Sign Up"}
+          </Link>
         </Box>
       </Container>
     </>
