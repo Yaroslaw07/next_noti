@@ -9,7 +9,7 @@ import LoginForm from "@/components/auth/loginForm";
 import { useEffect, useState } from "react";
 import Backdrop from "@/components/ui/Backdrop";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { AuthStatuses, LoginCredentials } from "@/types/auth";
+import { LoginCredentials } from "@/types/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,6 +20,8 @@ export default function LoginPage() {
   const [displayBackdrop, setDisplayBackdrop] = useState<boolean>(true);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setDisplayBackdrop(true);
+
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
@@ -36,13 +38,13 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (status === "authenticated") {
-      //router.replace("/vaults");
-      openToast("Logged in successfully", "success");
-    }
-
     if (status !== "loading") {
-      setDisplayBackdrop(false);
+      if (status === "authenticated") {
+        // router.replace("/vaults");
+        openToast("Signed up successfully", "success");
+      } else {
+        setDisplayBackdrop(false);
+      }
     }
   }, [status]);
 
@@ -64,13 +66,20 @@ export default function LoginPage() {
             marginX: "1rem",
           }}
         >
-          <Icons.Logo size={140} />
+          <Link href="../">
+            <Icons.Logo sx={{ fontSize: "135px" }} />
+          </Link>
           <Typography
             component="h1"
             variant="h5"
-            sx={{ fontSize: "2rem", fontWeight: "600" }}
+            sx={{
+              fontSize: "2.2rem",
+              fontWeight: "600",
+              marginTop: "0",
+              textAlign: "center",
+            }}
           >
-            Log In to Noti
+            Login to Noti
           </Typography>
           <LoginForm handleSubmit={handleSubmit} />
           <Link

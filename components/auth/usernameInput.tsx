@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 
 interface UsernameInputProps {
   onUsernameChange: (value: string) => void;
-  usernameErrorText: string;
+  usernameErrorText?: string;
 }
 
 const UsernameInputComponent: React.FC<UsernameInputProps> = ({
@@ -21,7 +21,6 @@ const UsernameInputComponent: React.FC<UsernameInputProps> = ({
   return (
     <TextField
       margin="normal"
-      required
       fullWidth
       id="username"
       label="Username"

@@ -1,16 +1,15 @@
-import Head from 'next/head'
-import { Button, Container, Stack, Typography } from '@mui/material';
-import { Icons } from '@/components/Icons';
-import Link from '@/components/ui/Link';
+import Head from "next/head";
+import { Button, Container, Stack, Typography } from "@mui/material";
+import { Icons } from "@/components/Icons";
+import Link from "@/components/ui/Link";
 
 const welcomeButtonStyle = {
-  fontSize: "1.5rem",
+  fontSize: { xs: "1.25rem", sm: "1.5rem" },
   padding: "0.5rem 1.25rem",
   textTransform: "none",
   border: "2px solid",
   borderColor: "primary.main",
 };
-
 
 export default function WelcomePage() {
   return (
@@ -27,13 +26,13 @@ export default function WelcomePage() {
           justifyContent="center"
           textAlign={"center"}
         >
-          <Icons.Logo size={200} />
+          <Icons.Logo sx={{ fontSize: { xs: "160px", md: "180px" } }} />
           <Typography
             variant="h1"
             sx={{
-              lineHeight: "1.2",
+              lineHeight: "1",
               fontWeight: "900",
-              marginTop: "0.5rem",
+              fontSize: { xs: "3.5rem", sm: "6rem", md: "7rem" },
             }}
           >
             Welcome to Noti
@@ -41,14 +40,19 @@ export default function WelcomePage() {
           <Typography
             variant="h4"
             sx={{
-              fontSize: "2,25rem",
+              fontSize: { xs: "2rem", md: "2,25rem" },
               lineHeight: "2.5rem",
               fontWeight: "500",
             }}
           >
             {"Let's create some notes"}
           </Typography>
-          <Stack direction={"row"} spacing={2} sx={{ marginTop: "1rem" }} justifyContent="center">
+          <Stack
+            direction={"row"}
+            spacing={2}
+            sx={{ marginTop: "1rem" }}
+            justifyContent="center"
+          >
             <Link href={"auth/login"}>
               <Button
                 variant="contained"

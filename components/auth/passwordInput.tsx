@@ -4,7 +4,7 @@ import { Icons } from "../Icons";
 
 interface PasswordInputProps {
   onPasswordChange: (value: string) => void;
-  passwordErrorText: string;
+  passwordErrorText?: string;
 }
 
 const PasswordInputComponent: React.FC<PasswordInputProps> = ({
@@ -28,7 +28,6 @@ const PasswordInputComponent: React.FC<PasswordInputProps> = ({
   return (
     <TextField
       margin="normal"
-      required
       fullWidth
       name="password"
       label="Password"

@@ -3,7 +3,7 @@ import { FC } from "react";
 
 interface EmailInputProps {
   onEmailChange: (value: string) => void;
-  emailErrorText: string;
+  emailErrorText?: string;
 }
 
 const EmailInputComponent: React.FC<EmailInputProps> = ({
@@ -17,7 +17,6 @@ const EmailInputComponent: React.FC<EmailInputProps> = ({
   return (
     <TextField
       margin="normal"
-      required
       fullWidth
       id="email"
       label="Email Address"
@@ -26,7 +25,6 @@ const EmailInputComponent: React.FC<EmailInputProps> = ({
       error={!!emailErrorText}
       helperText={emailErrorText}
       onChange={handleEmailChange}
-      autoFocus
     />
   );
 };

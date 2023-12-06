@@ -12,8 +12,13 @@ import {
   TbEye,
 } from "react-icons/tb";
 
+import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+
 export const Icons = {
-  Logo: TbNotebook,
+  Logo: CollectionsBookmarkOutlinedIcon,
+
   More: TbDots,
   NoNoteOpen: TbNotesOff,
   Vault: TbDoor,
@@ -23,6 +28,6 @@ export const Icons = {
   ClearNote: TbNotes,
   Logout: TbLogout2,
 
-  ShowPassword: TbEye,
-  HidePassword: TbEyeClosed,
+  ShowPassword: VisibilityOutlinedIcon,
+  HidePassword: VisibilityOffOutlinedIcon,
 };
