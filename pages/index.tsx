@@ -26,7 +26,7 @@ export default function WelcomePage() {
           justifyContent="center"
           textAlign={"center"}
         >
-          <Icons.Logo sx={{ fontSize: { xs: "160px", md: "180px" } }} />
+          <Icons.Logo sx={{ fontSize: { xs: "160px", md: "200px" } }} />
           <Typography
             variant="h1"
             sx={{

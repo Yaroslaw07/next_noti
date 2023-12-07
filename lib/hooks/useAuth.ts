@@ -16,12 +16,10 @@ interface AuthOperationResponse {
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
-  const { status } = useSelector((state: RootState) => state.auth);
+  const { status, userLoaded } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (status === "loading") {
-      dispatch(loadUser());
-    }
+    dispatch(loadUser());
   }, []);
 
   const login = async (

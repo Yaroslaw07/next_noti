@@ -1,5 +1,4 @@
 import { getNotiLayout } from "@/components/noti/Layout";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import MyBackdrop from "@/components/ui/Backdrop";
 import NoNote from "@/components/noti/NoNote";
@@ -8,10 +7,11 @@ import { AppDispatch } from "@/lib/store";
 import { setCurrentNote } from "@/lib/reducers/currentNote";
 import { useEffect } from "react";
 import { NextPageWithLayout } from "../_app";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 const NoNotePage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { status } = useSession();
+  const { status } = useAuth();
 
   if (status == "unauthenticated") {
     router.replace("/login");

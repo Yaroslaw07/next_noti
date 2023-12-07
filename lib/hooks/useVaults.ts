@@ -1,19 +1,22 @@
-import { fetchVaultData } from "@/lib/reducers/vaults";
+import { getVaults as thunkGetVaults } from "@/lib/reducers/vaults";
 import { AppDispatch, RootState } from "@/lib/store";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const useVaults = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { vaults, currentVault, currentUserId, isLoading } = useSelector(
-    (state: RootState) => state.vault
-  );
 
-  useEffect(() => {
-    dispatch(fetchVaultData());
-  }, [dispatch]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  return { vaults, currentVault, currentUserId, isLoading };
+  const { vaults } = useSelector((state: RootState) => state.vaults);
+
+  const getVaults = () => {
+    setIsLoaded(false);
+    dispatch(thunkGetVaults());
+    setIsLoaded(true);
+  };
+
+  return { vaults, isLoaded, getVaults };
 };
 
 export default useVaults;

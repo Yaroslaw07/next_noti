@@ -38,13 +38,17 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (status !== "loading") {
-      if (status === "authenticated") {
-        // router.replace("/vaults");
-        openToast("Signed up successfully", "success");
-      } else {
-        setDisplayBackdrop(false);
-      }
+    if (status === "authenticated") {
+      router.push("/vaults");
+      openToast("Signed up successfully", "success");
+    }
+
+    if (status === "unauthenticated") {
+      setDisplayBackdrop(false);
+    }
+
+    if (status === "loading") {
+      setDisplayBackdrop(true);
     }
   }, [status]);
 

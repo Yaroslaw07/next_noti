@@ -1,5 +1,4 @@
 import {
-  TbNotebook,
   TbDots,
   TbNotesOff,
   TbDoor,
@@ -8,8 +7,6 @@ import {
   TbNotes,
   TbTrash,
   TbLogout2,
-  TbEyeClosed,
-  TbEye,
 } from "react-icons/tb";
 
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";

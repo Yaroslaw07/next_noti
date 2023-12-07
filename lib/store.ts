@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import vaultReducer from "./reducers/vaults";
+import vaultsReducer from "./reducers/vaults";
 import currentNoteReducer from "./reducers/currentNote";
 import uiUpdateReducer from "./reducers/uiUpdate";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     uiUpdate: uiUpdateReducer,
-    vault: vaultReducer,
+    vaults: vaultsReducer,
     currentNote: currentNoteReducer,
   },
   devTools: process.env.NODE_ENV === "development",

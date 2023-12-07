@@ -1,60 +1,43 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { Vault } from "@/types/vault";
+import { api, authApi } from "../api/api";
 
 interface VaultState {
   vaults: Vault[];
-  currentVault: Vault | null;
-  currentUserId: string | null;
-  isLoading: boolean;
 }
 
 const initialState: VaultState = {
   vaults: [],
-  currentVault: null,
-  currentUserId: null,
-  isLoading: false,
 };
+
+export const getVaults = createAsyncThunk<Vault[], void>(
+  "vault/getVaults",
+  async (_, { dispatch }) => {
+    console.log("getVaults");
+    try {
+      const response = await authApi.get("/vaults/");
+
+      dispatch(vaultSlice.actions.setVaults(response.data));
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 const vaultSlice = createSlice({
   name: "vault",
   initialState: initialState,
   reducers: {
-    setVaults: (state, action: PayloadAction<VaultState>) => {
-      state.vaults = action.payload.vaults;
-      state.currentUserId = action.payload.currentUserId;
-      state.currentVault = action.payload.currentVault;
-      state.isLoading = false;
+    setVaults: (state, action: PayloadAction<Vault[]>) => {
+      state.vaults = action.payload;
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+    setActiveVault: (state, action: PayloadAction<Vault>) => {
+      localStorage.setItem("activeVault", JSON.stringify(action.payload));
     },
   },
 });
 
-export const fetchVaultData = createAsyncThunk<VaultState, void>(
-  "vault/fetchData",
-  async (_, { getState, dispatch }) => {
-    const state = getState() as RootState;
-
-    if (!state.vault.vaults.length && !state.vault.isLoading) {
-      dispatch(vaultSlice.actions.setLoading(true));
-
-      try {
-        const response = await fetch("/api/vaults/", {
-          method: "GET",
-        }).then((res) => res.json());
-        dispatch(vaultSlice.actions.setVaults(response));
-        return response;
-      } catch (error) {
-        throw error;
-      } finally {
-        dispatch(vaultSlice.actions.setLoading(false));
-      }
-    }
-
-    return {} as VaultState;
-  }
-);
-
-export const { setVaults, setLoading } = vaultSlice.actions;
+export const { setVaults } = vaultSlice.actions;
 export default vaultSlice.reducer;

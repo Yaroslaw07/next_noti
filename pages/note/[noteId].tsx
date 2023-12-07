@@ -3,21 +3,18 @@ import Note from "@/components/noti/Note";
 import Backdrop from "@/components/ui/Backdrop";
 import { setCurrentNote } from "@/lib/reducers/currentNote";
 import { AppDispatch } from "@/lib/store";
-import { Note as NoteType } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { NextPageWithLayout } from "../_app";
 
 interface NotePageProps {
-  note: NoteType;
+  note: string;
 }
 
 const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { status } = useSession();
 
   const router = useRouter();
 
