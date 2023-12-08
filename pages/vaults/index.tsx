@@ -4,14 +4,13 @@ import HR from "@/components/ui/HR";
 import VaultsList from "@/components/vaults/vaultsList";
 import { useAuth } from "@/lib/hooks/useAuth";
 import useVaults from "@/lib/hooks/useVaults";
-import { refreshTokens } from "@/lib/reducers/auth";
-import store from "@/lib/store";
 import {
   Box,
   Button,
   Container,
   Grid,
   Skeleton,
+  Stack,
   Typography,
 } from "@mui/material";
 import Head from "next/head";
@@ -21,7 +20,7 @@ import { useEffect, useState } from "react";
 export default function VaultsPage() {
   const router = useRouter();
 
-  const { status } = useAuth();
+  const { status, logout } = useAuth();
   const { vaults, getVaults } = useVaults();
 
   useEffect(() => {
@@ -33,10 +32,6 @@ export default function VaultsPage() {
     }
   }, [status]);
 
-  const refresh = async () => {
-    store.dispatch(refreshTokens());
-  };
-
   return (
     <>
       <Head>
@@ -45,90 +40,110 @@ export default function VaultsPage() {
       </Head>
       <Backdrop open={status === "loading"} />
       <Container component="main" maxWidth="xs">
-        <Box
+        <Stack
+          spacing={1.5}
+          justifyContent="space-between"
+          alignContent="flex-start"
           sx={{
-            height: "100%",
-            marginTop: 6,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            height: "100vh",
+            margin: 0,
             marginX: "1rem",
           }}
         >
-          <Icons.Logo sx={{ fontSize: "120px" }} />
-          <Typography
-            component="h1"
-            variant="h3"
+          <Box
             sx={{
-              fontWeight: "600",
-              textAlign: "center",
-              fontSize: { xs: "2.25rem", sm: "3rem" },
+              height: "12rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              marginTop: "1rem",
             }}
           >
-            Your vaults
-          </Typography>
-
-          <Box sx={{ height: "12px" }}></Box>
-          {vaults === null ? (
-            <Skeleton />
-          ) : (
-            <Box
+            <Icons.Logo sx={{ fontSize: "120px" }} />
+            <Typography
+              component="h1"
+              variant="h3"
               sx={{
-                height: "45vh",
-                width: "100%",
-                borderColor: "red",
-                borderWidth: "2px",
+                fontWeight: "600",
+                textAlign: "center",
+                fontSize: { xs: "2rem", sm: "3rem" },
               }}
             >
-              {vaults.length === 0 ? (
-                <Typography
-                  component="h1"
-                  variant="h5"
-                  sx={{ fontWeight: "600" }}
-                >
-                  {"You don't have any vaults yet"}
-                </Typography>
-              ) : (
-                <VaultsList vaults={vaults} />
-              )}
-            </Box>
-          )}
+              Your vaults
+            </Typography>
+          </Box>
+          <Box
+            alignSelf="flex-start"
+            flexGrow={1}
+            sx={{
+              width: "100%",
+              overflow: "auto",
+            }}
+          >
+            {vaults === null ? (
+              <Skeleton />
+            ) : (
+              <Box
+                sx={{
+                  height: "45vh",
+                  width: "100%",
+                  borderColor: "red",
+                  borderWidth: "2px",
+                }}
+              >
+                {vaults.length === 0 ? (
+                  <Typography
+                    component="h1"
+                    variant="h5"
+                    sx={{ fontWeight: "600" }}
+                  >
+                    {"You don't have any vaults yet"}
+                  </Typography>
+                ) : (
+                  <VaultsList vaults={vaults} />
+                )}
+              </Box>
+            )}
+          </Box>
 
-          <Box sx={{ height: "12px" }}></Box>
-          <HR />
-          <Grid container spacing={1} sx={{ marginTop: "6px", width: "98%" }}>
-            <Grid item xs>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                endIcon={<Icons.Plus />}
-                sx={{
-                  flex: "1",
-                  fontSize: "1.1rem",
-                  height: "45px",
-                  lineHeight: "1.05",
-                }}
-              >
-                New Vault
-              </Button>
+          <Box sx={{ width: "100%", height: "8rem", alignSelf: "flex-end" }}>
+            <HR />
+            <Grid container spacing={1} sx={{ marginTop: "6px", width: "98%" }}>
+              <Grid item xs>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  endIcon={<Icons.Plus />}
+                  sx={{
+                    flex: "1",
+                    fontSize: "1.1rem",
+                    height: "45px",
+                    lineHeight: "1.05",
+                  }}
+                >
+                  New Vault
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  sx={{
+                    height: "45px",
+                    border: "2px solid",
+                    borderColor: "primary.main",
+                  }}
+                  onClick={logout}
+                >
+                  <Icons.Logout />
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button
-                fullWidth
-                variant="contained"
-                color="secondary"
-                sx={{
-                  height: "45px",
-                  border: "2px solid",
-                  borderColor: "primary.main",
-                }}
-              >
-                <Icons.Logout />
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </Stack>
       </Container>
     </>
   );

@@ -32,7 +32,6 @@ const theme = createTheme({
 
     text: {
       primary: "#262626",
-      secondary: "#a5a5a5",
     },
     background: {
       default: "#fafafa",
@@ -67,6 +66,7 @@ const theme = createTheme({
           textTransform: "none",
           border: "2px solid",
           borderColor: "primary.main",
+          fontSize: "1rem",
         },
       },
     },

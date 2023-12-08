@@ -19,6 +19,7 @@ export const useAuth = () => {
   const { status, userLoaded } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
+    if (userLoaded) return;
     dispatch(loadUser());
   }, []);
 

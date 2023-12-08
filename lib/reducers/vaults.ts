@@ -5,10 +5,12 @@ import { api, authApi } from "../api";
 
 interface VaultState {
   vaults: Vault[] | null;
+  isLoaded: boolean;
 }
 
 const initialState: VaultState = {
   vaults: null,
+  isLoaded: false,
 };
 
 export const getVaults = createAsyncThunk<Vault[], void>(
@@ -32,6 +34,7 @@ const vaultSlice = createSlice({
   reducers: {
     setVaults: (state, action: PayloadAction<Vault[]>) => {
       state.vaults = action.payload;
+      state.isLoaded = true;
     },
     setActiveVault: (state, action: PayloadAction<Vault>) => {
       localStorage.setItem("activeVault", JSON.stringify(action.payload));
@@ -39,5 +42,5 @@ const vaultSlice = createSlice({
   },
 });
 
-export const { setVaults } = vaultSlice.actions;
+export const { setVaults, setActiveVault } = vaultSlice.actions;
 export default vaultSlice.reducer;

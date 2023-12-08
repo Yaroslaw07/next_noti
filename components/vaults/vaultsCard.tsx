@@ -9,12 +9,19 @@ import {
 import { FC } from "react";
 import theme from "@/lib/ui/theme";
 import { Icons } from "../Icons";
+import useVaults from "@/lib/hooks/useVaults";
 
 interface VaultsCardProps {
   vault: Vault;
 }
 
-const vaultsCard: FC<VaultsCardProps> = ({ vault }) => {
+const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
+  const { setVault } = useVaults();
+
+  const handleClick = () => {
+    setVault(vault);
+  };
+
   return (
     <Card
       variant="outlined"
@@ -31,11 +38,12 @@ const vaultsCard: FC<VaultsCardProps> = ({ vault }) => {
           cursor: "pointer",
         },
       }}
+      onClick={handleClick}
     >
       <CardContent sx={{ paddingY: "10px" }}>
         <Typography
           component="h4"
-          sx={{ fontSize: "1.4rem", fontWeight: "500" }}
+          sx={{ fontSize: "1.3rem", fontWeight: "500" }}
         >
           {vault.name}
         </Typography>
@@ -49,4 +57,4 @@ const vaultsCard: FC<VaultsCardProps> = ({ vault }) => {
   );
 };
 
-export default vaultsCard;
+export default VaultsCard;
