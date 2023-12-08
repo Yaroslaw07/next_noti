@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api } from "../api/api";
+import { api } from "../api";
 import { AxiosError, AxiosResponse } from "axios";
 import {
   AuthApiResponse,
@@ -108,7 +108,6 @@ export const refreshTokens = createAsyncThunk<AuthApiResponse>(
           refreshToken: response.data.refreshToken,
         })
       );
-      dispatch(setAuthStatus("authenticated"));
 
       return response.data;
     } catch (error) {

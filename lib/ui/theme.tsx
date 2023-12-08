@@ -1,4 +1,17 @@
 import { createTheme } from "@mui/material";
+import {
+  PaletteColor,
+  Palette as defaultPalette,
+} from "@mui/material/styles/createPalette";
+
+interface CustomColors {
+  additional?: PaletteColor;
+}
+
+declare module "@mui/material/styles" {
+  interface Palette extends CustomColors {}
+  interface PaletteOptions extends CustomColors {}
+}
 
 const theme = createTheme({
   palette: {
@@ -10,7 +23,17 @@ const theme = createTheme({
       main: "#fafafa", // white
       dark: "#e4e4e7",
     },
+    additional: {
+      dark: "#262626",
+      contrastText: "#fafafa",
+      main: "#ededed",
+      light: "#f2f2f2",
+    },
 
+    text: {
+      primary: "#262626",
+      secondary: "#a5a5a5",
+    },
     background: {
       default: "#fafafa",
     },
@@ -19,6 +42,9 @@ const theme = createTheme({
     borderRadius: 8,
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {},
+    },
     MuiTypography: {
       styleOverrides: {
         root: {
@@ -32,6 +58,15 @@ const theme = createTheme({
           boxShadow: "none",
           backgroundColor: "#fafafa",
           color: "#262626",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          border: "2px solid",
+          borderColor: "primary.main",
         },
       },
     },

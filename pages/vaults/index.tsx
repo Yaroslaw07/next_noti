@@ -1,10 +1,19 @@
 import { Icons } from "@/components/Icons";
 import Backdrop from "@/components/ui/Backdrop";
+import HR from "@/components/ui/HR";
+import VaultsList from "@/components/vaults/vaultsList";
 import { useAuth } from "@/lib/hooks/useAuth";
 import useVaults from "@/lib/hooks/useVaults";
 import { refreshTokens } from "@/lib/reducers/auth";
 import store from "@/lib/store";
-import { Box, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -13,11 +22,10 @@ export default function VaultsPage() {
   const router = useRouter();
 
   const { status } = useAuth();
-  const { vaults, isLoaded, getVaults } = useVaults();
+  const { vaults, getVaults } = useVaults();
 
   useEffect(() => {
     if (status === "authenticated") {
-      getVaults();
       getVaults();
     }
     if (status === "unauthenticated") {
@@ -35,10 +43,11 @@ export default function VaultsPage() {
         <title></title>
         <meta name="description" content="Noti" />
       </Head>
-      <Backdrop open={status === "loading" || !isLoaded} />
+      <Backdrop open={status === "loading"} />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
+            height: "100%",
             marginTop: 6,
             display: "flex",
             flexDirection: "column",
@@ -59,33 +68,66 @@ export default function VaultsPage() {
             Your vaults
           </Typography>
 
-          <Box
-            sx={{
-              height: "50vh",
-              width: "100%",
-              borderColor: "red",
-              borderWidth: "2px",
-            }}
-          >
-            {vaults.length === 0 ? (
-              <Typography
-                component="h1"
-                variant="h5"
-                sx={{ fontWeight: "600" }}
+          <Box sx={{ height: "12px" }}></Box>
+          {vaults === null ? (
+            <Skeleton />
+          ) : (
+            <Box
+              sx={{
+                height: "45vh",
+                width: "100%",
+                borderColor: "red",
+                borderWidth: "2px",
+              }}
+            >
+              {vaults.length === 0 ? (
+                <Typography
+                  component="h1"
+                  variant="h5"
+                  sx={{ fontWeight: "600" }}
+                >
+                  {"You don't have any vaults yet"}
+                </Typography>
+              ) : (
+                <VaultsList vaults={vaults} />
+              )}
+            </Box>
+          )}
+
+          <Box sx={{ height: "12px" }}></Box>
+          <HR />
+          <Grid container spacing={1} sx={{ marginTop: "6px", width: "98%" }}>
+            <Grid item xs>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                endIcon={<Icons.Plus />}
+                sx={{
+                  flex: "1",
+                  fontSize: "1.1rem",
+                  height: "45px",
+                  lineHeight: "1.05",
+                }}
               >
-                {"You don't have any vaults yet"}
-              </Typography>
-            ) : (
-              <Typography
-                component="h1"
-                variant="h5"
-                sx={{ fontWeight: "600" }}
-                textAlign={"center"}
+                New Vault
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                fullWidth
+                variant="contained"
+                color="secondary"
+                sx={{
+                  height: "45px",
+                  border: "2px solid",
+                  borderColor: "primary.main",
+                }}
               >
-                You have {vaults.length} vaults
-              </Typography>
-            )}
-          </Box>
+                <Icons.Logout />
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </Container>
     </>

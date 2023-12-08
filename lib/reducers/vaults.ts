@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Vault } from "@/types/vault";
-import { api, authApi } from "../api/api";
+import { api, authApi } from "../api";
 
 interface VaultState {
-  vaults: Vault[];
+  vaults: Vault[] | null;
 }
 
 const initialState: VaultState = {
-  vaults: [],
+  vaults: null,
 };
 
 export const getVaults = createAsyncThunk<Vault[], void>(

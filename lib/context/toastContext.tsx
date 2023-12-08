@@ -44,7 +44,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   const ToastComponent = (
     <Snackbar
       open={open}
-      autoHideDuration={6000}
+      autoHideDuration={2000}
       onClose={closeToast}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       TransitionComponent={SlideTransition}

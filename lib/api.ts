@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import store from "../store";
-import auth, { logoutAsync, refreshTokens } from "../reducers/auth";
+import store from "./store";
+import auth, { logoutAsync, refreshTokens } from "./reducers/auth";
 import { AuthApiResponse } from "@/types/auth";
 
 const api = axios.create({

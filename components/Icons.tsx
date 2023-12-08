@@ -12,19 +12,35 @@ import {
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 
 export const Icons = {
+  //logo
   Logo: CollectionsBookmarkOutlinedIcon,
+
+  //auth
+  ShowPassword: VisibilityOutlinedIcon,
+  HidePassword: VisibilityOffOutlinedIcon,
+  Logout: LogoutOutlinedIcon,
+
+  //design
+  KeyboardRight: KeyboardArrowRightOutlinedIcon,
 
   More: TbDots,
   NoNoteOpen: TbNotesOff,
   Vault: TbDoor,
   Settings: TbSettings,
   NewNote: TbPlus,
-  DeleteNote: TbTrash,
-  ClearNote: TbNotes,
-  Logout: TbLogout2,
 
-  ShowPassword: VisibilityOutlinedIcon,
-  HidePassword: VisibilityOffOutlinedIcon,
+  Plus: AddCircleOutlinedIcon,
+
+  //crud operations
+  Delete: DeleteOutlineOutlinedIcon,
+  Edit: EditOutlinedIcon,
+
+  ClearNote: TbNotes,
 };
