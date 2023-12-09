@@ -123,6 +123,7 @@ export const logoutAsync = createAsyncThunk<void, void>(
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 
+    dispatch(setTokens({ accessToken: null, refreshToken: null }));
     dispatch(setAuthStatus("unauthenticated"));
   }
 );
@@ -154,7 +155,6 @@ const AuthSlice = createSlice({
           console.error("Error decoding tokens:", error);
         }
 
-        // Clear tokens and set unauthenticated status if decoding fails or tokens are invalid
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         state.status = "unauthenticated";

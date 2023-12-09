@@ -1,27 +1,28 @@
-import {
-  setActiveVault,
-  getVaults as thunkGetVaults,
-} from "@/lib/reducers/vaults";
-import { AppDispatch, RootState } from "@/lib/store";
+import { useEffect, useState } from "react";
+import { authApi } from "../api";
 import { Vault } from "@/types/vault";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const useVaults = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const [vaults, setVaults] = useState<Vault[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState<boolean>(false);
 
-  const { vaults, isLoaded } = useSelector((state: RootState) => state.vaults);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await authApi.get<Vault[]>("/vaults");
+        setVaults(response.data);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const getVaults = () => {
-    if (isLoaded) return;
-    dispatch(thunkGetVaults());
-  };
+    fetchData();
+  }, []);
 
-  const setCurrentVault = (vault: Vault) => {
-    dispatch(setActiveVault(vault));
-  };
-
-  return { vaults, getVaults, setVault: setCurrentVault };
+  return { vaults, isLoading, isError };
 };
 
 export default useVaults;

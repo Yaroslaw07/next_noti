@@ -1,33 +1,26 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "./Header";
-import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
-import useVaults from "@/lib/hooks/useVaults";
-import Backdrop from "../ui/Backdrop";
-import { Provider } from "react-redux";
-import store from "@/lib/store";
+import { FC, JSXElementConstructor, ReactElement } from "react";
+import ProtectedRoute from "../ProtectedRoute";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
 }
 
 const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
-  const { isLoading } = useVaults();
-
-  if (isLoading) {
-    return <Backdrop open={true} />;
-  }
-
   return (
-    <Grid container>
-      <Grid item>
-        <Sidebar />
+    <ProtectedRoute>
+      <Grid container>
+        <Grid item>
+          <Sidebar />
+        </Grid>
+        <Grid xs item>
+          <Header />
+          {children}
+        </Grid>
       </Grid>
-      <Grid xs item>
-        <Header />
-        {children}
-      </Grid>
-    </Grid>
+    </ProtectedRoute>
   );
 };
 

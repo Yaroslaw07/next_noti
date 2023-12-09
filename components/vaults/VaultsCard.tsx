@@ -9,25 +9,20 @@ import {
 import { FC } from "react";
 import theme from "@/lib/ui/theme";
 import { Icons } from "../Icons";
-import useVaults from "@/lib/hooks/useVaults";
 
 interface VaultsCardProps {
   vault: Vault;
 }
 
 const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
-  const { setVault } = useVaults();
-
-  const handleClick = () => {
-    setVault(vault);
-  };
+  const handleClick = () => {};
 
   return (
     <Card
       variant="outlined"
       sx={{
         backgroundColor: "secondary.main",
-        borderWidth: "1.5px",
+        borderWidth: "1px",
         borderColor: "primary.main",
         display: "flex",
         justifyContent: "space-between",

@@ -5,7 +5,7 @@ import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
 import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
-import LoginForm from "@/components/auth/loginForm";
+import LoginForm from "@/components/auth/LoginForm";
 import { useEffect, useState } from "react";
 import Backdrop from "@/components/ui/Backdrop";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -62,7 +62,7 @@ export default function LoginPage() {
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
-            height: "100vh",
+            height: "100dvh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",

@@ -1,46 +1,17 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Vault } from "@/types/vault";
-import { api, authApi } from "../api";
-
-interface VaultState {
-  vaults: Vault[] | null;
-  isLoaded: boolean;
-}
-
-const initialState: VaultState = {
-  vaults: null,
-  isLoaded: false,
-};
+import { authApi } from "../api";
 
 export const getVaults = createAsyncThunk<Vault[], void>(
   "vault/getVaults",
-  async (_, { dispatch }) => {
+  async (_, { rejectWithValue }) => {
     console.log("getVaults");
     try {
-      const response = await authApi.get("/vaults/");
-
-      dispatch(vaultSlice.actions.setVaults(response.data));
+      const response = await authApi.get<Vault[]>("/vaults/");
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching vaults:", error);
+      return rejectWithValue("Failed to fetch vaults");
     }
   }
 );
-
-const vaultSlice = createSlice({
-  name: "vault",
-  initialState: initialState,
-  reducers: {
-    setVaults: (state, action: PayloadAction<Vault[]>) => {
-      state.vaults = action.payload;
-      state.isLoaded = true;
-    },
-    setActiveVault: (state, action: PayloadAction<Vault>) => {
-      localStorage.setItem("activeVault", JSON.stringify(action.payload));
-    },
-  },
-});
-
-export const { setVaults, setActiveVault } = vaultSlice.actions;
-export default vaultSlice.reducer;

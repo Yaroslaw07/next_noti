@@ -64,7 +64,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          border: "2px solid",
+          border: "1px solid",
           borderColor: "primary.main",
           fontSize: "1rem",
         },

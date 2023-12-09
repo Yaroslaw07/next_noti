@@ -19,7 +19,7 @@ export default function WelcomePage() {
       <Container>
         <Stack
           spacing={0}
-          minHeight={"100vh"}
+          height={"100dvh"}
           alignItems="center"
           justifyContent="center"
           textAlign={"center"}
@@ -29,7 +29,7 @@ export default function WelcomePage() {
             variant="h1"
             sx={{
               lineHeight: "1",
-              fontWeight: "900",
+              fontWeight: "600",
               fontSize: { xs: "3.5rem", sm: "6rem", md: "7rem" },
             }}
           >
@@ -38,7 +38,7 @@ export default function WelcomePage() {
           <Typography
             variant="h4"
             sx={{
-              fontSize: { xs: "2rem", md: "2,25rem" },
+              fontSize: { xs: "1.8rem", md: "2,25rem" },
               lineHeight: "2.5rem",
               fontWeight: "500",
             }}

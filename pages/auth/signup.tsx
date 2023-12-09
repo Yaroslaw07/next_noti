@@ -2,7 +2,7 @@ import { Icons } from "@/components/Icons";
 import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import SignupForm from "@/components/auth/signupForm";
+import SignupForm from "@/components/auth/SignupForm";
 import Backdrop from "@/components/ui/Backdrop";
 import { useEffect, useState } from "react";
 import { useToast } from "@/lib/hooks/useToast";
@@ -63,7 +63,7 @@ export default function SignUpPage() {
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
-            height: "100vh",
+            height: "100dvh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",

@@ -1,19 +1,27 @@
-import { validateEmail, validatePassword } from "@/lib/validator";
-import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
+import { Box, Button, Link } from "@mui/material";
 import { FC } from "react";
-import EmailInputComponent from "./emailInput";
-import PasswordInputComponent from "./passwordInput";
+import {
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "@/lib/validator";
+import EmailInputComponent from "./EmailInput";
+import PasswordInputComponent from "./PasswordInput";
+import UsernameInputComponent from "./UsernameInput";
 
-interface LoginFormProps {
+interface SignupFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const LoginForm: FC<LoginFormProps> = ({ handleSubmit }) => {
+const SignupForm: FC<SignupFormProps> = ({ handleSubmit }) => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [emailErrorText, setEmailErrorText] = useState("");
   const [passwordErrorText, setPasswordErrorText] = useState("");
+  const [usernameErrorText, setUsernameErrorText] = useState("");
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -23,7 +31,16 @@ const LoginForm: FC<LoginFormProps> = ({ handleSubmit }) => {
     setPassword(value);
   };
 
+  const handleUsernameChange = (value: string) => {
+    setUsername(value);
+  };
+
   const validateInputs = () => {
+    const usernameError = validateUsername(username);
+    usernameError
+      ? setUsernameErrorText(usernameError)
+      : setUsernameErrorText("");
+
     const emailError = validateEmail(email);
     emailError ? setEmailErrorText(emailError) : setEmailErrorText("");
 
@@ -32,7 +49,7 @@ const LoginForm: FC<LoginFormProps> = ({ handleSubmit }) => {
       ? setPasswordErrorText(passwordError)
       : setPasswordErrorText("");
 
-    return emailError === "" && passwordError === "";
+    return usernameError === "" && emailError === "" && passwordError === "";
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,6 +74,10 @@ const LoginForm: FC<LoginFormProps> = ({ handleSubmit }) => {
         width: "100%",
       }}
     >
+      <UsernameInputComponent
+        onUsernameChange={handleUsernameChange}
+        usernameErrorText={usernameErrorText}
+      />
       <EmailInputComponent
         onEmailChange={handleEmailChange}
         emailErrorText={emailErrorText}
@@ -65,11 +86,12 @@ const LoginForm: FC<LoginFormProps> = ({ handleSubmit }) => {
         onPasswordChange={handlePasswordChange}
         passwordErrorText={passwordErrorText}
       />
+
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
-        Log In
+        Sign Up
       </Button>
     </Box>
   );
 };
 
-export default LoginForm;
+export default SignupForm;

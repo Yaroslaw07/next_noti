@@ -17,6 +17,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 
 export const Icons = {
   //logo
@@ -29,6 +30,9 @@ export const Icons = {
 
   //design
   KeyboardRight: KeyboardArrowRightOutlinedIcon,
+
+  //vaults
+  noVaults: DoNotDisturbAltOutlinedIcon,
 
   More: TbDots,
   NoNoteOpen: TbNotesOff,
