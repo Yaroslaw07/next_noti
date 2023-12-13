@@ -16,7 +16,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
+import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
 
 export const Icons = {
@@ -29,7 +29,7 @@ export const Icons = {
   Logout: LogoutOutlinedIcon,
 
   //design
-  KeyboardRight: KeyboardArrowRightOutlinedIcon,
+  KeyboardRight: ArrowCircleRightOutlinedIcon,
 
   //vaults
   noVaults: DoNotDisturbAltOutlinedIcon,

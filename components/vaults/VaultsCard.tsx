@@ -38,14 +38,14 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
       <CardContent sx={{ paddingY: "10px" }}>
         <Typography
           component="h4"
-          sx={{ fontSize: "1.3rem", fontWeight: "500" }}
+          sx={{ fontSize: "1.4rem", fontWeight: "500" }}
         >
           {vault.name}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton disableRipple>
-          <Icons.KeyboardRight color={"primary"} />
+          <Icons.KeyboardRight color={"primary"} sx={{ fontSize: "30px" }} />
         </IconButton>
       </CardActions>
     </Card>

@@ -2,11 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import currentNoteReducer from "./reducers/currentNote";
 import uiUpdateReducer from "./reducers/uiUpdate";
 import { useDispatch } from "react-redux";
-import authReducer from "./reducers/auth";
 
 const store = configureStore({
   reducer: {
-    auth: authReducer,
     uiUpdate: uiUpdateReducer,
     currentNote: currentNoteReducer,
   },

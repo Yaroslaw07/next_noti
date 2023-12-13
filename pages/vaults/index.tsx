@@ -4,9 +4,16 @@ import VaultsList from "@/components/vaults/VaultsList";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
 import { NextPageWithLayout } from "../_app";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import { Vault } from "@/types/vault";
+import { GetServerSidePropsContext } from "next";
 
-const VaultsPage: NextPageWithLayout = () => {
+interface VaultsPageProps {
+  vaults: Vault[] | null;
+}
+
+const VaultsPage: NextPageWithLayout<VaultsPageProps> = ({
+  vaults,
+}: VaultsPageProps) => {
   return (
     <>
       <Head>
@@ -55,7 +62,7 @@ const VaultsPage: NextPageWithLayout = () => {
               overflow: "auto",
             }}
           >
-            <VaultsList />
+            <VaultsList vaults={vaults} />
           </Box>
           <VaultsActions />
         </Stack>
@@ -65,7 +72,26 @@ const VaultsPage: NextPageWithLayout = () => {
 };
 
 VaultsPage.getLayout = (page) => {
-  return <ProtectedRoute>{page}</ProtectedRoute>;
+  return page;
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_API_URL}/vaults`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${context.req.cookies.accessToken}`,
+      },
+    }
+  ).then((res) => res.json());
+
+  return {
+    props: {
+      vaults: response ?? null,
+    },
+  };
+}
 
 export default VaultsPage;

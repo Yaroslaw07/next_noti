@@ -2,8 +2,8 @@ import { validateEmail, validatePassword } from "@/lib/validator";
 import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
 import { FC } from "react";
-import EmailInputComponent from "./EmailInput";
-import PasswordInputComponent from "./PasswordInput";
+import EmailInputComponent from "../form/EmailInput";
+import PasswordInputComponent from "../form/PasswordInput";
 
 interface LoginFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;

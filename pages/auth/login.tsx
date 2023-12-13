@@ -1,27 +1,23 @@
 import Head from "next/head";
 
-import { Box, Container, Typography } from "@mui/material";
-import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
-import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
 import LoginForm from "@/components/auth/LoginForm";
-import { useEffect, useState } from "react";
-import Backdrop from "@/components/ui/Backdrop";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { LoginCredentials } from "@/types/auth";
+import { NextPageWithLayout } from "../_app";
+import FormLayout from "@/components/form/layouts/FormPageLayout";
+import { Icons } from "@/components/Icons";
+import { Typography } from "@mui/material";
+import { useRouter } from "next/router";
 
-export default function LoginPage() {
+const LoginPage: NextPageWithLayout = () => {
   const router = useRouter();
 
-  const { login, status } = useAuth();
+  const { login } = useAuth();
   const { openToast } = useToast();
 
-  const [displayBackdrop, setDisplayBackdrop] = useState<boolean>(true);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    setDisplayBackdrop(true);
-
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
@@ -32,25 +28,9 @@ export default function LoginPage() {
       password,
     } as LoginCredentials);
 
-    if (!ok) {
-      openToast(message, "error");
-    }
+    openToast(message, ok ? "success" : "error");
+    ok && router.push("/auth/vault");
   };
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/vaults");
-      openToast("Signed up successfully", "success");
-    }
-
-    if (status === "unauthenticated") {
-      setDisplayBackdrop(false);
-    }
-
-    if (status === "loading") {
-      setDisplayBackdrop(true);
-    }
-  }, [status]);
 
   return (
     <>
@@ -58,43 +38,35 @@ export default function LoginPage() {
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
-      <Backdrop open={displayBackdrop} />
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            height: "100dvh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginX: "1rem",
-          }}
-        >
-          <Link href="../">
-            <Icons.Logo sx={{ fontSize: "135px" }} />
-          </Link>
-          <Typography
-            component="h1"
-            variant="h5"
-            sx={{
-              fontSize: "2.2rem",
-              fontWeight: "600",
-              marginTop: "0",
-              textAlign: "center",
-            }}
-          >
-            Login to Noti
-          </Typography>
-          <LoginForm handleSubmit={handleSubmit} />
-          <Link
-            href="/auth/signup"
-            variant="body2"
-            style={{ textAlign: "center", width: "100%" }}
-          >
-            {"Don't have an account? Sign Up"}
-          </Link>
-        </Box>
-      </Container>
+      <Link href="../">
+        <Icons.Logo sx={{ fontSize: "135px" }} />
+      </Link>
+      <Typography
+        component="h1"
+        variant="h5"
+        sx={{
+          fontSize: "2.2rem",
+          fontWeight: "600",
+          marginTop: "0",
+          textAlign: "center",
+        }}
+      >
+        Login to Noti
+      </Typography>
+      <LoginForm handleSubmit={handleSubmit} />
+      <Link
+        href="/auth/signup"
+        variant="body2"
+        style={{ textAlign: "center", width: "100%" }}
+      >
+        {"Don't have an account? Sign Up"}
+      </Link>
     </>
   );
-}
+};
+
+LoginPage.getLayout = (page: React.ReactNode) => (
+  <FormLayout>{page}</FormLayout>
+);
+
+export default LoginPage;

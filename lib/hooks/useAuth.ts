@@ -1,68 +1,64 @@
-import { RootState, useAppDispatch } from "../store";
-import auth, {
-  loginAsync,
-  signupAsync,
-  logoutAsync,
-  loadUser,
-} from "../reducers/auth";
 import { LoginCredentials, SignupCredentials } from "@/types/auth";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import axios, { AxiosError } from "axios";
 
 interface AuthOperationResponse {
   ok: boolean;
   message: string;
 }
 
+const authFetch = async (
+  url: string,
+  credentials?: any
+): Promise<AuthOperationResponse> => {
+  try {
+    await axios.post(url, credentials);
+
+    return {
+      ok: true,
+      message: "",
+    };
+  } catch (error) {
+    const err = error as AxiosError;
+
+    return {
+      ok: false,
+      message: (err.response?.data as { message: string }).message || "",
+    };
+  }
+};
+
 export const useAuth = () => {
-  const dispatch = useAppDispatch();
-  const { status, userLoaded } = useSelector((state: RootState) => state.auth);
-
-  useEffect(() => {
-    if (userLoaded) return;
-    dispatch(loadUser());
-  }, []);
-
   const login = async (
     credentials: LoginCredentials
   ): Promise<AuthOperationResponse> => {
-    try {
-      await dispatch(loginAsync(credentials)).unwrap();
-      return {
-        ok: true,
-        message: "Login successful",
-      };
-    } catch (error) {
-      return {
-        ok: false,
-        message: (error as string) || "Login failed",
-      };
-    }
+    return authFetch("/api/auth/login", credentials).then((res) =>
+      res.ok
+        ? { ok: true, message: "Login successful" }
+        : {
+            ok: false,
+            message: res.message !== " " ? res.message : "Login failed",
+          }
+    );
   };
 
   const signup = async (
     credentials: SignupCredentials
   ): Promise<AuthOperationResponse> => {
-    try {
-      await dispatch(signupAsync(credentials)).unwrap();
-      return {
-        ok: true,
-        message: "Signup successful",
-      };
-    } catch (error) {
-      return {
-        ok: false,
-        message: (error as string) || "Signup failed",
-      };
-    }
+    return authFetch("/api/auth/signup", credentials).then((res) =>
+      res.ok
+        ? { ok: true, message: "Login successful" }
+        : {
+            ok: false,
+            message: res.message !== "" ? res.message : "Login failed",
+          }
+    );
   };
 
-  const logout = () => {
-    dispatch(logoutAsync());
+  const logout = async () => {
+    await axios.post("/api/auth/logout");
   };
 
   return {
-    status,
     login,
     signup,
     logout,

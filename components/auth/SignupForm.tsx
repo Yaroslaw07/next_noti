@@ -6,9 +6,9 @@ import {
   validatePassword,
   validateUsername,
 } from "@/lib/validator";
-import EmailInputComponent from "./EmailInput";
-import PasswordInputComponent from "./PasswordInput";
-import UsernameInputComponent from "./UsernameInput";
+import EmailInputComponent from "../form/EmailInput";
+import PasswordInputComponent from "../form/PasswordInput";
+import UsernameInputComponent from "../form/UsernameInput";
 
 interface SignupFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;

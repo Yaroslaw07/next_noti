@@ -70,6 +70,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          marginTop: "4px",
+        },
+      },
+    },
   },
 });
 

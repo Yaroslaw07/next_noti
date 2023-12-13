@@ -7,14 +7,19 @@ import { useRouter } from "next/router";
 const VaultsActions = () => {
   const router = useRouter();
 
-  const handleNewVault = () => {
-    router.push("/vaults/new");
-  };
-
   const { logout } = useAuth();
 
+  const handleNewVault = () => {
+    console.log("New Vault");
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/auth/login");
+  };
+
   return (
-    <Box sx={{ width: "100%", height: "8rem", alignSelf: "flex-end" }}>
+    <Box sx={{ width: "100%", height: "100px", alignSelf: "flex-end" }}>
       <HR />
       <Grid container spacing={1} sx={{ marginTop: "6px", width: "102%" }}>
         <Grid item xs>
@@ -43,7 +48,7 @@ const VaultsActions = () => {
               height: "45px",
               borderColor: "primary.main",
             }}
-            onClick={logout}
+            onClick={handleLogout}
           >
             <Icons.Logout />
           </Button>

@@ -1,3 +1,11 @@
+export const validateVaultName = (vaultName: string) => {
+  if (vaultName.length < 3) {
+    return "Vault name must be at least 3 characters long";
+  }
+
+  return "";
+};
+
 export const validateUsername = (username: string) => {
   if (username.length < 3) {
     return "Username must be at least 3 characters long";
