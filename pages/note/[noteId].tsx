@@ -1,8 +1,8 @@
 import { getNotiLayout } from "@/components/noti/Layout";
 import Note from "@/components/noti/Note";
 import Backdrop from "@/components/ui/Backdrop";
-import { setCurrentNote } from "@/lib/reducers/currentNote";
-import { AppDispatch } from "@/lib/store";
+import { setCurrentNote } from "@/lib/store/reducers/currentNote";
+import { AppDispatch } from "@/lib/store/store";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

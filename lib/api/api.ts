@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import store from "./store";
+import store from "../store/store";
 import { parseCookies } from "nookies";
 import * as cookie from "cookie";
 

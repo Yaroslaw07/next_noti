@@ -30,7 +30,7 @@ const SignUpPage: NextPageWithLayout = () => {
     } as SignupCredentials);
 
     openToast(message, ok ? "success" : "error");
-    ok && router.push("/auth/vault");
+    ok && router.push("/vaults");
   };
 
   return (

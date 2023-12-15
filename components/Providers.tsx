@@ -1,4 +1,4 @@
-import store from "@/lib/store";
+import store from "@/lib/store/store";
 import createEmotionCache from "@/lib/ui/emotionCache";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { Provider } from "react-redux";

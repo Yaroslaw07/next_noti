@@ -4,8 +4,8 @@ import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Backdrop from "../ui/Backdrop";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/store";
-import { updateContent, updateTitle } from "@/lib/reducers/currentNote";
+import { AppDispatch } from "@/lib/store/store";
+import { updateContent, updateTitle } from "@/lib/store/reducers/currentNote";
 import { Socket, io } from "socket.io-client";
 import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
 

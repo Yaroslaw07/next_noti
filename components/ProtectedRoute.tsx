@@ -8,7 +8,6 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-  const { status } = useAuth();
   const router = useRouter();
 
   useEffect(() => {

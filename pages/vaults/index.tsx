@@ -5,7 +5,13 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
 import { NextPageWithLayout } from "../_app";
 import { Vault } from "@/types/vault";
-import { GetServerSidePropsContext } from "next";
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
+import { setCookie } from "nookies";
+import customFetch from "@/lib/api/fetch";
 
 interface VaultsPageProps {
   vaults: Vault[] | null;
@@ -76,20 +82,16 @@ VaultsPage.getLayout = (page) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_API_URL}/vaults`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${context.req.cookies.accessToken}`,
-      },
-    }
-  ).then((res) => res.json());
+  const response = await customFetch(context, "/vaults", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   return {
     props: {
-      vaults: response ?? null,
+      vaults: (await response?.json()) ?? null,
     },
   };
 }

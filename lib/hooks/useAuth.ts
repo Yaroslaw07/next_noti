@@ -46,10 +46,10 @@ export const useAuth = () => {
   ): Promise<AuthOperationResponse> => {
     return authFetch("/api/auth/signup", credentials).then((res) =>
       res.ok
-        ? { ok: true, message: "Login successful" }
+        ? { ok: true, message: "Signup successful" }
         : {
             ok: false,
-            message: res.message !== "" ? res.message : "Login failed",
+            message: res.message !== "" ? res.message : "Signup failed",
           }
     );
   };

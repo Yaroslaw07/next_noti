@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Vault } from "@/types/vault";
-import { authApi } from "../api";
+import { authApi } from "../../api/api";
 
 export const getVaults = createAsyncThunk<Vault[], void>(
   "vault/getVaults",

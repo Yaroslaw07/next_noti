@@ -19,7 +19,7 @@ const VaultsActions = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", height: "100px", alignSelf: "flex-end" }}>
+    <Box sx={{ width: "100%", height: "9rem", alignSelf: "flex-end" }}>
       <HR />
       <Grid container spacing={1} sx={{ marginTop: "6px", width: "102%" }}>
         <Grid item xs>

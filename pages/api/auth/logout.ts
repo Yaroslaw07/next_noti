@@ -1,6 +1,5 @@
-import axios, { AxiosError } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { destroyCookie, setCookie } from "nookies";
+import { setCookie } from "nookies";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {

@@ -1,46 +1,48 @@
-import axios, { AxiosError } from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { setCookie } from "nookies";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     res.status(405).end();
+    return;
   }
 
-  try {
-    const response = await axios.post(
-      process.env.NEXT_PUBLIC_APP_API_URL + "/auth/login",
-      {
-        email: req.body.email,
-        password: req.body.password,
-      }
-    );
+  const apiUrl = process.env.NEXT_PUBLIC_APP_API_URL + "/auth/login";
+  const response = await fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: req.body.email,
+      password: req.body.password,
+    }),
+  });
 
-    const { accessToken, refreshToken } = response.data;
-
-    if (!accessToken || !refreshToken) {
-      res.status(400).end("Invalid response from server");
-    }
-
-    setCookie({ res }, "accessToken", accessToken, {
-      maxAge: +process.env.ACCESS_TOKEN_EXP_TIME!,
-      path: "/",
-    });
-
-    setCookie({ res }, "refreshToken", refreshToken, {
-      maxAge: +process.env.REFRESH_TOKEN_EXP_TIME!,
-      path: "/",
-      httpOnly: true,
-    });
-
-    return res.status(200).json({ message: "Login successful" });
-  } catch (error) {
-    const err = error as AxiosError;
-    res.status(err.status || 500).json({
-      message:
-        (err.response?.data as { message: string }).message || "Login failed",
-    });
+  if (!response.ok) {
+    const errorMessage = await response.json();
+    res.status(response.status).json(errorMessage);
   }
+
+  const { accessToken, refreshToken } = await response.json();
+
+  if (!accessToken || !refreshToken) {
+    res.status(400).end("Invalid response from server");
+    return;
+  }
+
+  setCookie({ res }, "accessToken", accessToken, {
+    maxAge: +process.env.ACCESS_TOKEN_EXP_TIME!,
+    path: "/",
+  });
+
+  setCookie({ res }, "refreshToken", refreshToken, {
+    maxAge: +process.env.REFRESH_TOKEN_EXP_TIME!,
+    path: "/",
+    httpOnly: true,
+  });
+
+  return res.status(200).json({ message: "Login successful" });
 };
 
 export default handler;
