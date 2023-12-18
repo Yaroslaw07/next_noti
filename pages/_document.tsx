@@ -29,6 +29,12 @@ export default function MyDocument() {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff"></meta>
         <meta name="emotion-insertion-point" content="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk&family=Poppins&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

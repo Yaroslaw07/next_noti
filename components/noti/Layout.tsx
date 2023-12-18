@@ -2,7 +2,6 @@ import { Grid } from "@mui/material";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "./Header";
 import { FC, JSXElementConstructor, ReactElement } from "react";
-import ProtectedRoute from "../ProtectedRoute";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
@@ -10,17 +9,15 @@ interface NotiLayoutProps {
 
 const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
   return (
-    <ProtectedRoute>
-      <Grid container>
-        <Grid item>
-          <Sidebar />
-        </Grid>
-        <Grid xs item>
-          <Header />
-          {children}
-        </Grid>
+    <Grid container>
+      <Grid item>
+        <Sidebar />
       </Grid>
-    </ProtectedRoute>
+      <Grid xs item>
+        <Header />
+        {children}
+      </Grid>
+    </Grid>
   );
 };
 

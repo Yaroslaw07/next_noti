@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Link } from "@mui/material";
+import { Box, Button, Link, Stack } from "@mui/material";
 import { FC } from "react";
 import {
   validateEmail,
@@ -9,6 +9,7 @@ import {
 import EmailInputComponent from "../form/EmailInput";
 import PasswordInputComponent from "../form/PasswordInput";
 import UsernameInputComponent from "../form/UsernameInput";
+import HR from "../ui/HR";
 
 interface SignupFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -61,8 +62,9 @@ const SignupForm: FC<SignupFormProps> = ({ handleSubmit }) => {
   };
 
   return (
-    <Box
+    <Stack
       component="form"
+      spacing={1.5}
       onSubmit={onSubmit}
       noValidate
       sx={{
@@ -87,10 +89,11 @@ const SignupForm: FC<SignupFormProps> = ({ handleSubmit }) => {
         passwordErrorText={passwordErrorText}
       />
 
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
+      <HR />
+      <Button type="submit" fullWidth variant="contained">
         Sign Up
       </Button>
-    </Box>
+    </Stack>
   );
 };
 

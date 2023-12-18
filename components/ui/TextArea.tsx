@@ -1,4 +1,3 @@
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { TextareaAutosize, styled } from "@mui/material";
 import { FC } from "react";
 
@@ -32,8 +31,7 @@ interface TextAreaProps {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const TextArea: FC<TextAreaProps> = ({value,onChange}) => {
-
+const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
   return (
     <TextAreaAuto
       aria-label="empty textarea"
@@ -42,6 +40,6 @@ const TextArea: FC<TextAreaProps> = ({value,onChange}) => {
       onChange={onChange}
     />
   );
-}
+};
 
-export default TextArea
+export default TextArea;

@@ -3,15 +3,16 @@ import HR from "../ui/HR";
 import { Icons } from "../Icons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/router";
+import { FC } from "react";
 
-const VaultsActions = () => {
+interface VaultsActionsProps {
+  handleNewVault: () => void;
+}
+
+const VaultsActions: FC<VaultsActionsProps> = ({ handleNewVault }) => {
   const router = useRouter();
 
   const { logout } = useAuth();
-
-  const handleNewVault = () => {
-    console.log("New Vault");
-  };
 
   const handleLogout = async () => {
     await logout();

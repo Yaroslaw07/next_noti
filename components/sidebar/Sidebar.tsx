@@ -1,15 +1,15 @@
 import { Box } from "@mui/material";
 import { FC } from "react";
-import VaultModule from "./VaultModule";
+import VaultSidebar from "./VaultModule";
 import HR from "@/components/ui/HR";
 import SettingsModule from "./SettingsModule";
 import AddModule from "./AddModule";
 import NotesList from "./NotesList";
-import SidebarPaper from "./SidebarPaper";
+import SidebarWrapper from "./SidebarWrapper";
 
 const Sidebar: FC = () => {
   return (
-    <SidebarPaper>
+    <SidebarWrapper>
       <Box
         sx={{
           display: "flex",
@@ -19,14 +19,14 @@ const Sidebar: FC = () => {
           height: "100%",
         }}
       >
-        <VaultModule />
+        <VaultSidebar />
         <HR />
         <SettingsModule />
         <AddModule />
         <HR />
         <NotesList />
       </Box>
-    </SidebarPaper>
+    </SidebarWrapper>
   );
 };
 

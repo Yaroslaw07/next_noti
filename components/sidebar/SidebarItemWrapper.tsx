@@ -1,13 +1,15 @@
+import theme from "@/lib/ui/theme";
+import { BorderAllRounded } from "@mui/icons-material";
 import { Box, ButtonBase, SxProps } from "@mui/material";
 import React, { FC } from "react";
 
-interface SidebarModuleProps {
+interface SidebarWrapperProps {
   children: React.ReactNode;
   sx?: SxProps;
   onClick?: (event?: any) => void;
 }
 
-const defaultSidebarModuleSx = {
+const defaultSidebarWrapperSx = {
   height: "40px",
   width: "100%",
 
@@ -15,27 +17,25 @@ const defaultSidebarModuleSx = {
   alignContent: "center",
   alignItems: "center",
   justifyItems: "center",
-  gap: "8px",
+  gap: "16px",
 
   margin: "auto 0",
 
-  borderTopRightRadius: "8px",
-  borderBottomRightRadius: "8px",
+  borderRadius: "8px",
 
   paddingX: "12px",
   paddingY: "5px",
 
   transition: "box-shadow 0.3s ease",
   "&:hover": {
-    backgroundColor: "#d6d6d6",
+    backgroundColor: `${theme.palette.additional?.dark} !important`,
   },
 
   cursor: "pointer",
 };
 
-const SidebarModule: FC<SidebarModuleProps> = ({ children, sx, onClick }) => {
-  
-  const mergedSx = { ...defaultSidebarModuleSx, ...sx };
+const SidebarWrapper: FC<SidebarWrapperProps> = ({ children, sx, onClick }) => {
+  const mergedSx = { ...defaultSidebarWrapperSx, ...sx };
 
   return (
     <ButtonBase
@@ -48,4 +48,4 @@ const SidebarModule: FC<SidebarModuleProps> = ({ children, sx, onClick }) => {
   );
 };
 
-export default SidebarModule;
+export default SidebarWrapper;

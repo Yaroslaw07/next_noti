@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  IconButton,
+  InputAdornment,
+  TextField,
+  TextFieldPropsSizeOverrides,
+} from "@mui/material";
 import { Icons } from "../Icons";
 
 interface PasswordInputProps {
@@ -28,6 +33,7 @@ const PasswordInputComponent: React.FC<PasswordInputProps> = ({
   return (
     <TextField
       margin="normal"
+      size="small"
       fullWidth
       name="password"
       label="Password"

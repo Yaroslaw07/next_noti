@@ -1,14 +1,3 @@
-import {
-  TbDots,
-  TbNotesOff,
-  TbDoor,
-  TbSettings,
-  TbPlus,
-  TbNotes,
-  TbTrash,
-  TbLogout2,
-} from "react-icons/tb";
-
 import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
@@ -17,11 +6,22 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
-import DoNotDisturbAltOutlinedIcon from "@mui/icons-material/DoNotDisturbAltOutlined";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
+import styled from "@emotion/styled";
+
+const StyledIcon = (IconComponent: any, width: number) =>
+  styled(IconComponent)(() => ({
+    stroke: "#ffff",
+    strokeWidth: width,
+  }));
 
 export const Icons = {
   //logo
-  Logo: CollectionsBookmarkOutlinedIcon,
+  Logo: StyledIcon(CollectionsBookmarkOutlinedIcon, 0.7),
 
   //auth
   ShowPassword: VisibilityOutlinedIcon,
@@ -29,22 +29,21 @@ export const Icons = {
   Logout: LogoutOutlinedIcon,
 
   //design
-  KeyboardRight: ArrowCircleRightOutlinedIcon,
+  KeyboardRight: StyledIcon(ArrowCircleRightOutlinedIcon, 0.4),
+  Empty: ClearOutlinedIcon,
 
   //vaults
-  noVaults: DoNotDisturbAltOutlinedIcon,
+  ChangeVault: ExitToAppOutlinedIcon,
 
-  More: TbDots,
-  NoNoteOpen: TbNotesOff,
-  Vault: TbDoor,
-  Settings: TbSettings,
-  NewNote: TbPlus,
+  //notes
+  ListOfNotes: DnsOutlinedIcon,
 
-  Plus: AddCircleOutlinedIcon,
+  // options
+  More: MoreHorizOutlinedIcon,
+  Settings: SettingsOutlinedIcon,
 
   //crud operations
   Delete: DeleteOutlineOutlinedIcon,
   Edit: EditOutlinedIcon,
-
-  ClearNote: TbNotes,
+  Plus: AddCircleOutlinedIcon,
 };

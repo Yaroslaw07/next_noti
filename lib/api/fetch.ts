@@ -11,20 +11,23 @@ async function customFetch(
   let accessToken = cookies.accessToken;
 
   if (!accessToken) {
-    const refreshTokenResponse = await refreshTokens(ctx.req, ctx.res);
+    const refreshTokenResponse = cookies.refreshToken
+      ? await refreshTokens(ctx.req, ctx.res)
+      : null;
 
-    if (!refreshTokenResponse.ok) {
+    if (!cookies.refreshToken && !refreshTokenResponse!.ok) {
       ctx.res.writeHead(302, { Location: "/auth/login" });
       ctx.res.end();
       return;
     }
 
-    accessToken = refreshTokenResponse.accessToken!;
+    accessToken = refreshTokenResponse!.accessToken!;
   }
 
   options.headers = {
     ...options.headers,
     Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
   };
 
   let response = await fetch(

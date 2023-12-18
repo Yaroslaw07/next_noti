@@ -1,14 +1,16 @@
 import { Menu, MenuItem, Typography } from "@mui/material";
 import { Icons } from "../Icons";
-import useVaults from "@/lib/hooks/useVaults";
-import SidebarModule from "./SidebarModule";
+import { useVaults } from "@/lib/hooks/useVaults";
+import SidebarWrapper from "./SidebarItemWrapper";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/hooks/useAuth";
 
-const VaultModule = () => {
-  const { currentVault } = useVaults();
+const VaultSidebar = () => {
   const router = useRouter();
+
+  const { logout } = useAuth();
+  const { currentVault } = useVaults();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -16,8 +18,13 @@ const VaultModule = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleChangeVault = () => {
+    router.push("/vaults");
+  };
+
   const handleLogout = () => {
-    signOut();
+    logout();
+    router.push("/auth/login");
   };
 
   const handleClose = () => {
@@ -26,15 +33,12 @@ const VaultModule = () => {
 
   return (
     <>
-      <SidebarModule onClick={handleClick}>
-        <Icons.Vault size={25} />
-        <Typography
-          variant="subtitle1"
-          sx={{ fontSize: "1.2rem", paddingTop: "5px" }}
-        >
+      <SidebarWrapper onClick={handleClick}>
+        <Icons.Logo sx={{ fontSize: "30px" }} />
+        <Typography variant="subtitle1" sx={{ fontSize: "1.4rem" }}>
           {currentVault?.name}
         </Typography>
-      </SidebarModule>
+      </SidebarWrapper>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -53,9 +57,24 @@ const VaultModule = () => {
             paddingX: "4px",
             paddingY: "0px",
           }}
+          onClick={handleChangeVault}
+        >
+          <Icons.Logout />
+          <Typography variant="subtitle1" sx={{ fontSize: "1rem" }}>
+            Change vault
+          </Typography>
+        </MenuItem>
+        <MenuItem
+          sx={{
+            width: "180px",
+            display: "flex",
+            gap: "8px",
+            paddingX: "4px",
+            paddingY: "0px",
+          }}
           onClick={handleLogout}
         >
-          <Icons.Logout size={25} />
+          <Icons.Logout />
           <Typography variant="subtitle1" sx={{ fontSize: "1rem" }}>
             Logout
           </Typography>
@@ -65,4 +84,4 @@ const VaultModule = () => {
   );
 };
 
-export default VaultModule;
+export default VaultSidebar;

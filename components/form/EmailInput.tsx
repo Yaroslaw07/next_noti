@@ -17,11 +17,18 @@ const EmailInputComponent: React.FC<EmailInputProps> = ({
   return (
     <TextField
       margin="normal"
+      size="small"
       fullWidth
       id="email"
       label="Email Address"
       name="email"
       autoComplete="email"
+      // inputProps={{
+      //   style: {
+      //     // height: "2rem",
+      //     fontSize: "1.5rem",
+      //   },
+      // }}
       error={!!emailErrorText}
       helperText={emailErrorText}
       onChange={handleEmailChange}

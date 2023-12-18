@@ -1,7 +1,5 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import store from "../store/store";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { parseCookies } from "nookies";
-import * as cookie from "cookie";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_APP_API_URL || "http://localhost:3535",
@@ -10,37 +8,30 @@ const api = axios.create({
   },
 });
 
-const authApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_APP_API_URL || "http://localhost:3535",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+api.interceptors.request.use(
+  async (config): Promise<InternalAxiosRequestConfig<any>> => {
+    const accessToken = parseCookies().accessToken;
 
-authApi.interceptors.request.use((config) => {
-  config.headers!["Authorization"] = `Bearer ${
-    window === undefined
-      ? parseCookies().accessToken
-      : cookie.parse(config.headers.cookie || "").accessToken
-  }`;
-  return config;
-});
-
-authApi.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config as AxiosRequestConfig;
-
-    if (error.response?.status === 401) {
-      try {
-        return api(originalRequest);
-      } catch (refreshError) {
-        throw refreshError;
-      }
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+      return config;
     }
 
-    throw error;
+    const response = await fetch("/api/auth/refresh", {
+      method: "POST",
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new AxiosError(data.message, response.status.toString(), config);
+    }
+
+    config.headers["Authorization"] = `Bearer ${data.accessToken}`;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
 );
 
-export { api, authApi };
+export default api;

@@ -14,12 +14,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  const { ok } = await refreshTokens(req, res);
+  const { ok, accessToken } = await refreshTokens(req, res);
 
   if (!ok) {
     return res.status(401).json({ message: "Unauthorized" });
   } else {
-    return res.status(200).json({ message: "Refresh successful" });
+    return res
+      .status(200)
+      .json({ message: "Refresh successful", accessToken: accessToken });
   }
 };
 

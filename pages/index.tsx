@@ -24,12 +24,20 @@ export default function WelcomePage() {
           justifyContent="center"
           textAlign={"center"}
         >
-          <Icons.Logo sx={{ fontSize: { xs: "160px", md: "200px" } }} />
+          <Icons.Logo
+            sx={{
+              fontSize: {
+                xs: "160px",
+                md: "200px",
+              },
+            }}
+          />
           <Typography
             variant="h1"
             sx={{
               lineHeight: "1",
-              fontWeight: "600",
+              fontWeight: "500",
+              marginTop: "-0.5rem",
               fontSize: { xs: "3.5rem", sm: "6rem", md: "7rem" },
             }}
           >
@@ -40,10 +48,21 @@ export default function WelcomePage() {
             sx={{
               fontSize: { xs: "1.8rem", md: "2,25rem" },
               lineHeight: "2.5rem",
-              fontWeight: "500",
+              fontWeight: "400",
             }}
           >
-            {"Let's create some notes"}
+            {"Let's create some "}
+            <Typography
+              component="span"
+              sx={{
+                fontSize: { xs: "1.8rem", md: "2,25rem" },
+                lineHeight: "2.5rem",
+                fontWeight: "400",
+                textDecoration: "underline",
+              }}
+            >
+              {"notes"}
+            </Typography>
           </Typography>
           <Stack
             direction={"row"}

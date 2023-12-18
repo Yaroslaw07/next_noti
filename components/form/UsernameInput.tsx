@@ -21,6 +21,7 @@ const UsernameInputComponent: React.FC<UsernameInputProps> = ({
   return (
     <TextField
       margin="normal"
+      size="small"
       fullWidth
       id="username"
       label="Username"

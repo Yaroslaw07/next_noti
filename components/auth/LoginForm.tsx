@@ -1,9 +1,10 @@
 import { validateEmail, validatePassword } from "@/lib/validator";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { FC } from "react";
 import EmailInputComponent from "../form/EmailInput";
 import PasswordInputComponent from "../form/PasswordInput";
+import HR from "../ui/HR";
 
 interface LoginFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -44,8 +45,9 @@ const LoginForm: FC<LoginFormProps> = ({ handleSubmit }) => {
   };
 
   return (
-    <Box
+    <Stack
       component="form"
+      spacing={1.5}
       onSubmit={onSubmit}
       noValidate
       sx={{
@@ -65,10 +67,11 @@ const LoginForm: FC<LoginFormProps> = ({ handleSubmit }) => {
         onPasswordChange={handlePasswordChange}
         passwordErrorText={passwordErrorText}
       />
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
+      <HR />
+      <Button type="submit" fullWidth variant="contained">
         Log In
       </Button>
-    </Box>
+    </Stack>
   );
 };
 

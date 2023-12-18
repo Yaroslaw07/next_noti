@@ -16,18 +16,18 @@ declare module "@mui/material/styles" {
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#262626", //black
-      dark: "#404040",
+      main: "#3a3a3a", //black
+      dark: "#474747",
     },
     secondary: {
       main: "#fafafa", // white
       dark: "#e4e4e7",
     },
     additional: {
-      dark: "#262626",
+      dark: "#d6d6d6",
       contrastText: "#fafafa",
       main: "#ededed",
-      light: "#f2f2f2",
+      light: "#fafafa",
     },
 
     text: {
@@ -40,6 +40,9 @@ const theme = createTheme({
   shape: {
     borderRadius: 8,
   },
+  typography: {
+    fontFamily: "Poppins, Space Grotesk, sans-serif",
+  },
   components: {
     MuiCssBaseline: {
       styleOverrides: {},
@@ -47,7 +50,7 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          color: "primary.main",
+          color: "#262626",
         },
       },
     },
@@ -63,9 +66,9 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: "none",
+          textTransform: "capitalize",
           border: "1px solid",
-          borderColor: "primary.main",
+          borderColor: "#262626",
           fontSize: "1rem",
         },
       },
@@ -74,6 +77,25 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           marginTop: "4px",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          height: "30px",
+          fontSize: "1.1rem",
+          display: "flex",
+          "&::placeholder": {
+            fontSize: "40px",
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: "1.1rem",
         },
       },
     },

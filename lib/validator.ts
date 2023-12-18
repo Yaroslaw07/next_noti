@@ -15,6 +15,8 @@ export const validateUsername = (username: string) => {
 };
 
 export const validateEmail = (email: string): string => {
+  if (email === "") return "Email must be not empty";
+
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!regex.test(email)) {

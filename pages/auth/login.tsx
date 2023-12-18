@@ -8,8 +8,9 @@ import { LoginCredentials } from "@/types/auth";
 import { NextPageWithLayout } from "../_app";
 import FormLayout from "@/components/form/layouts/FormPageLayout";
 import { Icons } from "@/components/Icons";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import HR from "@/components/ui/HR";
 
 const LoginPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -38,25 +39,27 @@ const LoginPage: NextPageWithLayout = () => {
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
-      <Link href="../">
-        <Icons.Logo sx={{ fontSize: "135px" }} />
-      </Link>
-      <Typography
-        component="h1"
-        variant="h5"
-        sx={{
-          fontSize: "2.2rem",
-          fontWeight: "600",
-          marginTop: "0",
-          textAlign: "center",
-        }}
-      >
-        Login to Noti
-      </Typography>
+      <Box>
+        <Link href="../">
+          <Icons.Logo sx={{ fontSize: "135px" }} />
+        </Link>
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{
+            fontSize: "2.4rem",
+            fontWeight: "500",
+            marginTop: "-0.5rem",
+            textAlign: "center",
+          }}
+        >
+          Log In
+        </Typography>
+      </Box>
       <LoginForm handleSubmit={handleSubmit} />
       <Link
         href="/auth/signup"
-        variant="body2"
+        variant="subtitle1"
         style={{ textAlign: "center", width: "100%" }}
       >
         {"Don't have an account? Sign Up"}

@@ -1,7 +1,7 @@
 import { Icons } from "@/components/Icons";
 import { Typography } from "@mui/material";
-import SidebarModule from "./SidebarModule";
-import useVaults from "@/lib/hooks/useVaults";
+import SidebarWrapper from "./SidebarItemWrapper";
+import { useVaults } from "@/lib/hooks/useVaults";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
@@ -31,10 +31,10 @@ const AddModule: FC = () => {
   };
 
   return (
-    <SidebarModule onClick={handleClick}>
-      <Icons.NewNote size={20} />
+    <SidebarWrapper onClick={handleClick}>
+      <Icons.Plus sx={{ fontSize: "24px" }} />
       <Typography variant="subtitle1">New Note</Typography>
-    </SidebarModule>
+    </SidebarWrapper>
   );
 };
 

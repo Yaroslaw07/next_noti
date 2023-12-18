@@ -1,5 +1,5 @@
 import { Icons } from "@/components/Icons";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import SignupForm from "@/components/auth/SignupForm";
@@ -39,25 +39,27 @@ const SignUpPage: NextPageWithLayout = () => {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <Link href="../">
-        <Icons.Logo sx={{ fontSize: "135px" }} />
-      </Link>
-      <Typography
-        component="h1"
-        variant="h5"
-        sx={{
-          fontSize: "2.2rem",
-          fontWeight: "600",
-          marginTop: "0",
-          textAlign: "center",
-        }}
-      >
-        Login to Noti
-      </Typography>
+      <Box>
+        <Link href="../">
+          <Icons.Logo sx={{ fontSize: "135px" }} />
+        </Link>
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{
+            fontSize: "2.4rem",
+            fontWeight: "500",
+            marginTop: "-0.5rem",
+            textAlign: "center",
+          }}
+        >
+          Sign Up
+        </Typography>
+      </Box>
       <SignupForm handleSubmit={handleSubmit} />
       <Link
         href="login"
-        variant="body2"
+        variant="subtitle1"
         style={{ textAlign: "center", width: "100%" }}
       >
         {"Already have an account? Log In"}

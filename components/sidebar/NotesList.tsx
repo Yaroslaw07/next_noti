@@ -1,9 +1,9 @@
 import { List, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
-import SidebarModule from "./SidebarModule";
+import SidebarWrapper from "./SidebarItemWrapper";
 import Link from "@/components/ui/Link";
-import useVaults from "@/lib/hooks/useVaults";
+import { useVaults } from "@/lib/hooks/useVaults";
 import { FC, useEffect, useState } from "react";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
@@ -42,16 +42,16 @@ const NotesList: FC = () => {
   return (
     <>
       <Link href="/note" sx={{ textDecoration: "none", paddingBottom: "0px" }}>
-        <SidebarModule
+        <SidebarWrapper
           sx={{
             gap: "6px",
             fontSize: "1.2rem",
             paddingLeft: "8px",
           }}
         >
-          <Icons.Logo size={30} />
+          <Icons.Logo />
           <Typography variant="h5">My notes</Typography>
-        </SidebarModule>
+        </SidebarWrapper>
       </Link>
 
       {!notes && !currentNote ? (

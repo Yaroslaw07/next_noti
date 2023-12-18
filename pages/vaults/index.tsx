@@ -5,27 +5,28 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
 import { NextPageWithLayout } from "../_app";
 import { Vault } from "@/types/vault";
-import {
-  GetServerSidePropsContext,
-  NextApiRequest,
-  NextApiResponse,
-} from "next";
-import { setCookie } from "nookies";
+import { GetServerSidePropsContext } from "next";
 import customFetch from "@/lib/api/fetch";
+import NewVaultModal from "@/components/vaults/NewVaultModal";
+import { FC, useState } from "react";
 
 interface VaultsPageProps {
   vaults: Vault[] | null;
 }
 
-const VaultsPage: NextPageWithLayout<VaultsPageProps> = ({
-  vaults,
-}: VaultsPageProps) => {
+const VaultsPage: FC<VaultsPageProps> = ({ vaults }: VaultsPageProps) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleModalOpen = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
+
   return (
     <>
       <Head>
         <title></title>
         <meta name="description" content="Noti" />
       </Head>
+      <NewVaultModal isOpen={isModalOpen} handleClose={handleModalClose} />
       <Container component="main" maxWidth="xs">
         <Stack
           spacing={1.5}
@@ -52,7 +53,7 @@ const VaultsPage: NextPageWithLayout<VaultsPageProps> = ({
               component="h1"
               variant="h3"
               sx={{
-                fontWeight: "600",
+                fontWeight: "500",
                 textAlign: "center",
                 fontSize: { xs: "2rem", sm: "2.2rem" },
               }}
@@ -70,23 +71,16 @@ const VaultsPage: NextPageWithLayout<VaultsPageProps> = ({
           >
             <VaultsList vaults={vaults} />
           </Box>
-          <VaultsActions />
+          <VaultsActions handleNewVault={handleModalOpen} />
         </Stack>
       </Container>
     </>
   );
 };
 
-VaultsPage.getLayout = (page) => {
-  return page;
-};
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const response = await customFetch(context, "/vaults", {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 
   return {

@@ -16,10 +16,11 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children }) => {
           sx={{
             height: "100dvh",
             display: "flex",
+            gap: "0.5rem",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            marginX: "1rem",
+            marginX: { xs: "1rem", sm: "1.5rem" },
           }}
         >
           {children}

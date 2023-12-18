@@ -1,15 +1,10 @@
 import { LoginCredentials, SignupCredentials } from "@/types/auth";
 import axios, { AxiosError } from "axios";
 
-interface AuthOperationResponse {
-  ok: boolean;
-  message: string;
-}
-
 const authFetch = async (
   url: string,
   credentials?: any
-): Promise<AuthOperationResponse> => {
+): Promise<HookOperationResponse> => {
   try {
     await axios.post(url, credentials);
 
@@ -30,7 +25,7 @@ const authFetch = async (
 export const useAuth = () => {
   const login = async (
     credentials: LoginCredentials
-  ): Promise<AuthOperationResponse> => {
+  ): Promise<HookOperationResponse> => {
     return authFetch("/api/auth/login", credentials).then((res) =>
       res.ok
         ? { ok: true, message: "Login successful" }
@@ -43,7 +38,7 @@ export const useAuth = () => {
 
   const signup = async (
     credentials: SignupCredentials
-  ): Promise<AuthOperationResponse> => {
+  ): Promise<HookOperationResponse> => {
     return authFetch("/api/auth/signup", credentials).then((res) =>
       res.ok
         ? { ok: true, message: "Signup successful" }

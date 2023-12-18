@@ -21,7 +21,6 @@ const NoNotePage: NextPageWithLayout = () => {
 
   return (
     <>
-      <MyBackdrop open={status === "loading"} />
       <NoNote />
     </>
   );

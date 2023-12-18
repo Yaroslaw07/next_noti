@@ -1,19 +1,14 @@
 import { Icons } from "@/components/Icons";
-import { Typography } from "@mui/material"
-import SidebarModule from "./SidebarModule";
-
+import { Typography } from "@mui/material";
+import SidebarWrapper from "./SidebarItemWrapper";
 
 const SettingsModule = () => {
-    return (
-      <SidebarModule>
-        <Icons.Settings size={20} />
-        <Typography
-          variant="subtitle1"
-        >
-          Settings
-        </Typography>
-      </SidebarModule>
-    );
-}
+  return (
+    <SidebarWrapper>
+      <Icons.Settings size={20} />
+      <Typography variant="subtitle1">Settings</Typography>
+    </SidebarWrapper>
+  );
+};
 
 export default SettingsModule;
