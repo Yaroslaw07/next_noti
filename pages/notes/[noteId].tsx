@@ -1,5 +1,5 @@
-import { getNotiLayout } from "@/components/noti/Layout";
-import Note from "@/components/noti/Note";
+import { getNotiLayout } from "@/components/notes/Layout";
+import Note from "@/components/notes/Note";
 import Backdrop from "@/components/ui/Backdrop";
 import { setCurrentNote } from "@/lib/store/reducers/currentNote";
 import { AppDispatch } from "@/lib/store/store";

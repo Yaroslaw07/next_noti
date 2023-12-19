@@ -1,12 +1,12 @@
 import { Icons } from "@/components/Icons";
 import { Typography } from "@mui/material";
-import SidebarWrapper from "./SidebarItemWrapper";
+import SidebarWrapper from "./SidebarItem";
 import { useVaults } from "@/lib/hooks/useVaults";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
 
-const AddModule: FC = () => {
+const NewNoteModule: FC = () => {
   const router = useRouter();
   const { setToNotesListUpdate } = useNotesListUpdate();
   const { currentVault } = useVaults();
@@ -31,11 +31,12 @@ const AddModule: FC = () => {
   };
 
   return (
-    <SidebarWrapper onClick={handleClick}>
-      <Icons.Plus sx={{ fontSize: "24px" }} />
-      <Typography variant="subtitle1">New Note</Typography>
-    </SidebarWrapper>
+    <SidebarWrapper
+      onClick={handleClick}
+      Icon={Icons.newNote}
+      title={"New Note"}
+    ></SidebarWrapper>
   );
 };
 
-export default AddModule;
+export default NewNoteModule;

@@ -4,9 +4,9 @@ const HR = () => {
   return (
     <Box
       sx={{
-        width: "50%",
-        minHeight: "2px",
-        backgroundColor: "primary.main",
+        width: "33%",
+        minHeight: "2.5px",
+        backgroundColor: "text.secondary",
         margin: "0 auto",
       }}
     />

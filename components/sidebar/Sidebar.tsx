@@ -3,7 +3,7 @@ import { FC } from "react";
 import VaultSidebar from "./VaultModule";
 import HR from "@/components/ui/HR";
 import SettingsModule from "./SettingsModule";
-import AddModule from "./AddModule";
+import NewNoteModule from "./NewNoteModule";
 import NotesList from "./NotesList";
 import SidebarWrapper from "./SidebarWrapper";
 
@@ -22,7 +22,7 @@ const Sidebar: FC = () => {
         <VaultSidebar />
         <HR />
         <SettingsModule />
-        <AddModule />
+        <NewNoteModule />
         <HR />
         <NotesList />
       </Box>

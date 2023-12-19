@@ -36,7 +36,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
         display: "flex",
         justifyContent: "space-between",
         height: "55px",
-        boxShadow: "0 3px 5px 2px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0 1px 0px 1px rgba(0, 0, 0, 0.1)",
         "&:hover": {
           backgroundColor: `${theme.palette.additional?.main} !important`,
           cursor: "pointer",

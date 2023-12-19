@@ -1,7 +1,7 @@
 import { Menu, MenuItem, Typography } from "@mui/material";
 import { Icons } from "../Icons";
 import { useVaults } from "@/lib/hooks/useVaults";
-import SidebarWrapper from "./SidebarItemWrapper";
+import SidebarWrapper from "./SidebarItem";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -33,12 +33,12 @@ const VaultSidebar = () => {
 
   return (
     <>
-      <SidebarWrapper onClick={handleClick}>
-        <Icons.Logo sx={{ fontSize: "30px" }} />
-        <Typography variant="subtitle1" sx={{ fontSize: "1.4rem" }}>
-          {currentVault?.name}
-        </Typography>
-      </SidebarWrapper>
+      <SidebarWrapper
+        onClick={handleClick}
+        Icon={Icons.Vault}
+        title={currentVault?.name!}
+      ></SidebarWrapper>
+      <Typography variant="subtitle1" sx={{ fontSize: "1.4rem" }}></Typography>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

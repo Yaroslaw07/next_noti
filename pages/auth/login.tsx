@@ -11,6 +11,7 @@ import { Icons } from "@/components/Icons";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import HR from "@/components/ui/HR";
+import AuthTitle from "@/components/auth/AuthTitle";
 
 const LoginPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -39,23 +40,7 @@ const LoginPage: NextPageWithLayout = () => {
         <title>Login to Noti</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
-      <Box>
-        <Link href="../">
-          <Icons.Logo sx={{ fontSize: "135px" }} />
-        </Link>
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{
-            fontSize: "2.4rem",
-            fontWeight: "500",
-            marginTop: "-0.5rem",
-            textAlign: "center",
-          }}
-        >
-          Log In
-        </Typography>
-      </Box>
+      <AuthTitle title="Log In" />
       <LoginForm handleSubmit={handleSubmit} />
       <Link
         href="/auth/signup"

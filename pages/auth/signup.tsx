@@ -9,6 +9,7 @@ import { SignupCredentials } from "@/types/auth";
 import Link from "@/components/ui/Link";
 import { NextPageWithLayout } from "../_app";
 import FormLayout from "@/components/form/layouts/FormPageLayout";
+import AuthTitle from "@/components/auth/AuthTitle";
 
 const SignUpPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -39,23 +40,7 @@ const SignUpPage: NextPageWithLayout = () => {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <Box>
-        <Link href="../">
-          <Icons.Logo sx={{ fontSize: "135px" }} />
-        </Link>
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{
-            fontSize: "2.4rem",
-            fontWeight: "500",
-            marginTop: "-0.5rem",
-            textAlign: "center",
-          }}
-        >
-          Sign Up
-        </Typography>
-      </Box>
+      <AuthTitle title="Sign up" />
       <SignupForm handleSubmit={handleSubmit} />
       <Link
         href="login"

@@ -72,13 +72,13 @@ const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
           component="h1"
           variant="h5"
           sx={{
-            fontSize: "1.8rem",
-            fontWeight: "600",
+            fontSize: "1.6rem",
+            fontWeight: "500",
             marginTop: "0",
             textAlign: "center",
           }}
         >
-          Enter name for new vault
+          {"New vault's name"}
         </Typography>
         <TextField
           fullWidth

@@ -1,7 +1,7 @@
-import { getNotiLayout } from "@/components/noti/Layout";
+import { getNotiLayout } from "@/components/notes/Layout";
 import { useRouter } from "next/router";
 import MyBackdrop from "@/components/ui/Backdrop";
-import NoNote from "@/components/noti/NoNote";
+import NoNote from "@/components/notes/NoNote";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store/store";
 import { setCurrentNote } from "@/lib/store/reducers/currentNote";

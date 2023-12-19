@@ -61,7 +61,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
           }),
         }}
       >
-        <Icons.ClearNote size={26} />
+        <Icons.Delete />
         <ListItemText>{active ? title : note.title}</ListItemText>
 
         <IconButton
@@ -75,7 +75,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
             display: "none",
           }}
         >
-          <Icons.DeleteNote size={18} />
+          <Icons.Delete />
         </IconButton>
       </ListItem>
     </Link>

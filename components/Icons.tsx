@@ -11,6 +11,9 @@ import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
+import NoteAddOutlinedIcon from "@mui/icons-material/NoteAddOutlined";
+import DoorFrontOutlinedIcon from "@mui/icons-material/DoorFrontOutlined";
+
 import styled from "@emotion/styled";
 
 const StyledIcon = (IconComponent: any, width: number) =>
@@ -34,9 +37,11 @@ export const Icons = {
 
   //vaults
   ChangeVault: ExitToAppOutlinedIcon,
+  Vault: DoorFrontOutlinedIcon,
 
   //notes
   ListOfNotes: DnsOutlinedIcon,
+  newNote: NoteAddOutlinedIcon,
 
   // options
   More: MoreHorizOutlinedIcon,

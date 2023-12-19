@@ -1,7 +1,7 @@
 import { List, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
-import SidebarWrapper from "./SidebarItemWrapper";
+import SidebarWrapper from "./SidebarItem";
 import Link from "@/components/ui/Link";
 import { useVaults } from "@/lib/hooks/useVaults";
 import { FC, useEffect, useState } from "react";
@@ -43,15 +43,9 @@ const NotesList: FC = () => {
     <>
       <Link href="/note" sx={{ textDecoration: "none", paddingBottom: "0px" }}>
         <SidebarWrapper
-          sx={{
-            gap: "6px",
-            fontSize: "1.2rem",
-            paddingLeft: "8px",
-          }}
-        >
-          <Icons.Logo />
-          <Typography variant="h5">My notes</Typography>
-        </SidebarWrapper>
+          Icon={Icons.ListOfNotes}
+          title={"My notes"}
+        ></SidebarWrapper>
       </Link>
 
       {!notes && !currentNote ? (
