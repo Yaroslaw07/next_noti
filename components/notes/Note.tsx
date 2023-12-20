@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store/store";
 import { updateContent, updateTitle } from "@/lib/store/reducers/currentNote";
 import { Socket, io } from "socket.io-client";
-import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
+import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 
 let socket: Socket;
 
@@ -15,53 +15,53 @@ const Note = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { note, status } = useCurrentNote();
-  const { setToNotesListUpdate } = useNotesListUpdate();
+  const { setToNotesListUpdate } = useUiUpdate();
 
   const [title, setTitle] = useState(note?.title || "");
   const [content, setContent] = useState(note?.content || "");
 
   const toUpdateSidebar = useRef(false);
 
-  useEffect(() => {
-    setTitle(note?.title! || "");
+  // useEffect(() => {
+  //   setTitle(note?.title! || "");
 
-    return () => {
-      if (toUpdateSidebar) {
-        setToNotesListUpdate(true);
-      }
-    };
-  }, [note?.title]);
+  //   return () => {
+  //     if (toUpdateSidebar) {
+  //       setToNotesListUpdate(true);
+  //     }
+  //   };
+  // }, [note?.title]);
 
-  useEffect(() => {
-    setContent(note?.content! || "");
-  }, [note?.content]);
+  // useEffect(() => {
+  //   setContent(note?.content! || "");
+  // }, [note?.content]);
 
-  const socketInitializer = useCallback(async () => {
-    if (status === "success") {
-      await fetch("/api/socket");
+  // const socketInitializer = useCallback(async () => {
+  //   if (status === "success") {
+  //     await fetch("/api/socket");
 
-      socket = io({
-        path: "/api/socket.io",
-      });
+  //     socket = io({
+  //       path: "/api/socket.io",
+  //     });
 
-      socket.on("connect", () => {
-        console.log("Connected", socket.id);
-      });
-    }
-  }, [status]);
+  //     socket.on("connect", () => {
+  //       console.log("Connected", socket.id);
+  //     });
+  //   }
+  // }, [status]);
 
-  useEffect(() => {
-    socketInitializer();
+  // useEffect(() => {
+  //   socketInitializer();
 
-    return () => {
-      socket?.disconnect();
-    };
-  }, [socketInitializer]);
+  //   return () => {
+  //     socket?.disconnect();
+  //   };
+  // }, [socketInitializer]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value;
     dispatch(updateTitle({ title: newTitle }));
-    socket?.emit("updateTitle", { newTitle, noteId: note?.id });
+    // socket?.emit("updateTitle", { newTitle, noteId: note?.id });
   };
 
   const handleContentChange = (
@@ -69,7 +69,7 @@ const Note = () => {
   ) => {
     const newContent = event.target.value;
     dispatch(updateContent({ content: newContent }));
-    socket?.emit("updateContent", { newContent, noteId: note?.id });
+    // socket?.emit("updateContent", { newContent, noteId: note?.id });
   };
 
   if (status === "loading" && title !== "") return <Backdrop open={true} />;

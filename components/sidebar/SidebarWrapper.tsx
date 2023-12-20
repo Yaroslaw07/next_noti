@@ -19,13 +19,14 @@ const SidebarWrapper: FC<SidebarWrapperProps> = ({ children }) => {
 
         display: "flex",
         flexDirection: "column",
-        gap: "2px",
+        gap: "0px",
         alignContent: "center",
 
         borderRadius: "0px",
 
-        paddingY: "8px",
-        paddingX: "4px",
+        paddingY: "4px",
+        paddingLeft: "8px",
+        paddingRight: "4px",
       }}
     >
       {children}

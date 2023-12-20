@@ -1,31 +1,29 @@
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { FC } from "react";
-import VaultSidebar from "./VaultModule";
+import VaultSidebar from "./modules/VaultModule";
 import HR from "@/components/ui/HR";
-import SettingsModule from "./SettingsModule";
-import NewNoteModule from "./NewNoteModule";
-import NotesList from "./NotesList";
+import SettingsModule from "./modules/SettingsModule";
+import NewNoteModule from "./modules/NewNoteModule";
+import NotesList from "./notes/NotesList";
 import SidebarWrapper from "./SidebarWrapper";
+import SidebarModules from "./modules/SidebarModules";
 
 const Sidebar: FC = () => {
   return (
     <SidebarWrapper>
-      <Box
+      <Stack
+        spacing={0.4}
+        alignItems={"center"}
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "2px",
-          flexWrap: "nowrap",
           height: "100%",
         }}
       >
         <VaultSidebar />
         <HR />
-        <SettingsModule />
-        <NewNoteModule />
+        <SidebarModules />
         <HR />
         <NotesList />
-      </Box>
+      </Stack>
     </SidebarWrapper>
   );
 };

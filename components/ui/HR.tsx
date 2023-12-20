@@ -5,9 +5,9 @@ const HR = () => {
     <Box
       sx={{
         width: "33%",
-        minHeight: "2.5px",
+        height: "1px",
         backgroundColor: "text.secondary",
-        margin: "0 auto",
+        paddingY: "0.07rem",
       }}
     />
   );

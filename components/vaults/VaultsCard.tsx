@@ -31,8 +31,8 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
       variant="outlined"
       sx={{
         backgroundColor: "additional.light",
-        borderWidth: "1px",
-        borderColor: "primary.main",
+        borderWidth: "0.5px",
+        borderColor: "text.secondary",
         display: "flex",
         justifyContent: "space-between",
         height: "55px",
@@ -47,7 +47,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
       <CardContent sx={{ paddingY: "10px" }}>
         <Typography
           component="h4"
-          sx={{ fontSize: "1.5rem", fontWeight: "400" }}
+          sx={{ fontSize: "1.3rem", fontWeight: "400" }}
         >
           {vault.name}
         </Typography>

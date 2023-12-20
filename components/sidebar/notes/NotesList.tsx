@@ -1,17 +1,22 @@
-import { List, Typography } from "@mui/material";
+import { List, Stack, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
-import SidebarWrapper from "./SidebarItem";
+import SidebarWrapper from "../modules/SidebarItem";
 import Link from "@/components/ui/Link";
 import { useVaults } from "@/lib/hooks/useVaults";
 import { FC, useEffect, useState } from "react";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { useNotesListUpdate } from "@/lib/hooks/useNotesListUpdate";
+import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
+import SidebarModule from "../SidebarModule";
+import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
 
 const NotesList: FC = () => {
   const { currentVault } = useVaults();
+
+  const { getNotes } = useNotesInfo();
   const { note: currentNote } = useCurrentNote();
-  const { toNotesListUpdate, setToNotesListUpdate } = useNotesListUpdate();
+
+  const { toNotesListUpdate, setToNotesListUpdate } = useUiUpdate();
 
   const [notes, setNotes] = useState<any[]>([]);
 
@@ -21,17 +26,15 @@ const NotesList: FC = () => {
       return;
     }
 
+    if (currentVault == null) {
+      setNotes([]);
+      return;
+    }
+
     if (toNotesListUpdate) {
       const fetchData = async () => {
-        const response = await fetch(
-          `/api/notes/getNotesInfo/?vaultId=${currentVault.id}`,
-          {
-            method: "GET",
-          }
-        );
-
-        const data = await response.json();
-        setNotes(data.notes);
+        const response = await getNotes();
+        setNotes(response!);
       };
 
       setToNotesListUpdate(false);
@@ -41,21 +44,33 @@ const NotesList: FC = () => {
 
   return (
     <>
-      <Link href="/note" sx={{ textDecoration: "none", paddingBottom: "0px" }}>
-        <SidebarWrapper
-          Icon={Icons.ListOfNotes}
-          title={"My notes"}
-        ></SidebarWrapper>
+      <Link href="/notes" sx={{ textDecoration: "none", width: "100%" }}>
+        <SidebarModule>
+          <Icons.ListOfNotes
+            sx={{ fontSize: "30px", color: "text.secondary" }}
+          />
+          <Typography
+            sx={{
+              fontSize: "1.2rem",
+              fontWeight: "500",
+              color: "text.secondary",
+              marginTop: "2px",
+            }}
+          >
+            {"My Notes"}
+          </Typography>
+        </SidebarModule>
       </Link>
 
       {!notes && !currentNote ? (
         "Loading..."
       ) : (
-        <List
+        <Stack
           sx={{
             overflowY: "auto",
             maxHeight: "100%",
-            paddingY: "6px",
+            paddingBottom: "8px",
+            width: "100%",
           }}
         >
           {notes
@@ -70,7 +85,7 @@ const NotesList: FC = () => {
                 }
               />
             ))}
-        </List>
+        </Stack>
       )}
     </>
   );

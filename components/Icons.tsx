@@ -7,12 +7,15 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import NoteAddOutlinedIcon from "@mui/icons-material/NoteAddOutlined";
 import DoorFrontOutlinedIcon from "@mui/icons-material/DoorFrontOutlined";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import ViewAgendaOutlinedIcon from "@mui/icons-material/ViewAgendaOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 
 import styled from "@emotion/styled";
 
@@ -34,13 +37,16 @@ export const Icons = {
   //design
   KeyboardRight: StyledIcon(ArrowCircleRightOutlinedIcon, 0.4),
   Empty: ClearOutlinedIcon,
+  Search: SearchOutlinedIcon,
 
   //vaults
-  ChangeVault: ExitToAppOutlinedIcon,
+  ChangeVault: ViewAgendaOutlinedIcon,
   Vault: DoorFrontOutlinedIcon,
 
   //notes
-  ListOfNotes: DnsOutlinedIcon,
+  SelectItem: StyledIcon(MenuOpenOutlinedIcon, 0.4),
+  Note: DescriptionOutlinedIcon,
+  ListOfNotes: ListOutlinedIcon,
   newNote: NoteAddOutlinedIcon,
 
   // options

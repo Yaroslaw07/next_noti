@@ -8,7 +8,6 @@ import { AxiosError } from "axios";
 export const getVaults = createAsyncThunk<Vault[], void>(
   "vault/getVaults",
   async (_, { rejectWithValue }) => {
-    console.log("getVaults");
     try {
       const response = await api.get<Vault[]>("/vaults/");
       return response.data;

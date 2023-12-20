@@ -8,7 +8,7 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import { SignupCredentials } from "@/types/auth";
 import Link from "@/components/ui/Link";
 import { NextPageWithLayout } from "../_app";
-import FormLayout from "@/components/form/layouts/FormPageLayout";
+import FormLayout from "@/components/form/FormPageLayout";
 import AuthTitle from "@/components/auth/AuthTitle";
 
 const SignUpPage: NextPageWithLayout = () => {

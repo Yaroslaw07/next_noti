@@ -12,9 +12,9 @@ const NoNote = () => {
         textAlign={"center"}
         component="section"
       >
-        <Icons.Empty sx={{ fontSize: "180px" }} />
-        <Typography variant="h3" sx={{ fontWeight: "600" }}>
-          No note open
+        <Icons.SelectItem sx={{ fontSize: "200px" }} />
+        <Typography variant="h4" sx={{ fontWeight: "400" }}>
+          {"Select a note or\n create a new one"}
         </Typography>
       </Stack>
     </Container>

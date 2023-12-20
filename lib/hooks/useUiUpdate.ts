@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../store/store";
 import { uiUpdateSlice } from "../store/reducers/uiUpdate";
 
-export const useNotesListUpdate = () => {
-  const dispatch = useDispatch<AppDispatch>();
+export const useUiUpdate = () => {
+  const dispatch = useAppDispatch();
   const { toNotesListUpdate } = useSelector(
     (state: RootState) => state.uiUpdate
   );

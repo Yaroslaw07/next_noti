@@ -1,6 +1,6 @@
 import { Backdrop, Box, Container, Link, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Icons } from "../../Icons";
+import { Icons } from "../Icons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/router";
 

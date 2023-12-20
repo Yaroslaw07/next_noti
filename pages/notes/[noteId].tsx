@@ -1,9 +1,7 @@
 import { getNotiLayout } from "@/components/notes/Layout";
 import Note from "@/components/notes/Note";
-import Backdrop from "@/components/ui/Backdrop";
 import { setCurrentNote } from "@/lib/store/reducers/currentNote";
 import { AppDispatch } from "@/lib/store/store";
-import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -20,7 +18,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
 
   useEffect(() => {
     if (props.note == null) {
-      router.push("/note");
+      router.push("/notes");
     }
 
     dispatch(setCurrentNote(props));
@@ -28,31 +26,30 @@ const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
 
   return (
     <>
-      <Backdrop open={status == "loading"} />
       <Note />
     </>
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const noteId = context.query.noteId as string;
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   const noteId = context.query.noteId as string;
 
-  const { note } = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/notes/${noteId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((res) => res.json());
+//   const { note } = await fetch(
+//     `${process.env.NEXT_PUBLIC_API_URL}/api/notes/${noteId}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   ).then((res) => res.json());
 
-  return {
-    props: {
-      note: note,
-    },
-  };
-}
+//   return {
+//     props: {
+//       note: note,
+//     },
+//   };
+// }
 
 NotePage.getLayout = (page) => {
   return getNotiLayout(page);

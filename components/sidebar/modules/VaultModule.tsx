@@ -1,10 +1,11 @@
 import { Menu, MenuItem, Typography } from "@mui/material";
-import { Icons } from "../Icons";
+import { Icons } from "../../Icons";
 import { useVaults } from "@/lib/hooks/useVaults";
-import SidebarWrapper from "./SidebarItem";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
+import SidebarModule from "../SidebarModule";
+import SidebarItem from "./SidebarItem";
 
 const VaultSidebar = () => {
   const router = useRouter();
@@ -33,51 +34,64 @@ const VaultSidebar = () => {
 
   return (
     <>
-      <SidebarWrapper
-        onClick={handleClick}
-        Icon={Icons.Vault}
-        title={currentVault?.name!}
-      ></SidebarWrapper>
-      <Typography variant="subtitle1" sx={{ fontSize: "1.4rem" }}></Typography>
+      <SidebarModule onClick={handleClick}>
+        <Icons.Vault sx={{ fontSize: "30px", color: "text.secondary" }} />
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            fontWeight: "500",
+            color: "text.secondary",
+            marginTop: "2px",
+          }}
+        >
+          {currentVault?.name}
+        </Typography>
+      </SidebarModule>
       <Menu
         id="basic-menu"
+        autoFocus={false}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        sx={{ marginLeft: "-6px", marginTop: "10px", paddingY: "-15px" }}
+        sx={{
+          marginLeft: "-10px",
+          marginTop: "8px",
+          background: "additional.main",
+          paddingTop: "0px",
+          "& .MuiMenu-paper": { backgroundColor: "additional.main" },
+        }}
         MenuListProps={{
           "aria-labelledby": "basic-button",
+          disablePadding: true,
         }}
       >
         <MenuItem
           sx={{
-            width: "180px",
-            display: "flex",
-            gap: "8px",
-            paddingX: "4px",
+            maxWidth: "190px",
+            paddingX: "0px",
             paddingY: "0px",
           }}
           onClick={handleChangeVault}
         >
-          <Icons.Logout />
-          <Typography variant="subtitle1" sx={{ fontSize: "1rem" }}>
-            Change vault
-          </Typography>
+          <SidebarItem
+            sx={{ paddingLeft: "6px" }}
+            Icon={Icons.ChangeVault}
+            title={"Change vault"}
+          />
         </MenuItem>
         <MenuItem
           sx={{
-            width: "180px",
-            display: "flex",
-            gap: "8px",
-            paddingX: "4px",
+            width: "190px",
+            paddingX: "0px",
             paddingY: "0px",
           }}
           onClick={handleLogout}
         >
-          <Icons.Logout />
-          <Typography variant="subtitle1" sx={{ fontSize: "1rem" }}>
-            Logout
-          </Typography>
+          <SidebarItem
+            sx={{ paddingLeft: "8px", gap: "10px" }}
+            Icon={Icons.Logout}
+            title={"Logout"}
+          />
         </MenuItem>
       </Menu>
     </>
