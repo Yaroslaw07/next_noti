@@ -15,13 +15,6 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
 
   const { currentVault } = useVaults();
 
-  useEffect(() => {
-    console.log(currentVault);
-    if (currentVault == null) {
-      router.push("/vaults");
-    }
-  }, [currentVault]);
-
   return (
     <Grid container>
       <Backdrop open={currentVault === undefined} />

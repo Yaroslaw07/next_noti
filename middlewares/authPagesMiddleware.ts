@@ -13,7 +13,6 @@ export function authPagesMiddleware(middleware: CustomMiddleware) {
     }
 
     if (request.cookies.get("refreshToken") !== undefined) {
-      console.log();
       return middleware(
         request,
         event,

@@ -30,6 +30,8 @@ async function customFetch(
     "Content-Type": "application/json",
   };
 
+  console.log(process.env.NEXT_PUBLIC_APP_API_URL! + url);
+
   let response = await fetch(
     process.env.NEXT_PUBLIC_APP_API_URL! + url,
     options

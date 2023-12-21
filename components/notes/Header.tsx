@@ -10,9 +10,9 @@ const ToolbarSx = {
   paddingRight: "6px",
   minHeight: "40px",
   [theme.breakpoints.up("sm")]: {
-    paddingLeft: "10px",
+    paddingLeft: "16px",
     paddingRight: "6px",
-    minHeight: "40px",
+    minHeight: "50px",
   },
 };
 
@@ -24,10 +24,10 @@ const Header = () => {
       <Toolbar sx={ToolbarSx}>
         <Typography
           variant="subtitle1"
-          sx={{ paddingTop: "0px", fontSize: "1.1rem" }}
+          sx={{ paddingTop: "0px", fontSize: "1.15rem" }}
         >
           {status === "loading" && "No note opened"}
-          {(status === "success" && note?.title) || "No note opened"}
+          {(status === "success" && note?.title) || "Undefined"}
           {status === "error" && "Error"}
         </Typography>
         <IconButton sx={{}}>

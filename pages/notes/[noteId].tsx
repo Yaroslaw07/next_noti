@@ -1,5 +1,6 @@
 import { getNotiLayout } from "@/components/notes/Layout";
 import Note from "@/components/notes/Note";
+import { Note as NoteType } from "@/types/note";
 import { setCurrentNote } from "@/lib/store/reducers/currentNote";
 import { AppDispatch } from "@/lib/store/store";
 import { useRouter } from "next/navigation";
@@ -8,11 +9,11 @@ import { useDispatch } from "react-redux";
 import { NextPageWithLayout } from "../_app";
 import { GetServerSidePropsContext } from "next";
 import customFetch from "@/lib/api/fetch";
-import { parse } from "path";
 import { parseCookies } from "nookies";
+import Head from "next/head";
 
 interface NotePageProps {
-  note: string;
+  note: NoteType;
 }
 
 const NotePage: NextPageWithLayout<NotePageProps> = ({
@@ -32,6 +33,9 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
 
   return (
     <>
+      <Head>
+        <title>{note.title}</title>
+      </Head>
       <Note />
     </>
   );
@@ -41,9 +45,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const noteId = context.query.noteId as string;
   const cookies = parseCookies(context);
 
-  console.log(JSON.parse(cookies.currentVault).id);
-
-  const response = await customFetch(context, `/note/${noteId}`, {
+  const response = await customFetch(context, `/notes/${noteId}`, {
     method: "GET",
     headers: {
       vault_id: JSON.parse(cookies.currentVault).id,
@@ -60,7 +62,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      note: response?.json(),
+      note: await response?.json(),
     },
   };
 }

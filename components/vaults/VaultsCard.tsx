@@ -47,7 +47,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
       <CardContent sx={{ paddingY: "10px" }}>
         <Typography
           component="h4"
-          sx={{ fontSize: "1.3rem", fontWeight: "400" }}
+          sx={{ fontSize: "1.2rem", fontWeight: "400" }}
         >
           {vault.name}
         </Typography>

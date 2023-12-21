@@ -16,7 +16,6 @@ export function protectedRoutesMiddleware(middleware: CustomMiddleware) {
       !request.nextUrl.pathname.startsWith("/vaults") &&
       !request.nextUrl.pathname.startsWith("/note")
     ) {
-      console.log("here");
       return middleware(request, event, NextResponse.next());
     }
 

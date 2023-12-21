@@ -1,4 +1,4 @@
-import { TextareaAutosize, styled } from "@mui/material";
+import { Input, TextareaAutosize, styled } from "@mui/material";
 import { FC } from "react";
 
 const TextAreaAuto = styled(TextareaAutosize)(
@@ -28,16 +28,24 @@ const TextAreaAuto = styled(TextareaAutosize)(
 
 interface TextAreaProps {
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (content: string) => void;
 }
 
 const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
+  const handleContentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const newContent = event.target.value;
+    onChange(newContent);
+  };
+
   return (
-    <TextAreaAuto
-      aria-label="empty textarea"
+    <Input
       placeholder="Empty content"
       value={value}
-      onChange={onChange}
+      onChange={handleContentChange}
+      disableUnderline={true}
+      multiline
     />
   );
 };

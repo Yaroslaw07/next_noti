@@ -1,11 +1,10 @@
-import { Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Menu, MenuItem, Typography } from "@mui/material";
 import { Icons } from "../../Icons";
 import { useVaults } from "@/lib/hooks/useVaults";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
 import SidebarModule from "../SidebarModule";
-import SidebarItem from "./SidebarItem";
 
 const VaultSidebar = () => {
   const router = useRouter();
@@ -23,8 +22,8 @@ const VaultSidebar = () => {
     router.push("/vaults");
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.push("/auth/login");
   };
 
@@ -34,18 +33,27 @@ const VaultSidebar = () => {
 
   return (
     <>
-      <SidebarModule onClick={handleClick}>
-        <Icons.Vault sx={{ fontSize: "30px", color: "text.secondary" }} />
-        <Typography
-          sx={{
-            fontSize: "1.2rem",
-            fontWeight: "500",
-            color: "text.secondary",
-            marginTop: "2px",
-          }}
-        >
-          {currentVault?.name}
-        </Typography>
+      <SidebarModule
+        onClick={handleClick}
+        sx={{
+          justifyContent: "space-between",
+          ...(anchorEl && { backgroundColor: "additional.dark" }),
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <Icons.Vault sx={{ fontSize: "30px", color: "text.secondary" }} />
+          <Typography
+            sx={{
+              fontSize: "1.2rem",
+              fontWeight: "500",
+              color: "text.secondary",
+              marginTop: "2px",
+            }}
+          >
+            {currentVault?.name}
+          </Typography>
+        </Box>
+        <Icons.ArrowDown sx={{ color: "text.secondary", fontSize: "24px" }} />
       </SidebarModule>
       <Menu
         id="basic-menu"
@@ -55,7 +63,7 @@ const VaultSidebar = () => {
         onClose={handleClose}
         sx={{
           marginLeft: "-10px",
-          marginTop: "8px",
+          marginTop: "10px",
           background: "additional.main",
           paddingTop: "0px",
           "& .MuiMenu-paper": { backgroundColor: "additional.main" },
@@ -73,11 +81,21 @@ const VaultSidebar = () => {
           }}
           onClick={handleChangeVault}
         >
-          <SidebarItem
-            sx={{ paddingLeft: "6px" }}
-            Icon={Icons.ChangeVault}
-            title={"Change vault"}
-          />
+          <SidebarModule sx={{ paddingLeft: "12px", gap: "8px" }}>
+            <Icons.ChangeVault
+              sx={{ fontSize: "24px", color: "text.secondary" }}
+            />
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                fontWeight: "400",
+                color: "text.secondary",
+                marginTop: "2px",
+              }}
+            >
+              Change vault
+            </Typography>
+          </SidebarModule>
         </MenuItem>
         <MenuItem
           sx={{
@@ -87,11 +105,19 @@ const VaultSidebar = () => {
           }}
           onClick={handleLogout}
         >
-          <SidebarItem
-            sx={{ paddingLeft: "8px", gap: "10px" }}
-            Icon={Icons.Logout}
-            title={"Logout"}
-          />
+          <SidebarModule sx={{ paddingLeft: "12px", gap: "8px" }}>
+            <Icons.Logout sx={{ fontSize: "24px", color: "text.secondary" }} />
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                fontWeight: "400",
+                color: "text.secondary",
+                marginTop: "2px",
+              }}
+            >
+              Logout
+            </Typography>
+          </SidebarModule>
         </MenuItem>
       </Menu>
     </>

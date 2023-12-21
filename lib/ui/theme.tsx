@@ -87,9 +87,6 @@ const theme = createTheme({
           height: "30px",
           fontSize: "1.1rem",
           display: "flex",
-          "&::placeholder": {
-            fontSize: "40px",
-          },
         },
       },
     },

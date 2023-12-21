@@ -16,6 +16,8 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ViewAgendaOutlinedIcon from "@mui/icons-material/ViewAgendaOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import styled from "@emotion/styled";
 
@@ -38,6 +40,7 @@ export const Icons = {
   KeyboardRight: StyledIcon(ArrowCircleRightOutlinedIcon, 0.4),
   Empty: ClearOutlinedIcon,
   Search: SearchOutlinedIcon,
+  ArrowDown: KeyboardArrowDownIcon,
 
   //vaults
   ChangeVault: ViewAgendaOutlinedIcon,
@@ -54,6 +57,7 @@ export const Icons = {
   Settings: SettingsOutlinedIcon,
 
   //crud operations
+  Save: SaveOutlinedIcon,
   Delete: DeleteOutlineOutlinedIcon,
   Edit: EditOutlinedIcon,
   Plus: AddCircleOutlinedIcon,

@@ -6,7 +6,6 @@ export const useNotesInfo = () => {
   const getNotesHandler = async () => {
     try {
       const currentVault = store.getState().currentVault.vault!;
-      console.log("currentVault:", currentVault);
 
       const response = await api.get<NoteInfo[]>("/notes/", {
         headers: {
@@ -24,7 +23,6 @@ export const useNotesInfo = () => {
     try {
       const currentVault = store.getState().currentVault.vault!;
 
-      console.log("currentVault:", currentVault);
       const response = await api.post<NoteInfo>("/notes/", undefined, {
         headers: {
           vault_id: currentVault.id,

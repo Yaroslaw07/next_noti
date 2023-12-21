@@ -1,93 +1,41 @@
-import { Box, Container, Input } from "@mui/material";
+import { Box, Container, Fab, Input } from "@mui/material";
 import TextArea from "../ui/TextArea";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { useCallback, useEffect, useRef, useState } from "react";
-import Backdrop from "../ui/Backdrop";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store/store";
-import { updateContent, updateTitle } from "@/lib/store/reducers/currentNote";
-import { Socket, io } from "socket.io-client";
-import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
-
-let socket: Socket;
+import { updateContent } from "@/lib/store/reducers/currentNote";
+import NoteTitle from "./NoteTitle";
+import NoteContent from "./NoteContent";
+import { Icons } from "../Icons";
 
 const Note = () => {
-  const dispatch = useDispatch<AppDispatch>();
-
-  const { note, status } = useCurrentNote();
-  const { setToNotesListUpdate } = useUiUpdate();
-
-  const [title, setTitle] = useState(note?.title || "");
-  const [content, setContent] = useState(note?.content || "");
-
-  const toUpdateSidebar = useRef(false);
-
-  // useEffect(() => {
-  //   setTitle(note?.title! || "");
-
-  //   return () => {
-  //     if (toUpdateSidebar) {
-  //       setToNotesListUpdate(true);
-  //     }
-  //   };
-  // }, [note?.title]);
-
-  // useEffect(() => {
-  //   setContent(note?.content! || "");
-  // }, [note?.content]);
-
-  // const socketInitializer = useCallback(async () => {
-  //   if (status === "success") {
-  //     await fetch("/api/socket");
-
-  //     socket = io({
-  //       path: "/api/socket.io",
-  //     });
-
-  //     socket.on("connect", () => {
-  //       console.log("Connected", socket.id);
-  //     });
-  //   }
-  // }, [status]);
-
-  // useEffect(() => {
-  //   socketInitializer();
-
-  //   return () => {
-  //     socket?.disconnect();
-  //   };
-  // }, [socketInitializer]);
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = event.target.value;
-    dispatch(updateTitle({ title: newTitle }));
-    // socket?.emit("updateTitle", { newTitle, noteId: note?.id });
-  };
-
-  const handleContentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const newContent = event.target.value;
-    dispatch(updateContent({ content: newContent }));
-    // socket?.emit("updateContent", { newContent, noteId: note?.id });
-  };
-
-  if (status === "loading" && title !== "") return <Backdrop open={true} />;
+  const { saveCurrentNote } = useCurrentNote();
 
   return (
     <Box sx={{ paddingX: "80px" }}>
       <Container
         component="main"
         maxWidth="md"
-        sx={{ height: "90%", marginX: "auto" }}
+        sx={{
+          height: "90%",
+          marginX: "auto",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         <Box sx={{ height: "80px" }}></Box>
-        <Input
-          sx={{ fontWeight: "600", marginBottom: "20px", fontSize: "3rem" }}
-          value={title}
-          onChange={handleTitleChange}
-        ></Input>
-        <TextArea value={content} onChange={handleContentChange}></TextArea>
+        <NoteTitle />
+        <NoteContent />
+        <Fab
+          color="primary"
+          size="large"
+          aria-label="save"
+          sx={{ position: "absolute", bottom: "1rem", right: "1rem" }}
+          onClick={saveCurrentNote}
+        >
+          <Icons.Save />
+        </Fab>
       </Container>
     </Box>
   );

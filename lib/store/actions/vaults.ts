@@ -20,9 +20,7 @@ export const getVaults = createAsyncThunk<Vault[], void>(
 export const createNewVault = createAsyncThunk<Vault, string>(
   "vault/createNewVault",
   async (name, { rejectWithValue, dispatch }) => {
-    console.log("createNewVault");
     try {
-      console.log("createNewVault");
       const response = await api.post<Vault>("/vaults/", { name });
       setCookie(null, "currentVault", JSON.stringify(response.data), {
         path: "/",
@@ -42,7 +40,6 @@ export const createNewVault = createAsyncThunk<Vault, string>(
 export const selectVault = createAsyncThunk<Vault, Vault>(
   "vault/selectVault",
   async (vault, { rejectWithValue, dispatch }) => {
-    console.log("selectVault");
     try {
       setCookie(null, "currentVault", JSON.stringify(vault), {
         path: "/",
@@ -58,7 +55,6 @@ export const selectVault = createAsyncThunk<Vault, Vault>(
 export const loadVault = createAsyncThunk(
   "vault/loadVault",
   async (_, { dispatch }) => {
-    console.log("loadVault");
     const cookies = parseCookies();
     dispatch(setCurrentVault({ vault: JSON.parse(cookies.currentVault) }));
   }

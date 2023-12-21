@@ -1,7 +1,8 @@
+import { Note } from "@/types/note";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface currentNoteState {
-  note?: any;
+  note?: Note;
   status: string;
 }
 
@@ -29,6 +30,7 @@ const currentNoteSlice = createSlice({
     },
     updateContent: (state, action) => {
       if (state.note) {
+        console.log("updateContent", action.payload.content);
         state.note.content = action.payload.content;
       }
     },

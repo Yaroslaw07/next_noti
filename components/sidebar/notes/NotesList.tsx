@@ -10,13 +10,14 @@ import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 import SidebarModule from "../SidebarModule";
 import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
 import { NoteInfo } from "@/types/note";
+import { useRouter } from "next/router";
 
 const NotesList: FC = () => {
-  const { currentVault } = useVaults();
+  const router = useRouter();
 
+  const { currentVault } = useVaults();
   const { getNotes } = useNotesInfo();
   const { note: currentNote } = useCurrentNote();
-
   const { toNotesListUpdate, setToNotesListUpdate } = useUiUpdate();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
@@ -33,7 +34,6 @@ const NotesList: FC = () => {
 
     const fetchData = async () => {
       const response = await getNotes();
-      console.log("NotesList: response", response);
       setNotes(response!);
     };
 
@@ -44,7 +44,13 @@ const NotesList: FC = () => {
   return (
     <>
       <Link href="/notes" sx={{ textDecoration: "none", width: "100%" }}>
-        <SidebarModule>
+        <SidebarModule
+          sx={{
+            ...(router.pathname === "/notes" && {
+              backgroundColor: "#d8d8d8",
+            }),
+          }}
+        >
           <Icons.ListOfNotes
             sx={{ fontSize: "30px", color: "text.secondary" }}
           />

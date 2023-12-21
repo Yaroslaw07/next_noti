@@ -2,13 +2,7 @@ import { Icons } from "@/components/Icons";
 import Link from "@/components/ui/Link";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
-import {
-  Box,
-  IconButton,
-  ListItem,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import SidebarModule from "../SidebarModule";
@@ -62,14 +56,14 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
             display: "block",
           },
           ...(active && {
-            backgroundColor: "#e0e0e0",
+            backgroundColor: "additional.dark",
           }),
         }}
       >
         <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <Icons.Note sx={{ color: "text.secondary" }} />
           <Typography sx={{ color: "text.secondary" }}>
-            {active ? title : note.title}
+            {active ? (title === "" ? "Undefined" : title) : note.title}
           </Typography>
         </Box>
 
