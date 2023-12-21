@@ -6,22 +6,28 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { NextPageWithLayout } from "../_app";
+import { GetServerSidePropsContext } from "next";
+import customFetch from "@/lib/api/fetch";
+import { parse } from "path";
+import { parseCookies } from "nookies";
 
 interface NotePageProps {
   note: string;
 }
 
-const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
+const NotePage: NextPageWithLayout<NotePageProps> = ({
+  note,
+}: NotePageProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (props.note == null) {
+    if (note == null) {
       router.push("/notes");
     }
 
-    dispatch(setCurrentNote(props));
+    dispatch(setCurrentNote(note));
   });
 
   return (
@@ -31,25 +37,33 @@ const NotePage: NextPageWithLayout<NotePageProps> = (props: NotePageProps) => {
   );
 };
 
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const noteId = context.query.noteId as string;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const noteId = context.query.noteId as string;
+  const cookies = parseCookies(context);
 
-//   const { note } = await fetch(
-//     `${process.env.NEXT_PUBLIC_API_URL}/api/notes/${noteId}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   ).then((res) => res.json());
+  console.log(JSON.parse(cookies.currentVault).id);
 
-//   return {
-//     props: {
-//       note: note,
-//     },
-//   };
-// }
+  const response = await customFetch(context, `/note/${noteId}`, {
+    method: "GET",
+    headers: {
+      vault_id: JSON.parse(cookies.currentVault).id,
+    },
+  });
+
+  if (!response!.ok) {
+    return {
+      props: {
+        note: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      note: response?.json(),
+    },
+  };
+}
 
 NotePage.getLayout = (page) => {
   return getNotiLayout(page);

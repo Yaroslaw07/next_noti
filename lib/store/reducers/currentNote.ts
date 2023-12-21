@@ -15,8 +15,8 @@ const currentNoteSlice = createSlice({
   initialState: initialState,
   reducers: {
     setCurrentNote: (state, action) => {
-      state.note = action.payload.note;
-      if (state.note) {
+      state.note = action.payload;
+      if (state.note !== null) {
         state.status = "success";
       } else {
         state.status = "failed";

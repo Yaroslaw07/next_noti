@@ -8,6 +8,7 @@ const HR = () => {
         height: "1px",
         backgroundColor: "text.secondary",
         paddingY: "0.07rem",
+        marginX: "auto",
       }}
     />
   );

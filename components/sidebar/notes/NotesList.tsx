@@ -9,6 +9,7 @@ import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 import SidebarModule from "../SidebarModule";
 import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
+import { NoteInfo } from "@/types/note";
 
 const NotesList: FC = () => {
   const { currentVault } = useVaults();
@@ -18,11 +19,10 @@ const NotesList: FC = () => {
 
   const { toNotesListUpdate, setToNotesListUpdate } = useUiUpdate();
 
-  const [notes, setNotes] = useState<any[]>([]);
+  const [notes, setNotes] = useState<NoteInfo[]>([]);
 
   useEffect(() => {
-    if (!currentVault) {
-      setNotes([]);
+    if (currentVault === undefined) {
       return;
     }
 
@@ -31,15 +31,14 @@ const NotesList: FC = () => {
       return;
     }
 
-    if (toNotesListUpdate) {
-      const fetchData = async () => {
-        const response = await getNotes();
-        setNotes(response!);
-      };
+    const fetchData = async () => {
+      const response = await getNotes();
+      console.log("NotesList: response", response);
+      setNotes(response!);
+    };
 
-      setToNotesListUpdate(false);
-      fetchData();
-    }
+    setToNotesListUpdate(false);
+    fetchData();
   }, [currentVault, toNotesListUpdate]);
 
   return (
