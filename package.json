@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -14,7 +14,6 @@
     "@mui/icons-material": "^5.14.19",
     "@mui/material": "^5.14.11",
     "@reduxjs/toolkit": "^1.9.7",
-    "@types/cookie": "^0.6.0",
     "axios": "^1.6.2",
     "cookie": "^0.6.0",
     "jsonwebtoken": "^9.0.2",
@@ -28,6 +27,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/cookie": "^0.6.0",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "latest",
     "@types/react": "latest",
