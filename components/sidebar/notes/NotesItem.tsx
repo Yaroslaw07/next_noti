@@ -17,7 +17,7 @@ interface NotesItemProps {
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
   const router = useRouter();
 
-  const { removeNote } = useNotesInfo();
+  const { removeNote, handleRedirect } = useNotesInfo();
   const { note: currentNote } = useCurrentNote();
 
   const { setToNotesListUpdate } = useUiUpdate();
@@ -39,46 +39,45 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
   };
 
   return (
-    <Link href={`/notes/${note.id}`} sx={{ textDecoration: "none" }}>
-      <SidebarModule
+    <SidebarModule
+      sx={{
+        borderTopRightRadius: "8px",
+        height: "40px",
+
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: "4px",
+
+        paddingLeft: "10px",
+
+        "&:hover .remove-button": {
+          display: "block",
+        },
+        ...(active && {
+          backgroundColor: "additional.dark",
+        }),
+      }}
+      onClick={() => handleRedirect(`/notes/${note.id}`)}
+    >
+      <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        <Icons.Note sx={{ color: "text.secondary" }} />
+        <Typography sx={{ color: "text.secondary" }}>
+          {active ? (title === "" ? "Undefined" : title) : note.title}
+        </Typography>
+      </Box>
+
+      <IconButton
+        className="remove-button"
+        onClick={handleDelete}
         sx={{
-          borderTopRightRadius: "8px",
-          height: "40px",
-
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "4px",
-
-          paddingLeft: "10px",
-
-          "&:hover .remove-button": {
-            display: "block",
-          },
-          ...(active && {
-            backgroundColor: "additional.dark",
-          }),
+          paddingTop: "10px",
+          display: "none",
         }}
       >
-        <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <Icons.Note sx={{ color: "text.secondary" }} />
-          <Typography sx={{ color: "text.secondary" }}>
-            {active ? (title === "" ? "Undefined" : title) : note.title}
-          </Typography>
-        </Box>
-
-        <IconButton
-          className="remove-button"
-          onClick={handleDelete}
-          sx={{
-            paddingTop: "10px",
-            display: "none",
-          }}
-        >
-          <Icons.Delete sx={{ fontSize: "20px" }} />
-        </IconButton>
-      </SidebarModule>
-    </Link>
+        <Icons.Delete sx={{ fontSize: "20px" }} />
+      </IconButton>
+    </SidebarModule>
   );
 };
 

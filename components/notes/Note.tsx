@@ -8,9 +8,16 @@ import { updateContent } from "@/lib/store/reducers/currentNote";
 import NoteTitle from "./NoteTitle";
 import NoteContent from "./NoteContent";
 import { Icons } from "../Icons";
+import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 
 const Note = () => {
   const { saveCurrentNote } = useCurrentNote();
+  const { setToNotesListUpdate } = useUiUpdate();
+
+  const saveNoteHandler = async () => {
+    await saveCurrentNote();
+    setToNotesListUpdate(true);
+  };
 
   return (
     <Box sx={{ paddingX: "80px" }}>
@@ -32,7 +39,7 @@ const Note = () => {
           size="large"
           aria-label="save"
           sx={{ position: "absolute", bottom: "1rem", right: "1rem" }}
-          onClick={saveCurrentNote}
+          onClick={saveNoteHandler}
         >
           <Icons.Save />
         </Fab>

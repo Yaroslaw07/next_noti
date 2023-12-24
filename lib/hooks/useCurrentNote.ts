@@ -1,14 +1,20 @@
-import store, { RootState, useAppDispatch } from "@/lib/store/store";
+import { RootState, useAppDispatch } from "@/lib/store/store";
 import { useSelector } from "react-redux";
-import { updateContent, updateTitle } from "../store/reducers/currentNote";
-import api from "../api/api";
+import {
+  setCurrentNote,
+  setToUpdate,
+  updateContent,
+  updateTitle,
+} from "../store/reducers/currentNote";
 import { Note } from "@/types/note";
-import uiUpdate from "../store/reducers/uiUpdate";
-import { useUiUpdate } from "./useUiUpdate";
+import { saveCurrentNote } from "../store/actions/notes";
 
 const useCurrentNote = () => {
-  const { note, status } = useSelector((state: RootState) => state.currentNote);
-  const { setToNotesListUpdate } = useUiUpdate();
+  const {
+    note,
+    loadStatus: status,
+    toUpdate,
+  } = useSelector((state: RootState) => state.currentNote);
 
   const dispatch = useAppDispatch();
 
@@ -20,39 +26,36 @@ const useCurrentNote = () => {
     dispatch(updateContent({ content }));
   };
 
-  const saveCurrentNoteHandler = async () => {
-    try {
-      const currentVault = store.getState().currentVault.vault!;
-      const currentNote = store.getState().currentNote.note;
-
-      const response = await api.patch<Note>(
-        `/notes/${currentNote?.id}`,
-        {
-          title: note?.title,
-          content: note?.content || "",
-        },
-        {
-          headers: {
-            vault_id: currentVault.id,
-          },
-        }
-      );
-      setToNotesListUpdate(true);
-
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
+  const setCurrentNoteHandler = (note: Note) => {
+    dispatch(setCurrentNote(note));
   };
 
-  console.log("useCurrentNote", note, status);
+  const saveCurrentNoteHandler = async () => {
+    try {
+      toUpdate && dispatch(setToUpdate(false));
+
+      await dispatch(saveCurrentNote()).unwrap();
+
+      return {
+        ok: true,
+        message: "Note saved successfully",
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        message: (error as string) || "Error saving note",
+      };
+    }
+  };
 
   return {
     note,
     status,
+    toUpdate,
     updateTitle: updateTitleHandler,
     updateContent: updateContentHandler,
     saveCurrentNote: saveCurrentNoteHandler,
+    setCurrentNote: setCurrentNoteHandler,
   };
 };
 
