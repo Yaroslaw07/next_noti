@@ -58,7 +58,7 @@ export const useNotesInfo = () => {
     }
   };
 
-  const handleRedirect = (url: string) => {
+  const savingRedirect = (url: string) => {
     if (note == null || toUpdate == false) {
       router.push(url);
     }
@@ -76,6 +76,6 @@ export const useNotesInfo = () => {
     getNotes: getNotesHandler,
     addNote: addNoteHandler,
     removeNote: removeNoteHandler,
-    handleRedirect,
+    handleRedirect: savingRedirect,
   };
 };

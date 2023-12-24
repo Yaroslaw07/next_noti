@@ -12,8 +12,6 @@ export const saveCurrentNote = createAsyncThunk<undefined, undefined>(
       const currentVault = state.currentVault.vault!;
       const currentNote = state.currentNote.note;
 
-      console.log("Saving note:", currentNote);
-
       await api.patch<Note>(
         `/notes/${currentNote?.id}`,
         {

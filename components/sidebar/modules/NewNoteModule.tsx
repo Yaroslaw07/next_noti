@@ -1,16 +1,14 @@
 import { Icons } from "@/components/Icons";
-import { useVaults } from "@/lib/hooks/useVaults";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 import SidebarItem from "./SidebarItem";
 import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
+import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 
 const NewNoteModule: FC = () => {
   const router = useRouter();
 
-  const { addNote } = useNotesInfo();
-
+  const { addNote, handleRedirect } = useNotesInfo();
   const { setToNotesListUpdate } = useUiUpdate();
 
   const handleClick = async () => {
@@ -18,8 +16,8 @@ const NewNoteModule: FC = () => {
 
     if (newNote != undefined) {
       const noteId = newNote.id;
+      await handleRedirect(`/notes/${noteId}`);
       setToNotesListUpdate(true);
-      router.push(`/notes/${noteId}`);
     } else {
       console.log("error");
     }

@@ -14,11 +14,6 @@ const Note = () => {
   const { saveCurrentNote } = useCurrentNote();
   const { setToNotesListUpdate } = useUiUpdate();
 
-  const saveNoteHandler = async () => {
-    await saveCurrentNote();
-    setToNotesListUpdate(true);
-  };
-
   return (
     <Box sx={{ paddingX: "80px" }}>
       <Container
@@ -34,15 +29,6 @@ const Note = () => {
         <Box sx={{ height: "80px" }}></Box>
         <NoteTitle />
         <NoteContent />
-        <Fab
-          color="primary"
-          size="large"
-          aria-label="save"
-          sx={{ position: "absolute", bottom: "1rem", right: "1rem" }}
-          onClick={saveNoteHandler}
-        >
-          <Icons.Save />
-        </Fab>
       </Container>
     </Box>
   );

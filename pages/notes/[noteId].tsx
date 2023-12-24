@@ -22,7 +22,6 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
   const router = useRouter();
 
   const { toUpdate, setCurrentNote, saveCurrentNote } = useCurrentNote();
-  const { setToNotesListUpdate } = useUiUpdate();
 
   const toUpdateNotesList = useRef(false);
 

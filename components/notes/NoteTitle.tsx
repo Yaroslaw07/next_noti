@@ -15,11 +15,10 @@ const NoteTitle = () => {
   return (
     <TextField
       variant="standard"
-      InputLabelProps={{ shrink: true }}
       placeholder="Undefined"
-      sx={{ input: { fontSize: "40px", fontWeight: "500" } }}
+      sx={{ input: { fontSize: "40px", fontWeight: "500", height: "70px" } }}
       InputProps={{ disableUnderline: true }}
-      value={note.title}
+      value={note.title || ""}
       onChange={(e) => updateTitle(e.target.value)}
     />
   );

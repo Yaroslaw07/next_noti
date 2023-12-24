@@ -17,7 +17,7 @@ const NotesList: FC = () => {
 
   const { currentVault } = useVaults();
   const { getNotes, handleRedirect } = useNotesInfo();
-  const { note, toUpdate, saveCurrentNote } = useCurrentNote();
+  const { note } = useCurrentNote();
   const { toNotesListUpdate, setToNotesListUpdate } = useUiUpdate();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
@@ -34,7 +34,6 @@ const NotesList: FC = () => {
 
     const fetchData = async () => {
       const response = await getNotes();
-      console.log(response);
       setNotes(response!);
     };
 
