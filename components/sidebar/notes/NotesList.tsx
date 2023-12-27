@@ -25,15 +25,16 @@ const NotesList: FC = () => {
 
     if (currentVault == null) {
       setNotes([]);
+      setToNotesListUpdate(false);
       return;
     }
 
     const fetchData = async () => {
       const response = await getNotes();
       setNotes(response!);
+      setToNotesListUpdate(false);
     };
 
-    setToNotesListUpdate(false);
     fetchData();
   }, [toNotesListUpdate]);
 

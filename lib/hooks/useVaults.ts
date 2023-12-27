@@ -15,7 +15,7 @@ export const useVaults = () => {
     (state: RootState) => state.currentVault.vault
   );
 
-  const { setToNotesListUpdate } = useUiUpdate();
+  const { toNotesListUpdate, setToNotesListUpdate } = useUiUpdate();
 
   useEffect(() => {
     dispatch(loadVault());

@@ -33,7 +33,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
     });
 
     return () => {};
-  }, [note]);
+  }, [note?.id]);
 
   useEffect(() => {
     const timer = setInterval(async () => {
