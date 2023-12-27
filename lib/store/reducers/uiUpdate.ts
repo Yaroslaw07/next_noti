@@ -5,7 +5,7 @@ interface uiUpdateState {
 }
 
 const initialState: uiUpdateState = {
-  toNotesListUpdate: true,
+  toNotesListUpdate: false,
 };
 
 export const uiUpdateSlice = createSlice({

@@ -2,7 +2,7 @@ import { RootState, useAppDispatch } from "@/lib/store/store";
 import { useSelector } from "react-redux";
 import {
   setCurrentNote,
-  setToUpdate,
+  setIsChangedFromAutosave,
   updateContent,
   updateTitle,
 } from "../store/reducers/currentNote";
@@ -13,7 +13,8 @@ const useCurrentNote = () => {
   const {
     note,
     loadStatus: status,
-    toUpdate,
+    isChangedFromAutosave,
+    isTitleChanged,
   } = useSelector((state: RootState) => state.currentNote);
 
   const dispatch = useAppDispatch();
@@ -31,19 +32,26 @@ const useCurrentNote = () => {
   };
 
   const saveCurrentNoteHandler = async () => {
-    try {
-      toUpdate && dispatch(setToUpdate(false));
+    if (isChangedFromAutosave) {
+      try {
+        await dispatch(saveCurrentNote()).unwrap();
 
-      await dispatch(saveCurrentNote()).unwrap();
+        dispatch(setIsChangedFromAutosave(false));
 
+        return {
+          ok: true,
+          message: "Note saved successfully",
+        };
+      } catch (error) {
+        return {
+          ok: false,
+          message: (error as string) || "Error saving note",
+        };
+      }
+    } else {
       return {
         ok: true,
-        message: "Note saved successfully",
-      };
-    } catch (error) {
-      return {
-        ok: false,
-        message: (error as string) || "Error saving note",
+        message: "Note not changed",
       };
     }
   };
@@ -51,7 +59,8 @@ const useCurrentNote = () => {
   return {
     note,
     status,
-    toUpdate,
+    isChangedFromAutosave,
+    isTitleChanged,
     updateTitle: updateTitleHandler,
     updateContent: updateContentHandler,
     saveCurrentNote: saveCurrentNoteHandler,

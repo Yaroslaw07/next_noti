@@ -10,7 +10,6 @@ import customFetch from "@/lib/api/fetch";
 import { parseCookies } from "nookies";
 import Head from "next/head";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 
 interface NotePageProps {
   note: NoteType;
@@ -21,9 +20,8 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
 }: NotePageProps) => {
   const router = useRouter();
 
-  const { toUpdate, setCurrentNote, saveCurrentNote } = useCurrentNote();
-
-  const toUpdateNotesList = useRef(false);
+  const { isChangedFromAutosave, setCurrentNote, saveCurrentNote } =
+    useCurrentNote();
 
   useEffect(() => {
     if (note == null) {
@@ -39,10 +37,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
 
   useEffect(() => {
     const timer = setInterval(async () => {
-      if (toUpdate) {
-        await saveCurrentNote();
-        toUpdateNotesList.current = true;
-      }
+      await saveCurrentNote();
     }, 2000);
 
     return () => {

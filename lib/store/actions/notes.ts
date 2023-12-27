@@ -2,7 +2,7 @@ import { Note } from "@/types/note";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import api from "@/lib/api/api";
-import { setToUpdate } from "../reducers/currentNote";
+import { setIsChangedFromAutosave } from "../reducers/currentNote";
 
 export const saveCurrentNote = createAsyncThunk<undefined, undefined>(
   "notes/saveCurrentNote",
@@ -25,7 +25,7 @@ export const saveCurrentNote = createAsyncThunk<undefined, undefined>(
         }
       );
 
-      dispatch(setToUpdate(false));
+      dispatch(setIsChangedFromAutosave(false));
     } catch (error) {
       return rejectWithValue("Failed to save note");
     }

@@ -4,13 +4,15 @@ import { createSlice } from "@reduxjs/toolkit";
 interface currentNoteState {
   note?: Note;
   loadStatus: "loading" | "success" | "failed";
-  toUpdate: boolean;
+  isChangedFromAutosave: boolean;
+  isTitleChanged: boolean;
 }
 
 const initialState: currentNoteState = {
   note: undefined,
   loadStatus: "loading",
-  toUpdate: false,
+  isChangedFromAutosave: false,
+  isTitleChanged: false,
 };
 
 const currentNoteSlice = createSlice({
@@ -25,24 +27,33 @@ const currentNoteSlice = createSlice({
         state.loadStatus = "failed";
       }
     },
-    setToUpdate: (state, action) => {
-      state.toUpdate = action.payload;
+    setIsChangedFromAutosave: (state, action) => {
+      state.isChangedFromAutosave = action.payload;
+    },
+    setIsTitleChanged: (state, action) => {
+      state.isTitleChanged = action.payload;
     },
     updateTitle: (state, action) => {
       if (state.note) {
         state.note.title = action.payload.title;
-        state.toUpdate = true;
+        state.isChangedFromAutosave = true;
+        state.isTitleChanged = true;
       }
     },
     updateContent: (state, action) => {
       if (state.note) {
         state.note.content = action.payload.content;
-        state.toUpdate = true;
+        state.isChangedFromAutosave = true;
       }
     },
   },
 });
 
-export const { setCurrentNote, updateTitle, updateContent, setToUpdate } =
-  currentNoteSlice.actions;
+export const {
+  setCurrentNote,
+  updateTitle,
+  updateContent,
+  setIsChangedFromAutosave,
+  setIsTitleChanged,
+} = currentNoteSlice.actions;
 export default currentNoteSlice.reducer;

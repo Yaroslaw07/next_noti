@@ -2,7 +2,10 @@ import { NoteInfo } from "@/types/note";
 import store, { useAppDispatch } from "../store/store";
 import api from "../api/api";
 import useCurrentNote from "./useCurrentNote";
-import { setToUpdate } from "../store/reducers/currentNote";
+import {
+  setIsTitleChanged,
+  setIsChangedFromAutosave,
+} from "../store/reducers/currentNote";
 import { useRouter } from "next/router";
 import { useUiUpdate } from "./useUiUpdate";
 
@@ -10,7 +13,8 @@ export const useNotesInfo = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-  const { note, toUpdate, saveCurrentNote } = useCurrentNote();
+  const { note, isChangedFromAutosave, isTitleChanged, saveCurrentNote } =
+    useCurrentNote();
   const { setToNotesListUpdate } = useUiUpdate();
 
   const getNotesHandler = async () => {
@@ -58,18 +62,23 @@ export const useNotesInfo = () => {
     }
   };
 
-  const savingRedirect = (url: string) => {
-    if (note == null || toUpdate == false) {
-      router.push(url);
-    }
-
-    if (toUpdate) {
+  const savingRedirect = async (url: string) => {
+    if (isChangedFromAutosave) {
       saveCurrentNote().then(() => {
-        setToNotesListUpdate(true);
-        dispatch(setToUpdate(false));
+        dispatch(setIsChangedFromAutosave(false));
+
+        if (isTitleChanged) {
+          setToNotesListUpdate(true);
+          dispatch(setIsTitleChanged(false));
+        }
+
         router.push(url);
       });
-    }
+    } else if (isTitleChanged) {
+      setToNotesListUpdate(true);
+      dispatch(setIsTitleChanged(false));
+      router.push(url);
+    } else router.push(url);
   };
 
   return {

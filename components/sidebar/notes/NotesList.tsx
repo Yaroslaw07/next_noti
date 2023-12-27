@@ -1,8 +1,6 @@
-import { List, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
-import SidebarWrapper from "../modules/SidebarItem";
-import Link from "@/components/ui/Link";
 import { useVaults } from "@/lib/hooks/useVaults";
 import { FC, useEffect, useState } from "react";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
@@ -23,9 +21,7 @@ const NotesList: FC = () => {
   const [notes, setNotes] = useState<NoteInfo[]>([]);
 
   useEffect(() => {
-    if (currentVault === undefined) {
-      return;
-    }
+    if (!toNotesListUpdate) return;
 
     if (currentVault == null) {
       setNotes([]);
@@ -39,7 +35,7 @@ const NotesList: FC = () => {
 
     setToNotesListUpdate(false);
     fetchData();
-  }, [currentVault, toNotesListUpdate]);
+  }, [toNotesListUpdate]);
 
   return (
     <>

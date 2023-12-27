@@ -7,10 +7,10 @@ import { useRouter } from "next/router";
 import { FC } from "react";
 import SidebarModule from "../SidebarModule";
 import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
-import { Note } from "@/types/note";
+import { NoteInfo } from "@/types/note";
 
 interface NotesItemProps {
-  note: Note;
+  note: NoteInfo;
   active: boolean;
   title?: string;
 }
