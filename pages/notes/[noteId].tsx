@@ -1,9 +1,8 @@
 import { getNotiLayout } from "@/components/notes/Layout";
 import Note from "@/components/notes/Note";
 import { Note as NoteType } from "@/types/note";
-import { setCurrentNote } from "@/lib/store/reducers/currentNote";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { NextPageWithLayout } from "../_app";
 import { GetServerSidePropsContext } from "next";
 import customFetch from "@/lib/api/fetch";
@@ -20,8 +19,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
 }: NotePageProps) => {
   const router = useRouter();
 
-  const { isChangedFromAutosave, setCurrentNote, saveCurrentNote } =
-    useCurrentNote();
+  const { setCurrentNote, saveCurrentNote } = useCurrentNote();
 
   useEffect(() => {
     if (note == null) {
@@ -38,7 +36,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
   useEffect(() => {
     const timer = setInterval(async () => {
       await saveCurrentNote();
-    }, 2000);
+    }, 1000);
 
     return () => {
       clearInterval(timer);

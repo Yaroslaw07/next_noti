@@ -16,12 +16,7 @@ interface NotesItemProps {
 }
 
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
-  const router = useRouter();
-
   const { removeNote, handleRedirect } = useNotesInfo();
-  const { note: currentNote } = useCurrentNote();
-
-  const { setToNotesListUpdate } = useUiUpdate();
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -30,10 +25,10 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
     const response = await removeNote(note.id);
 
     if (response !== undefined) {
-      if (currentNote && currentNote!.id === note.id) {
-        router.replace("/notes/");
-      }
-      setToNotesListUpdate(true);
+      // if (currentNote && currentNote!.id === note.id) {
+      //   router.replace("/notes/");
+      // }
+      // setToNotesListUpdate(true);
     } else {
       console.log("Error deleting note");
     }

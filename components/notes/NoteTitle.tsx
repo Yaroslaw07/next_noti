@@ -1,5 +1,5 @@
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { Box, Input, InputClasses, Skeleton, TextField } from "@mui/material";
+import { InputClasses, Skeleton, TextField } from "@mui/material";
 
 const customStyles: Partial<InputClasses> = {
   input: "fontSize: 80px",
@@ -19,6 +19,7 @@ const NoteTitle = () => {
       sx={{ input: { fontSize: "40px", fontWeight: "500", height: "70px" } }}
       InputProps={{ disableUnderline: true }}
       value={note.title || ""}
+      spellCheck={false}
       onChange={(e) => updateTitle(e.target.value)}
     />
   );
