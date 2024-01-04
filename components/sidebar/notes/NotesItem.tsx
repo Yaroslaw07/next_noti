@@ -1,10 +1,7 @@
 import { Icons } from "@/components/Icons";
-import Link from "@/components/ui/Link";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 import { Box, IconButton, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useState } from "react";
 import SidebarModule from "../SidebarModule";
 import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
 import { NoteInfo } from "@/types/note";
@@ -15,7 +12,12 @@ interface NotesItemProps {
   title?: string;
 }
 
+const MAX_TITLE_LENGTH = 13;
+const MAX_TITLE_LENGTH_HOVER = 10;
+
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
+  const [maxTitleLength, setMaxTitleLength] = useState(MAX_TITLE_LENGTH);
+
   const { removeNote, handleRedirect } = useNotesInfo();
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,15 +26,29 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
 
     const response = await removeNote(note.id);
 
-    if (response !== undefined) {
-      // if (currentNote && currentNote!.id === note.id) {
-      //   router.replace("/notes/");
-      // }
-      // setToNotesListUpdate(true);
-    } else {
+    if (response === undefined) {
       console.log("Error deleting note");
     }
   };
+
+  const setFullTitleLength = () => {
+    setMaxTitleLength(MAX_TITLE_LENGTH);
+  };
+
+  const setHoverTitleLength = () => {
+    setMaxTitleLength(MAX_TITLE_LENGTH_HOVER);
+  };
+
+  const currentTitle: string = active
+    ? !title || title === ""
+      ? "Undefined"
+      : title
+    : note.title;
+
+  const displayTitle =
+    currentTitle!.length > maxTitleLength
+      ? `${currentTitle.slice(0, maxTitleLength)}...`
+      : currentTitle;
 
   return (
     <SidebarModule
@@ -55,12 +71,12 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
         }),
       }}
       onClick={() => handleRedirect(`/notes/${note.id}`)}
+      onMouseEnter={setHoverTitleLength}
+      onMouseLeave={setFullTitleLength}
     >
       <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <Icons.Note sx={{ color: "text.secondary" }} />
-        <Typography sx={{ color: "text.secondary" }}>
-          {active ? (title === "" ? "Undefined" : title) : note.title}
-        </Typography>
+        <Typography sx={{ color: "text.secondary" }}>{displayTitle}</Typography>
       </Box>
 
       <IconButton

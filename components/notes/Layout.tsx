@@ -1,7 +1,13 @@
 import { Grid } from "@mui/material";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "./Header";
-import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
+import {
+  FC,
+  JSXElementConstructor,
+  ReactElement,
+  useEffect,
+  useRef,
+} from "react";
 import { useVaults } from "@/lib/hooks/useVaults";
 import Backdrop from "../ui/Backdrop";
 import { useRouter } from "next/router";
@@ -21,7 +27,13 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
   const { setToNotesListUpdate } = useUiUpdate();
   const { note } = useCurrentNote();
 
-  console.log(note?.id);
+  const currentNoteId = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (note?.id) {
+      currentNoteId.current = note.id;
+    }
+  }, [note?.id]);
 
   useEffect(() => {
     if (currentVault === null) {
@@ -40,19 +52,17 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
     });
 
     socket.on("noteDeleted", (noteId) => {
-      // console.log(router.query, note?.id, noteId);
-      // if (router.query.noteId && router.query.noteId === noteId) {
-      //   console.log("here");
-      //   router.replace("/notes/");
-      // }
-      router.replace("/notes");
+      if (currentNoteId.current !== null && currentNoteId.current === noteId) {
+        console.log("here");
+        router.replace("/notes/");
+      }
       setToNotesListUpdate(true);
     });
 
     return () => {
       socket.close();
     };
-  }, [currentVault]);
+  }, [currentVault?.id]);
 
   return (
     <Grid container>

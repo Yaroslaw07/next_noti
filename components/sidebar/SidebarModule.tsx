@@ -1,12 +1,6 @@
 import theme from "@/lib/ui/theme";
-import { Box, SxProps } from "@mui/material";
+import { Box, BoxProps, SxProps } from "@mui/material";
 import { FC } from "react";
-
-interface SidebarModuleProps {
-  children: React.ReactNode;
-  sx?: SxProps;
-  onClick?: (event?: any) => void;
-}
 
 const defaultSidebarItemSx = {
   height: "44px",
@@ -35,12 +29,8 @@ const defaultSidebarItemSx = {
   cursor: "pointer",
 };
 
-const SidebarModule: FC<SidebarModuleProps> = ({ sx, children, onClick }) => {
-  return (
-    <Box sx={{ ...defaultSidebarItemSx, ...sx }} onClick={onClick}>
-      {children}
-    </Box>
-  );
+const SidebarModule: FC<BoxProps> = (props) => {
+  return <Box {...props} sx={{ ...defaultSidebarItemSx, ...props.sx }}></Box>;
 };
 
 export default SidebarModule;
