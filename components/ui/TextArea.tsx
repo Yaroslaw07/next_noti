@@ -1,37 +1,17 @@
-import { Input, TextareaAutosize, styled } from "@mui/material";
-import { FC } from "react";
-
-const TextAreaAuto = styled(TextareaAutosize)(
-  ({ theme }) => `
-  width: 100%;
-  font-weight: 500;
-  line-height: 1.5;
-  font-size: 1rem;
-  padding: 4px 4px;
-  border: none;
-  background: transparent;
-  resize: none;
-  &:hover {
-    border-color: "primary.secondary";
-  }
-
-  &:focus {
-    border-color: "primary.main";
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
+import theme from "@/lib/ui/theme";
+import { TextareaAutosize } from "@mui/material";
+import { FC, useLayoutEffect, useRef } from "react";
 
 interface TextAreaProps {
   value: string;
   onChange: (content: string) => void;
 }
 
+const MIN_TEXTAREA_HEIGHT = 32;
+
 const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const handleContentChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -39,13 +19,36 @@ const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
     onChange(newContent);
   };
 
+  useLayoutEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "inherit";
+
+      textareaRef.current.style.height = `${Math.max(
+        textareaRef.current.scrollHeight,
+        MIN_TEXTAREA_HEIGHT
+      )}px`;
+    }
+  }, [value]);
+
   return (
-    <Input
+    <textarea
       placeholder="Empty content"
-      value={value}
+      ref={textareaRef}
+      value={value || ""}
       onChange={handleContentChange}
-      disableUnderline={true}
-      multiline
+      style={{
+        width: "100%",
+        resize: "none",
+        outline: "none",
+        border: "none",
+        fontSize: "1.2rem",
+        background: theme.palette.background.default,
+        fontFamily: theme.typography.fontFamily,
+        lineHeight: "1.5",
+        overflow: "hidden",
+        boxSizing: "border-box",
+        height: "100%",
+      }}
     />
   );
 };

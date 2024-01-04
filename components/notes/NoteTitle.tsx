@@ -1,10 +1,6 @@
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { InputClasses, Skeleton, TextField } from "@mui/material";
 
-const customStyles: Partial<InputClasses> = {
-  input: "fontSize: 80px",
-};
-
 const NoteTitle = () => {
   const { note, updateTitle } = useCurrentNote();
 

@@ -25,7 +25,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
   const { currentVault } = useVaults();
 
   const { setToNotesListUpdate } = useUiUpdate();
-  const { note } = useCurrentNote();
+  const { note, setCurrentNote } = useCurrentNote();
 
   const currentNoteId = useRef<string | null>(null);
 
@@ -53,8 +53,18 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
 
     socket.on("noteDeleted", (noteId) => {
       if (currentNoteId.current !== null && currentNoteId.current === noteId) {
-        console.log("here");
         router.replace("/notes/");
+      }
+      setToNotesListUpdate(true);
+    });
+
+    socket.on("noteUpdated", (newNote) => {
+      console.log(newNote, currentNoteId.current);
+      if (
+        currentNoteId.current !== null &&
+        currentNoteId.current === newNote.id
+      ) {
+        setCurrentNote(newNote);
       }
       setToNotesListUpdate(true);
     });
@@ -65,7 +75,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
   }, [currentVault?.id]);
 
   return (
-    <Grid container>
+    <Grid container wrap="nowrap">
       <Backdrop open={currentVault === undefined} />
       <Grid item>
         <Sidebar />
