@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { io } from "socket.io-client";
 import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
+import { getAccessToken } from "@/lib/api/accessToken";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
@@ -41,37 +42,53 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
       return;
     }
 
-    const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}`, {
-      query: {
-        vaultId: currentVault?.id,
-      },
-    });
+    const initializeSocket = async () => {
+      try {
+        const token = await getAccessToken();
 
-    socket.on("newNote", () => {
-      setToNotesListUpdate(true);
-    });
+        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}`, {
+          query: {
+            vaultId: currentVault?.id,
+          },
+          extraHeaders: {
+            token: token,
+          },
+        });
 
-    socket.on("noteDeleted", (noteId) => {
-      if (currentNoteId.current !== null && currentNoteId.current === noteId) {
-        router.replace("/notes/");
+        socket.on("newNote", () => {
+          setToNotesListUpdate(true);
+        });
+
+        socket.on("noteDeleted", (noteId) => {
+          if (
+            currentNoteId.current !== null &&
+            currentNoteId.current === noteId
+          ) {
+            router.replace("/notes/");
+          }
+          setToNotesListUpdate(true);
+        });
+
+        socket.on("noteUpdated", ({ updatedNote, isTitleUpdated }) => {
+          console.log(updatedNote, currentNoteId.current, isTitleUpdated);
+          if (
+            currentNoteId.current !== null &&
+            currentNoteId.current === updatedNote.id
+          ) {
+            setCurrentNote(updatedNote);
+          }
+          (isTitleUpdated === true || isTitleUpdated === undefined) &&
+            setToNotesListUpdate(true);
+        });
+
+        return () => {
+          socket.close();
+        };
+      } catch (error) {
+        router.push("/login");
       }
-      setToNotesListUpdate(true);
-    });
-
-    socket.on("noteUpdated", (newNote) => {
-      console.log(newNote, currentNoteId.current);
-      if (
-        currentNoteId.current !== null &&
-        currentNoteId.current === newNote.id
-      ) {
-        setCurrentNote(newNote);
-      }
-      setToNotesListUpdate(true);
-    });
-
-    return () => {
-      socket.close();
     };
+    initializeSocket();
   }, [currentVault?.id]);
 
   return (

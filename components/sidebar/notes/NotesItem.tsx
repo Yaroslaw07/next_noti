@@ -1,5 +1,4 @@
 import { Icons } from "@/components/Icons";
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { Box, IconButton, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import SidebarModule from "../SidebarModule";
@@ -12,8 +11,8 @@ interface NotesItemProps {
   title?: string;
 }
 
-const MAX_TITLE_LENGTH = 13;
-const MAX_TITLE_LENGTH_HOVER = 10;
+const MAX_TITLE_LENGTH = 12;
+const MAX_TITLE_LENGTH_HOVER = 8;
 
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
   const [maxTitleLength, setMaxTitleLength] = useState(MAX_TITLE_LENGTH);
