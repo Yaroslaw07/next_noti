@@ -3,12 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface currentNoteState {
   note?: Note;
-  status: string;
+  loadStatus: "loading" | "success" | "failed";
+  isChangedFromAutosave: boolean;
+  isTitleChanged: boolean;
 }
 
 const initialState: currentNoteState = {
   note: undefined,
-  status: "loading",
+  loadStatus: "loading",
+  isChangedFromAutosave: false,
+  isTitleChanged: false,
 };
 
 const currentNoteSlice = createSlice({
@@ -18,25 +22,38 @@ const currentNoteSlice = createSlice({
     setCurrentNote: (state, action) => {
       state.note = action.payload;
       if (state.note !== null) {
-        state.status = "success";
+        state.loadStatus = "success";
       } else {
-        state.status = "failed";
+        state.loadStatus = "failed";
       }
+    },
+    setIsChangedFromAutosave: (state, action) => {
+      state.isChangedFromAutosave = action.payload;
+    },
+    setIsTitleChanged: (state, action) => {
+      state.isTitleChanged = action.payload;
     },
     updateTitle: (state, action) => {
       if (state.note) {
         state.note.title = action.payload.title;
+        state.isChangedFromAutosave = true;
+        state.isTitleChanged = true;
       }
     },
     updateContent: (state, action) => {
       if (state.note) {
-        console.log("updateContent", action.payload.content);
         state.note.content = action.payload.content;
+        state.isChangedFromAutosave = true;
       }
     },
   },
 });
 
-export const { setCurrentNote, updateTitle, updateContent } =
-  currentNoteSlice.actions;
+export const {
+  setCurrentNote,
+  updateTitle,
+  updateContent,
+  setIsChangedFromAutosave,
+  setIsTitleChanged,
+} = currentNoteSlice.actions;
 export default currentNoteSlice.reducer;

@@ -28,7 +28,6 @@ const Header = () => {
         >
           {status === "loading" && "No note opened"}
           {(status === "success" && note?.title) || "Undefined"}
-          {status === "error" && "Error"}
         </Typography>
         <IconButton sx={{}}>
           <Icons.More sx={{ fontSize: "30px" }} />

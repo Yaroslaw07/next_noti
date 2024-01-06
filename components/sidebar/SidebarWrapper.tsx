@@ -23,6 +23,8 @@ const SidebarWrapper: FC<SidebarWrapperProps> = ({ children }) => {
         alignContent: "center",
 
         borderRadius: "0px",
+        borderTopLeftRadius: "8px",
+        borderBottomLeftRadius: "8px",
 
         paddingY: "4px",
         paddingLeft: "8px",
