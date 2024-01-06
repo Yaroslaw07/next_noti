@@ -5,12 +5,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
 import SidebarModule from "../SidebarModule";
+import useCurrentNote from "@/lib/hooks/useCurrentNote";
+import VaultModuleMenuItem from "./VaultModuleMenuItem";
 
 const VaultSidebar = () => {
   const router = useRouter();
 
   const { logout } = useAuth();
   const { currentVault } = useVaults();
+  const { saveCurrentNote } = useCurrentNote();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -18,11 +21,13 @@ const VaultSidebar = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleChangeVault = () => {
+  const handleChangeVault = async () => {
+    await saveCurrentNote();
     router.push("/vaults");
   };
 
   const handleLogout = async () => {
+    await saveCurrentNote();
     await logout();
     router.push("/auth/login");
   };
@@ -73,52 +78,34 @@ const VaultSidebar = () => {
           disablePadding: true,
         }}
       >
-        <MenuItem
-          sx={{
-            maxWidth: "190px",
-            paddingX: "0px",
-            paddingY: "0px",
-          }}
-          onClick={handleChangeVault}
-        >
-          <SidebarModule sx={{ paddingLeft: "12px", gap: "8px" }}>
-            <Icons.ChangeVault
-              sx={{ fontSize: "24px", color: "text.secondary" }}
-            />
-            <Typography
-              sx={{
-                fontSize: "1rem",
-                fontWeight: "400",
-                color: "text.secondary",
-                marginTop: "2px",
-              }}
-            >
-              Change vault
-            </Typography>
-          </SidebarModule>
-        </MenuItem>
-        <MenuItem
-          sx={{
-            width: "190px",
-            paddingX: "0px",
-            paddingY: "0px",
-          }}
-          onClick={handleLogout}
-        >
-          <SidebarModule sx={{ paddingLeft: "12px", gap: "8px" }}>
-            <Icons.Logout sx={{ fontSize: "24px", color: "text.secondary" }} />
-            <Typography
-              sx={{
-                fontSize: "1rem",
-                fontWeight: "400",
-                color: "text.secondary",
-                marginTop: "2px",
-              }}
-            >
-              Logout
-            </Typography>
-          </SidebarModule>
-        </MenuItem>
+        <VaultModuleMenuItem onClick={handleChangeVault}>
+          <Icons.ChangeVault
+            sx={{ fontSize: "24px", color: "text.secondary" }}
+          />
+          <Typography
+            sx={{
+              fontSize: "1rem",
+              fontWeight: "400",
+              color: "text.secondary",
+              marginTop: "2px",
+            }}
+          >
+            Change vault
+          </Typography>
+        </VaultModuleMenuItem>
+        <VaultModuleMenuItem onClick={handleLogout}>
+          <Icons.Logout sx={{ fontSize: "24px", color: "text.secondary" }} />
+          <Typography
+            sx={{
+              fontSize: "1rem",
+              fontWeight: "400",
+              color: "text.secondary",
+              marginTop: "2px",
+            }}
+          >
+            Logout
+          </Typography>
+        </VaultModuleMenuItem>
       </Menu>
     </>
   );
