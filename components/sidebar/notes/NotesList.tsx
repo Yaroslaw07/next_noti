@@ -67,6 +67,7 @@ const NotesList: FC = () => {
         <Stack
           sx={{
             overflowY: "auto",
+            overflowX: "hidden",
             maxHeight: "100%",
             paddingBottom: "8px",
             width: "100%",

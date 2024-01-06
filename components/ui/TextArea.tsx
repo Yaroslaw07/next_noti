@@ -1,6 +1,5 @@
 import theme from "@/lib/ui/theme";
-import { TextareaAutosize } from "@mui/material";
-import { FC, useLayoutEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 
 interface TextAreaProps {
   value: string;
@@ -19,7 +18,7 @@ const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
     onChange(newContent);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "inherit";
 
@@ -41,7 +40,7 @@ const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
         resize: "none",
         outline: "none",
         border: "none",
-        fontSize: "1.2rem",
+        fontSize: "1.1rem",
         background: theme.palette.background.default,
         fontFamily: theme.typography.fontFamily,
         lineHeight: "1.5",
