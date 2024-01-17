@@ -6,7 +6,7 @@ import {
   updateContent,
   updateTitle,
 } from "../store/reducers/currentNote";
-import { Note } from "@/types/note";
+import { ContentBlock, Note } from "@/types/note";
 import { saveCurrentNote } from "../store/actions/notes";
 
 const useCurrentNote = () => {
@@ -23,8 +23,9 @@ const useCurrentNote = () => {
     dispatch(updateTitle({ title }));
   };
 
-  const updateContentHandler = (content: string) => {
-    dispatch(updateContent({ content }));
+  const updateContentHandler = (id: string, props: any) => {
+    console.log(id, props);
+    dispatch(updateContent({ id, props }));
   };
 
   const setCurrentNoteHandler = (note: Note) => {

@@ -18,11 +18,11 @@ export const saveCurrentNote = createAsyncThunk<undefined, undefined>(
       dispatch(setIsChangedFromAutosave(false));
       dispatch(setIsTitleChanged(false));
 
-      await api.patch<Note>(
+      await api.put<Note>(
         `/notes/${currentNote?.id}`,
         {
           title: currentNote?.title || "",
-          content: currentNote?.content || "",
+          blocks: currentNote?.blocks || "",
           isTitleUpdated,
         },
         {

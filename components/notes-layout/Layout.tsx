@@ -46,7 +46,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
       try {
         const token = await getAccessToken();
 
-        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}`, {
+        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}/notes`, {
           query: {
             vaultId: currentVault?.id,
           },
@@ -85,7 +85,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
           socket.close();
         };
       } catch (error) {
-        router.push("/login");
+        router.push("/auth/login");
       }
     };
     initializeSocket();

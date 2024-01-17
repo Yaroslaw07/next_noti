@@ -1,4 +1,4 @@
-import { getNotiLayout } from "@/components/notes/Layout";
+import { getNotiLayout } from "@/components/notes-layout/Layout";
 import NoNote from "@/components/notes/NoNote";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/store/store";
@@ -9,10 +9,9 @@ import Head from "next/head";
 
 const NoNotePage: NextPageWithLayout = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const note = null;
 
   useEffect(() => {
-    dispatch(setCurrentNote({ note }));
+    dispatch(setCurrentNote(null));
   }, []);
 
   return (

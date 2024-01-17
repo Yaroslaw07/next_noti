@@ -1,0 +1,3 @@
+type TextProps = {
+  text: string;
+};

@@ -1,4 +1,4 @@
-import { getNotiLayout } from "@/components/notes/Layout";
+import { getNotiLayout } from "@/components/notes-layout/Layout";
 import Note from "@/components/notes/Note";
 import { Note as NoteType } from "@/types/note";
 import { useRouter } from "next/navigation";

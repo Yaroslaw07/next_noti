@@ -1,3 +1,4 @@
+import { updateContent } from "@/lib/store/reducers/currentNote";
 import theme from "@/lib/ui/theme";
 import { FC, useEffect, useRef } from "react";
 
@@ -11,9 +12,19 @@ const MIN_TEXTAREA_HEIGHT = 32;
 const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleContentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const isBackspacePressed = event.key === "Backspace";
+
+    if (isBackspacePressed && textareaRef.current?.value.length === 0) {
+      console.log("handle backspace");
+    }
+
+    if (event.key === "Enter") {
+      console.log("handle enter");
+    }
+  };
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = event.target.value;
     onChange(newContent);
   };
@@ -34,7 +45,8 @@ const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
       placeholder="Empty content"
       ref={textareaRef}
       value={value || ""}
-      onChange={handleContentChange}
+      onKeyUp={handleKeyUp}
+      onChange={handleOnChange}
       style={{
         width: "100%",
         resize: "none",

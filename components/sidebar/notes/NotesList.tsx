@@ -36,7 +36,7 @@ const NotesList: FC = () => {
     };
 
     fetchData();
-  }, [toNotesListUpdate]);
+  }, [currentVault, toNotesListUpdate]);
 
   return (
     <>

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface currentNoteState {
   note?: Note;
-  loadStatus: "loading" | "success" | "failed";
+  loadStatus: "loading" | "success" | "failed" | "not-init";
   isChangedFromAutosave: boolean;
   isTitleChanged: boolean;
 }
@@ -24,7 +24,7 @@ const currentNoteSlice = createSlice({
       if (state.note !== null) {
         state.loadStatus = "success";
       } else {
-        state.loadStatus = "failed";
+        state.loadStatus = "not-init";
       }
     },
     setIsChangedFromAutosave: (state, action) => {
@@ -42,7 +42,12 @@ const currentNoteSlice = createSlice({
     },
     updateContent: (state, action) => {
       if (state.note) {
-        state.note.content = action.payload.content;
+        const index = state.note.blocks.findIndex(
+          (block) => block.id === action.payload.id
+        );
+
+        state.note.blocks[index].props = action.payload.props;
+
         state.isChangedFromAutosave = true;
       }
     },
