@@ -27,6 +27,8 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
 
     if (response === undefined) {
       console.log("Error deleting note");
+    } else if (active) {
+      handleRedirect("/notes");
     }
   };
 

@@ -27,6 +27,16 @@ const currentNoteSlice = createSlice({
         state.loadStatus = "not-init";
       }
     },
+    setCurrentNoteTitle: (state, action) => {
+      if (state.note) {
+        state.note.title = action.payload;
+      }
+    },
+    setCurrentNoteContent: (state, action) => {
+      if (state.note) {
+        state.note.blocks = action.payload;
+      }
+    },
     setIsChangedFromAutosave: (state, action) => {
       state.isChangedFromAutosave = action.payload;
     },
@@ -56,6 +66,8 @@ const currentNoteSlice = createSlice({
 
 export const {
   setCurrentNote,
+  setCurrentNoteTitle,
+  setCurrentNoteContent,
   updateTitle,
   updateContent,
   setIsChangedFromAutosave,

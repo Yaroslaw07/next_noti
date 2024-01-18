@@ -1,5 +1,5 @@
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { InputClasses, Skeleton, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 
 const NoteTitle = () => {
   const { note, updateTitle } = useCurrentNote();

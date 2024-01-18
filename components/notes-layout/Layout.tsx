@@ -37,8 +37,8 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
   }, [note?.id]);
 
   useEffect(() => {
-    if (currentVault === null) {
-      router.push("/vaults");
+    if (currentVault === null || currentVault === undefined) {
+      currentVault === null && router.push("/vaults");
       return;
     }
 
@@ -46,39 +46,19 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
       try {
         const token = await getAccessToken();
 
-        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}/notes`, {
-          query: {
-            vaultId: currentVault?.id,
-          },
+        console.log("token", token, currentVault?.id);
+
+        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}`, {
           extraHeaders: {
             token: token,
           },
+          query: {
+            vaultId: currentVault?.id,
+          },
         });
 
-        socket.on("newNote", () => {
+        socket.on("noteListUpdated", () => {
           setToNotesListUpdate(true);
-        });
-
-        socket.on("noteDeleted", (noteId) => {
-          if (
-            currentNoteId.current !== null &&
-            currentNoteId.current === noteId
-          ) {
-            router.replace("/notes/");
-          }
-          setToNotesListUpdate(true);
-        });
-
-        socket.on("noteUpdated", ({ updatedNote, isTitleUpdated }) => {
-          console.log(updatedNote, currentNoteId.current, isTitleUpdated);
-          if (
-            currentNoteId.current !== null &&
-            currentNoteId.current === updatedNote.id
-          ) {
-            setCurrentNote(updatedNote);
-          }
-          (isTitleUpdated === true || isTitleUpdated === undefined) &&
-            setToNotesListUpdate(true);
         });
 
         return () => {
@@ -89,7 +69,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
       }
     };
     initializeSocket();
-  }, [currentVault?.id]);
+  }, []);
 
   return (
     <Grid container wrap="nowrap">

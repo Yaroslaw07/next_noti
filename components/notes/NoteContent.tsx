@@ -8,8 +8,6 @@ const NoteContent = () => {
     updateContent(id, props);
   };
 
-  console.log(note?.blocks);
-
   return (
     <>
       {note?.blocks &&

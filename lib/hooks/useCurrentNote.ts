@@ -2,6 +2,8 @@ import { RootState, useAppDispatch } from "@/lib/store/store";
 import { useSelector } from "react-redux";
 import {
   setCurrentNote,
+  setCurrentNoteContent,
+  setCurrentNoteTitle,
   setIsChangedFromAutosave,
   updateContent,
   updateTitle,
@@ -30,6 +32,14 @@ const useCurrentNote = () => {
 
   const setCurrentNoteHandler = (note: Note) => {
     dispatch(setCurrentNote(note));
+  };
+
+  const setCurrentNoteTitleHandler = (title: string) => {
+    dispatch(setCurrentNoteTitle({ title }));
+  };
+
+  const setCurrentNoteContentHandler = (blocks: ContentBlock[]) => {
+    dispatch(setCurrentNoteContent({ blocks }));
   };
 
   const saveCurrentNoteHandler = async () => {
@@ -66,6 +76,8 @@ const useCurrentNote = () => {
     updateContent: updateContentHandler,
     saveCurrentNote: saveCurrentNoteHandler,
     setCurrentNote: setCurrentNoteHandler,
+    setCurrentNoteTitle: setCurrentNoteTitleHandler,
+    setCurrentNoteContent: setCurrentNoteContentHandler,
   };
 };
 
