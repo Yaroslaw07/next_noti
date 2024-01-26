@@ -26,9 +26,11 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
   const { currentVault } = useVaults();
 
   const { setToNotesListUpdate } = useUiUpdate();
-  const { note, setCurrentNote } = useCurrentNote();
+  const { note } = useCurrentNote();
 
   const currentNoteId = useRef<string | null>(null);
+
+  const noteSocket = useRef<any>(null);
 
   useEffect(() => {
     if (note?.id) {
@@ -46,18 +48,25 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
       try {
         const token = await getAccessToken();
 
-        console.log("token", token, currentVault?.id);
-
-        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}`, {
+        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}/vaults`, {
           extraHeaders: {
             token: token,
           },
-          query: {
-            vaultId: currentVault?.id,
-          },
         });
 
-        socket.on("noteListUpdated", () => {
+        noteSocket.current = socket.on("connect", () => {
+          socket.emit("joinVault", currentVault.id);
+        });
+
+        socket.on("createdNote", () => {
+          setToNotesListUpdate(true);
+        });
+
+        socket.on("updatedNoteInfo", () => {
+          setToNotesListUpdate(true);
+        });
+
+        socket.on("deletedNote", () => {
           setToNotesListUpdate(true);
         });
 
@@ -65,11 +74,12 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
           socket.close();
         };
       } catch (error) {
+        console.log(error);
         router.push("/auth/login");
       }
     };
     initializeSocket();
-  }, []);
+  }, [currentVault?.id]);
 
   return (
     <Grid container wrap="nowrap">
