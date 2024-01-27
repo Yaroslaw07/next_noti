@@ -9,9 +9,7 @@ const NewNoteModule: FC = () => {
   const handleClick = async () => {
     const newNote = await addNote();
 
-    if (newNote !== undefined) {
-      await handleRedirect(`/notes/${newNote.id}`);
-    } else {
+    if (newNote === undefined) {
       console.log("Adding new note ended unsuccessfully");
     }
   };

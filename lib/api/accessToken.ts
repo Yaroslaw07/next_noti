@@ -17,5 +17,5 @@ export const getAccessToken = async () => {
     throw new AxiosError(data.message, response.status.toString());
   }
 
-  return data.accessToken;
+  return data.accessToken as string;
 };

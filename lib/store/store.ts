@@ -1,12 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import currentNoteReducer from "./reducers/currentNote";
-import uiUpdateReducer from "./reducers/uiUpdate";
 import { useDispatch } from "react-redux";
 import currentVault from "./reducers/currentVault";
 
 const store = configureStore({
   reducer: {
-    uiUpdate: uiUpdateReducer,
     currentVault: currentVault,
     currentNote: currentNoteReducer,
   },

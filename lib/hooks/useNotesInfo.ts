@@ -7,15 +7,13 @@ import {
   setIsChangedFromAutosave,
 } from "../store/reducers/currentNote";
 import { useRouter } from "next/router";
-import { useUiUpdate } from "./useUiUpdate";
 
 export const useNotesInfo = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-  const { note, isChangedFromAutosave, isTitleChanged, saveCurrentNote } =
+  const { isChangedFromAutosave, isTitleChanged, saveCurrentNote } =
     useCurrentNote();
-  const { setToNotesListUpdate } = useUiUpdate();
 
   const getNotesHandler = async () => {
     try {
@@ -68,14 +66,12 @@ export const useNotesInfo = () => {
         dispatch(setIsChangedFromAutosave(false));
 
         if (isTitleChanged) {
-          setToNotesListUpdate(true);
           dispatch(setIsTitleChanged(false));
         }
 
         router.push(url);
       });
     } else if (isTitleChanged) {
-      setToNotesListUpdate(true);
       dispatch(setIsTitleChanged(false));
       router.push(url);
     } else router.push(url);

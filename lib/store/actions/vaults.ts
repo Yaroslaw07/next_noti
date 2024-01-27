@@ -5,18 +5,6 @@ import { parseCookies, setCookie } from "nookies";
 import { setCurrentVault } from "../reducers/currentVault";
 import { AxiosError } from "axios";
 
-export const getVaults = createAsyncThunk<Vault[], void>(
-  "vault/getVaults",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await api.get<Vault[]>("/vaults/");
-      return response.data;
-    } catch (error) {
-      return rejectWithValue("Failed to fetch vaults");
-    }
-  }
-);
-
 export const createNewVault = createAsyncThunk<Vault, string>(
   "vault/createNewVault",
   async (name, { rejectWithValue, dispatch }) => {

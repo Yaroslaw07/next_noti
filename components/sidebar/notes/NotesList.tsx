@@ -4,11 +4,11 @@ import { Icons } from "@/components/Icons";
 import { useVaults } from "@/lib/hooks/useVaults";
 import { FC, useEffect, useState } from "react";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 import SidebarModule from "../SidebarModule";
 import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
 import { NoteInfo } from "@/types/note";
 import { useRouter } from "next/router";
+import useVaultStore from "@/lib/store/vaultSocketStore";
 
 const NotesList: FC = () => {
   const router = useRouter();
@@ -16,27 +16,44 @@ const NotesList: FC = () => {
   const { currentVault } = useVaults();
   const { getNotes, handleRedirect } = useNotesInfo();
   const { note } = useCurrentNote();
-  const { toNotesListUpdate, setToNotesListUpdate } = useUiUpdate();
+  const { socket } = useVaultStore();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
 
   useEffect(() => {
-    if (!toNotesListUpdate) return;
-
-    if (currentVault == null) {
-      setNotes([]);
-      setToNotesListUpdate(false);
-      return;
-    }
-
     const fetchData = async () => {
       const response = await getNotes();
       setNotes(response!);
-      setToNotesListUpdate(false);
     };
 
     fetchData();
-  }, [currentVault, toNotesListUpdate]);
+  }, [currentVault]);
+
+  useEffect(() => {
+    if (socket === null || socket === undefined) {
+      return;
+    }
+
+    socket.on("note-created", (createdNote) => {
+      setNotes((prev) => [...prev, createdNote]);
+      handleRedirect(`/notes/${createdNote.id}`);
+    });
+
+    socket.on("noteInfos-updated", (updatedNote) => {
+      setNotes((prev) =>
+        prev.map((note) => (note.id === updatedNote.id ? updatedNote : note))
+      );
+    });
+
+    socket.on("note-deleted", (deletedNoteId) => {
+      console.log("note-deleted", deletedNoteId);
+      setNotes((prev) => prev.filter((note) => note.id !== deletedNoteId));
+    });
+
+    return () => {
+      socket.off("notes");
+    };
+  }, [socket]);
 
   return (
     <>

@@ -11,10 +11,10 @@ import {
 import { useVaults } from "@/lib/hooks/useVaults";
 import Backdrop from "../ui/Backdrop";
 import { useRouter } from "next/router";
-import { io } from "socket.io-client";
-import { useUiUpdate } from "@/lib/hooks/useUiUpdate";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import { getAccessToken } from "@/lib/accessToken";
+import { getAccessToken } from "@/lib/api/accessToken";
+import connectSocket from "@/lib/api/socket";
+import useVaultStore from "@/lib/store/vaultSocketStore";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
@@ -25,12 +25,11 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
 
   const { currentVault } = useVaults();
 
-  const { setToNotesListUpdate } = useUiUpdate();
   const { note } = useCurrentNote();
 
-  const currentNoteId = useRef<string | null>(null);
+  const { initializeSocket, closeSocket } = useVaultStore();
 
-  const noteSocket = useRef<any>(null);
+  const currentNoteId = useRef<string | null>(null);
 
   useEffect(() => {
     if (note?.id) {
@@ -44,41 +43,30 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
       return;
     }
 
-    const initializeSocket = async () => {
+    const initSocket = async () => {
       try {
         const token = await getAccessToken();
 
-        const socket = io(`${process.env.NEXT_PUBLIC_APP_API_URL}/vaults`, {
-          extraHeaders: {
-            token: token,
-          },
-        });
+        const socket = await initializeSocket(token);
 
-        noteSocket.current = socket.on("connect", () => {
+        if (socket === undefined) {
+          router.push("/auth/vaults");
+          return;
+        }
+
+        socket.on("connect", () => {
           socket.emit("joinVault", currentVault.id);
         });
 
-        socket.on("createdNote", () => {
-          setToNotesListUpdate(true);
-        });
-
-        socket.on("updatedNoteInfo", () => {
-          setToNotesListUpdate(true);
-        });
-
-        socket.on("deletedNote", () => {
-          setToNotesListUpdate(true);
-        });
-
         return () => {
-          socket.close();
+          closeSocket();
         };
       } catch (error) {
         console.log(error);
         router.push("/auth/login");
       }
     };
-    initializeSocket();
+    initSocket();
   }, [currentVault?.id]);
 
   return (

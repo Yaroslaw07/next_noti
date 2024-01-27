@@ -7,10 +7,7 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import { LoginCredentials } from "@/types/auth";
 import { NextPageWithLayout } from "../_app";
 import FormLayout from "@/components/form/FormPageLayout";
-import { Icons } from "@/components/Icons";
-import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import HR from "@/components/ui/HR";
 import AuthTitle from "@/components/auth/AuthTitle";
 
 const LoginPage: NextPageWithLayout = () => {

@@ -7,7 +7,6 @@ import {
 import { Vault } from "@/types/vault";
 import { RootState, useAppDispatch } from "../store/store";
 import { useEffect } from "react";
-import { useUiUpdate } from "./useUiUpdate";
 
 export const useVaults = () => {
   const dispatch = useAppDispatch();
@@ -15,11 +14,8 @@ export const useVaults = () => {
     (state: RootState) => state.currentVault.vault
   );
 
-  const { setToNotesListUpdate } = useUiUpdate();
-
   useEffect(() => {
     dispatch(loadVault());
-    setToNotesListUpdate(true);
   }, []);
 
   const createNewVaultHandler = async (

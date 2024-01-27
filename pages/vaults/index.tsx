@@ -3,7 +3,6 @@ import VaultsActions from "@/components/vaults/VaultsActions";
 import VaultsList from "@/components/vaults/VaultsList";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
-import { NextPageWithLayout } from "../_app";
 import { Vault } from "@/types/vault";
 import { GetServerSidePropsContext } from "next";
 import customFetch from "@/lib/api/fetch";
