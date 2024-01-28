@@ -1,15 +1,14 @@
-import { Icons } from "@/components/Icons";
-import { Box, Typography } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import SignupForm from "@/components/auth/SignupForm";
+
+import SignupForm from "@/features/auth/components/SignupForm";
 import { useToast } from "@/lib/hooks/useToast";
-import { useAuth } from "@/lib/hooks/useAuth";
-import { SignupCredentials } from "@/types/auth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import { SignupCredentials } from "@/features/auth/types/auth";
 import Link from "@/components/ui/Link";
 import { NextPageWithLayout } from "../_app";
-import FormLayout from "@/components/form/FormPageLayout";
-import AuthTitle from "@/components/auth/AuthTitle";
+import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";
+import AuthTitle from "@/features/auth/components/AuthTitle";
 
 const SignUpPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -54,7 +53,7 @@ const SignUpPage: NextPageWithLayout = () => {
 };
 
 SignUpPage.getLayout = (page: React.ReactNode) => (
-  <FormLayout>{page}</FormLayout>
+  <AuthPageFormLayout>{page}</AuthPageFormLayout>
 );
 
 export default SignUpPage;

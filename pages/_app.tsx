@@ -1,5 +1,5 @@
 import { Providers } from "@/components/Providers";
-import { ToastProvider } from "@/lib/context/toastContext";
+import { ToastProvider } from "@/context/toastContext";
 import theme from "@/lib/ui/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { NextPage } from "next";

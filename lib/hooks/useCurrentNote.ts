@@ -1,25 +1,7 @@
-import { RootState, useAppDispatch } from "@/lib/store/store";
-import { useSelector } from "react-redux";
-import {
-  setCurrentNote,
-  setCurrentNoteContent,
-  setCurrentNoteTitle,
-  setIsChangedFromAutosave,
-  updateContent,
-  updateTitle,
-} from "../store/reducers/currentNote";
-import { ContentBlock, Note } from "@/types/note";
-import { saveCurrentNote } from "../store/actions/notes";
+import useNoteStore from "../../features/notes/store/notesStore";
 
 const useCurrentNote = () => {
-  const {
-    note,
-    loadStatus: status,
-    isChangedFromAutosave,
-    isTitleChanged,
-  } = useSelector((state: RootState) => state.currentNote);
-
-  const dispatch = useAppDispatch();
+  const { setCurrentNoteId } = useNoteStore();
 
   const updateTitleHandler = (title: string) => {
     dispatch(updateTitle({ title }));

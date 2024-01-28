@@ -1,11 +1,11 @@
 import { Icons } from "@/components/Icons";
-import VaultsActions from "@/components/vaults/VaultsActions";
-import VaultsList from "@/components/vaults/VaultsList";
+import VaultsActions from "@/features/vaults/components/VaultsActions";
+import VaultsList from "@/features/vaults/components/VaultsList";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
 import { Vault } from "@/types/vault";
 import { GetServerSidePropsContext } from "next";
-import customFetch from "@/lib/api/fetch";
+import fetchCall from "@/lib/api/fetch";
 import NewVaultModal from "@/components/vaults/NewVaultModal";
 import { FC, useState } from "react";
 
@@ -78,7 +78,7 @@ const VaultsPage: FC<VaultsPageProps> = ({ vaults }: VaultsPageProps) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const response = await customFetch(context, "/vaults", {
+  const response = await fetchCall(context, "/vaults", {
     method: "GET",
   });
 

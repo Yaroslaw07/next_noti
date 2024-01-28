@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { NextPageWithLayout } from "../_app";
 import { GetServerSidePropsContext } from "next";
-import customFetch from "@/lib/api/fetch";
+import fetchCall from "@/lib/api/fetch";
 import { parseCookies } from "nookies";
 import Head from "next/head";
 import useCurrentNote from "@/lib/hooks/useCurrentNote";
@@ -57,7 +57,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const noteId = context.query.noteId as string;
   const cookies = parseCookies(context);
 
-  const response = await customFetch(context, `/notes/${noteId}`, {
+  const response = await fetchCall(context, `/notes/${noteId}`, {
     method: "GET",
     headers: {
       vault_id: JSON.parse(cookies.currentVault).id,

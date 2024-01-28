@@ -1,14 +1,14 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import Link from "@/components/ui/Link";
 import { useToast } from "@/lib/hooks/useToast";
-import LoginForm from "@/components/auth/LoginForm";
-import { useAuth } from "@/lib/hooks/useAuth";
-import { LoginCredentials } from "@/types/auth";
+import LoginForm from "@/features/auth/components/LoginForm";
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import { LoginCredentials } from "@/features/auth/types/auth";
 import { NextPageWithLayout } from "../_app";
-import FormLayout from "@/components/form/FormPageLayout";
-import { useRouter } from "next/router";
-import AuthTitle from "@/components/auth/AuthTitle";
+import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";
+import AuthTitle from "@/features/auth/components/AuthTitle";
 
 const LoginPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -51,7 +51,7 @@ const LoginPage: NextPageWithLayout = () => {
 };
 
 LoginPage.getLayout = (page: React.ReactNode) => (
-  <FormLayout>{page}</FormLayout>
+  <AuthPageFormLayout>{page}</AuthPageFormLayout>
 );
 
 export default LoginPage;

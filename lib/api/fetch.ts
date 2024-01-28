@@ -1,8 +1,8 @@
-import { refreshTokens } from "@/shared/refreshToken";
+import { refreshTokens } from "@/features/auth/refreshToken";
 import { GetServerSidePropsContext } from "next";
 import { parseCookies } from "nookies";
 
-async function customFetch(
+async function fetchCall(
   ctx: GetServerSidePropsContext,
   url: string,
   options: RequestInit
@@ -38,4 +38,4 @@ async function customFetch(
   return response;
 }
 
-export default customFetch;
+export default fetchCall;
