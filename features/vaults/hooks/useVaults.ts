@@ -1,40 +1,35 @@
-import { useSelector } from "react-redux";
-import {
-  createNewVault,
-  selectVault,
-  loadVault,
-} from "../../../lib/stores/actions/vaults"; // Update with the correct path to your actions
-import { Vault } from "@/types/vault";
-import { useEffect } from "react";
+import { vaultService } from "../services/vaultService";
+import { Vault } from "../types/vaultsTypes";
 import useVaultStore from "@/features/vaults/store/vaultStore";
+import { useEffect } from "react";
 
 export const useVaults = () => {
-  const { currentVault } = useVaultStore();
+  const { currentVault, setCurrentVault } = useVaultStore();
+
+  useEffect(() => {
+    if (currentVault === null) {
+      vaultService.loadVault().then((vault) => {
+        if (vault) {
+          setCurrentVault(vault);
+        }
+      });
+    }
+  }, []);
 
   const createNewVaultHandler = async (
     name: string
-  ): Promise<HookOperationResponse> => {
-    try {
-      await dispatch(createNewVault(name)).unwrap();
+  ): Promise<ServiceOperationResult> => {
+    const result = await vaultService.createNewVault(name);
 
-      return {
-        ok: true,
-        message: "Vault created successfully",
-      };
-    } catch (error) {
-      return {
-        ok: false,
-        message: (error as string) || "Error creating vault",
-      };
-    }
+    result.ok && vaultService.selectVault(result.data as Vault);
+    setCurrentVault(result.data as Vault);
+
+    return result;
   };
 
   const selectVaultHandler = async (vault: Vault) => {
-    try {
-      await dispatch(selectVault(vault));
-    } catch (error) {
-      console.error("Error selecting vault:", error);
-    }
+    vaultService.selectVault(vault);
+    setCurrentVault(vault);
   };
 
   return {

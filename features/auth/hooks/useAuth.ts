@@ -1,7 +1,10 @@
+import { useRouter } from "next/router";
 import { authService } from "../services/authService";
-import { LoginCredentials, SignupCredentials } from "../types/auth";
+import { LoginCredentials, SignupCredentials } from "../types/authTypes";
 
 export const useAuth = () => {
+  const router = useRouter();
+
   const login = async (credentials: LoginCredentials) => {
     return authService.login(credentials);
   };
@@ -12,6 +15,7 @@ export const useAuth = () => {
 
   const logout = async () => {
     await authService.logout();
+    router.push("/auth/login");
   };
 
   return {

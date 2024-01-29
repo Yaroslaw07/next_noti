@@ -1,16 +1,23 @@
 import { Icons } from "@/components/Icons";
 import { FC } from "react";
 import SidebarItem from "./SidebarItem";
-import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
+import { useNotesInfo } from "../../hooks/useNotesInfo";
+import { useRouter } from "next/router";
+import { useToast } from "@/lib/hooks/useToast";
 
 const NewNoteModule: FC = () => {
-  const { addNote, handleRedirect } = useNotesInfo();
+  const router = useRouter();
+
+  const { addNote } = useNotesInfo();
+  const { openToast } = useToast();
 
   const handleClick = async () => {
-    const newNote = await addNote();
+    const { ok, data } = await addNote();
 
-    if (newNote === undefined) {
-      console.log("Adding new note ended unsuccessfully");
+    if (ok) {
+      router.push(`/notes/${data.id}`);
+    } else {
+      openToast(data.message, "error");
     }
   };
 

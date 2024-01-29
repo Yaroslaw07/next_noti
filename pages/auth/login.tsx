@@ -5,7 +5,7 @@ import Link from "@/components/ui/Link";
 import { useToast } from "@/lib/hooks/useToast";
 import LoginForm from "@/features/auth/components/LoginForm";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { LoginCredentials } from "@/features/auth/types/auth";
+import { LoginCredentials } from "@/features/auth/types/authTypes";
 import { NextPageWithLayout } from "../_app";
 import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";
 import AuthTitle from "@/features/auth/components/AuthTitle";

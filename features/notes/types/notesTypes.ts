@@ -1,8 +1,4 @@
-export type NoteInfo = {
-  id: string;
-  title: string;
-  createdAt: Date;
-};
+import { NoteInfo } from "@/features/note-sidebar/types/noteInfosTypes";
 
 export type ContentBlock = {
   id: string;

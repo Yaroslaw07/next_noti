@@ -2,8 +2,9 @@ import { Icons } from "@/components/Icons";
 import { Box, IconButton, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import SidebarModule from "../SidebarModule";
-import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
-import { NoteInfo } from "@/types/note";
+import { useNotesInfo } from "../../hooks/useNotesInfo";
+import { NoteInfo } from "../../types/noteInfoTypes";
+import { useRouter } from "next/router";
 
 interface NotesItemProps {
   note: NoteInfo;
@@ -17,7 +18,8 @@ const MAX_TITLE_LENGTH_HOVER = 8;
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
   const [maxTitleLength, setMaxTitleLength] = useState(MAX_TITLE_LENGTH);
 
-  const { removeNote, handleRedirect } = useNotesInfo();
+  const router = useRouter();
+  const { removeNote } = useNotesInfo();
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -28,7 +30,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
     if (response === undefined) {
       console.log("Error deleting note");
     } else if (active) {
-      handleRedirect("/notes");
+      router.replace("/notes");
     }
   };
 
@@ -71,7 +73,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
           backgroundColor: "additional.dark",
         }),
       }}
-      onClick={() => handleRedirect(`/notes/${note.id}`)}
+      onClick={() => router.push(`/notes/${note.id}`)}
       onMouseEnter={setHoverTitleLength}
       onMouseLeave={setFullTitleLength}
     >

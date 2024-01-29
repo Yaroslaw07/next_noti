@@ -1,29 +1,35 @@
 import { Stack, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
-import { useVaults } from "@/lib/hooks/useVaults";
+import { useVaults } from "@/features/vaults/hooks/useVaults";
 import { FC, useEffect, useState } from "react";
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import SidebarModule from "../SidebarModule";
-import { useNotesInfo } from "@/lib/hooks/useNotesInfo";
-import { NoteInfo } from "@/types/note";
+import { useNotesInfo } from "../../hooks/useNotesInfo";
+import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
-import useVaultStore from "@/lib/stores/vaultStore";
+import useVaultStore from "@/features/vaults/store/vaultStore";
+import useNoteStore from "@/features/notes/store/notesStore";
 
 const NotesList: FC = () => {
   const router = useRouter();
 
   const { currentVault } = useVaults();
-  const { getNotes, handleRedirect } = useNotesInfo();
-  const { note } = useCurrentNote();
+  const { getNotes } = useNotesInfo();
+
   const { socket } = useVaultStore();
+  const { currentNoteId, currentNoteTitle } = useNoteStore();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
 
+  console.log("NotesList", notes);
+
   useEffect(() => {
+    if (currentVault === null) return;
+
     const fetchData = async () => {
       const response = await getNotes();
-      setNotes(response!);
+      console.log("response", response);
+      setNotes(response.data);
     };
 
     fetchData();
@@ -36,7 +42,7 @@ const NotesList: FC = () => {
 
     socket.on("note-created", (createdNote) => {
       setNotes((prev) => [...prev, createdNote]);
-      handleRedirect(`/notes/${createdNote.id}`);
+      router.push(`/notes/${createdNote.id}`);
     });
 
     socket.on("noteInfos-updated", (updatedNote) => {
@@ -63,7 +69,7 @@ const NotesList: FC = () => {
             backgroundColor: "#d8d8d8",
           }),
         }}
-        onClick={() => handleRedirect("/notes")}
+        onClick={() => router.push("/notes")}
       >
         <Icons.ListOfNotes sx={{ fontSize: "30px", color: "text.secondary" }} />
         <Typography
@@ -78,7 +84,7 @@ const NotesList: FC = () => {
         </Typography>
       </SidebarModule>
 
-      {!notes && !note ? (
+      {!notes ? (
         "Loading..."
       ) : (
         <Stack
@@ -96,8 +102,12 @@ const NotesList: FC = () => {
               <NotesItem
                 key={currNote.id}
                 note={currNote}
-                active={currNote.id === note?.id}
-                title={currNote.id === note?.id ? note?.title : undefined}
+                active={currNote.id === currentNoteId}
+                title={
+                  currNote.id === currentNoteId
+                    ? currentNoteTitle || ""
+                    : undefined
+                }
               />
             ))}
         </Stack>

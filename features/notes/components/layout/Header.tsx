@@ -1,7 +1,7 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import { Icons } from "../../../../components/Icons";
 import theme from "@/lib/ui/theme";
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
+import useNoteStore from "../../store/notesStore";
 
 const ToolbarSx = {
   display: "flex",
@@ -17,7 +17,7 @@ const ToolbarSx = {
 };
 
 const Header = () => {
-  const { note, status } = useCurrentNote();
+  const { currentNoteId, currentNoteTitle } = useNoteStore();
 
   return (
     <AppBar component="nav" position="static" sx={{ height: "40px" }}>
@@ -26,9 +26,10 @@ const Header = () => {
           variant="subtitle1"
           sx={{ paddingTop: "0px", fontSize: "1.15rem" }}
         >
-          {status === "loading" && "Loading"}
-          {status === "not-init" && "No note open"}
-          {status === "success" && note?.title == "" ? "Untitled" : note?.title}
+          {currentNoteId === null && "No note open"}
+          {currentNoteId !== null && currentNoteTitle == ""
+            ? "Untitled"
+            : currentNoteTitle}
         </Typography>
         <IconButton sx={{}}>
           <Icons.More sx={{ fontSize: "32px", marginTop: "-8px" }} />

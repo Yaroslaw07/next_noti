@@ -1,11 +1,10 @@
 import { Box, Menu, MenuItem, Typography } from "@mui/material";
-import { Icons } from "../../Icons";
-import { useVaults } from "@/lib/hooks/useVaults";
+import { Icons } from "@/components/Icons";
+import { useVaults } from "@/features/vaults/hooks/useVaults";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/hooks/useAuth";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import SidebarModule from "../SidebarModule";
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import VaultModuleMenuItem from "./VaultModuleMenuItem";
 
 const VaultSidebar = () => {
@@ -13,7 +12,6 @@ const VaultSidebar = () => {
 
   const { logout } = useAuth();
   const { currentVault } = useVaults();
-  const { saveCurrentNote } = useCurrentNote();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -22,14 +20,12 @@ const VaultSidebar = () => {
   };
 
   const handleChangeVault = async () => {
-    await saveCurrentNote();
     router.push("/vaults");
   };
 
   const handleLogout = async () => {
-    await saveCurrentNote();
+    // await saveCurrentNote();
     await logout();
-    router.push("/auth/login");
   };
 
   const handleClose = () => {

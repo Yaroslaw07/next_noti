@@ -9,10 +9,11 @@ import {
 import { FC, useState } from "react";
 import HR from "../../../components/ui/HR";
 import { Icons } from "../../../components/Icons";
-import { useVaults } from "@/lib/hooks/useVaults";
+
 import { validateVaultName } from "@/lib/validator";
 import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
+import { useVaults } from "../hooks/useVaults";
 
 interface NewVaultModalProps {
   isOpen: boolean;

@@ -1,4 +1,4 @@
-import { refreshTokens } from "@/shared/refreshToken";
+import { refreshTokens } from "@/features/auth/refreshToken";
 import { NextApiRequest, NextApiResponse } from "next";
 import { destroyCookie, parseCookies } from "nookies";
 

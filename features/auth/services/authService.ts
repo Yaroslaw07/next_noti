@@ -1,10 +1,13 @@
 import axios, { AxiosError } from "axios";
-import { LoginCredentials, SignupCredentials } from "../types/auth";
+import { LoginCredentials, SignupCredentials } from "../types/authTypes";
+import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";
+
+axios.defaults.headers["Content-Type"] = "application/json";
 
 const authFetch = async (
   url: string,
   credentials?: any
-): Promise<HookOperationResponse> => {
+): Promise<ServiceOperationResult> => {
   try {
     await axios.post(url, credentials);
 
@@ -17,7 +20,7 @@ const authFetch = async (
 
     return {
       ok: false,
-      message: (err.response?.data as { message: string }).message || "",
+      message: getAxiosErrorMessage(err, "Error"),
     };
   }
 };
@@ -25,19 +28,19 @@ const authFetch = async (
 export const authService = {
   login: async (
     credentials: LoginCredentials
-  ): Promise<HookOperationResponse> =>
+  ): Promise<ServiceOperationResult> =>
     authFetch("/api/auth/login", credentials).then((res) =>
       res.ok
         ? { ok: true, message: "Login successful" }
         : {
             ok: false,
-            message: res.message !== " " ? res.message : "Login failed",
+            message: res.message !== "" ? res.message : "Login failed",
           }
     ),
 
   signup: async (
     credentials: SignupCredentials
-  ): Promise<HookOperationResponse> =>
+  ): Promise<ServiceOperationResult> =>
     authFetch("/api/auth/signup", credentials).then((res) =>
       res.ok
         ? { ok: true, message: "Signup successful" }

@@ -3,21 +3,32 @@ import VaultsActions from "@/features/vaults/components/VaultsActions";
 import VaultsList from "@/features/vaults/components/VaultsList";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
-import { Vault } from "@/types/vault";
 import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
-import NewVaultModal from "@/components/vaults/NewVaultModal";
 import { FC, useState } from "react";
+import { Vault } from "@/features/vaults/types/vaultsTypes";
+import NewVaultModal from "@/features/vaults/components/NewVaultModal";
+import { useRouter } from "next/router";
+import { useToast } from "@/lib/hooks/useToast";
 
 interface VaultsPageProps {
   vaults: Vault[] | null;
 }
 
 const VaultsPage: FC<VaultsPageProps> = ({ vaults }: VaultsPageProps) => {
+  const router = useRouter();
+
+  const { openToast } = useToast();
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
+
+  if (vaults === null) {
+    openToast("Can't load vaults, try again later", "error");
+    router.push("/login");
+  }
 
   return (
     <>

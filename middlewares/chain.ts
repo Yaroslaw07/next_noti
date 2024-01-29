@@ -1,5 +1,5 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import { CustomMiddleware, MiddlewareFactory } from "../types/middleware";
+import { CustomMiddleware, MiddlewareFactory } from "../types/middlewareTypes";
 
 export function chain(
   functions: MiddlewareFactory[],

@@ -4,7 +4,7 @@ import connectSocket from "../../../lib/api/connectSocket";
 
 interface NoteSocketStore {
   currentNoteId: string | null;
-  setCurrentNoteId: (noteId: string) => void;
+  setCurrentNoteId: (noteId: string | null) => void;
 
   currentNoteTitle: string | null;
   setCurrentNoteTitle: (title: string) => void;
@@ -16,7 +16,8 @@ interface NoteSocketStore {
 
 const useNoteStore = create<NoteSocketStore>()((set, get) => ({
   currentNoteId: null,
-  setCurrentNoteId: (noteId: string) => {
+
+  setCurrentNoteId: (noteId: string | null) => {
     set({ currentNoteId: noteId });
   },
 

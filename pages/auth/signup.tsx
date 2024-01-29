@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import SignupForm from "@/features/auth/components/SignupForm";
 import { useToast } from "@/lib/hooks/useToast";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { SignupCredentials } from "@/features/auth/types/auth";
+import { SignupCredentials } from "@/features/auth/types/authTypes";
 import Link from "@/components/ui/Link";
 import { NextPageWithLayout } from "../_app";
 import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";

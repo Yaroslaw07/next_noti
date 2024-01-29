@@ -1,9 +1,7 @@
-import { Vault } from "@/types/vault";
-import { Box, Skeleton, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import { FC } from "react";
-import { useToast } from "@/lib/hooks/useToast";
-import { GetServerSidePropsContext } from "next";
 import VaultsCard from "./VaultsCard";
+import { Vault } from "../types/vaultsTypes";
 
 interface VaultsListProps {
   vaults: Vault[] | null;

@@ -1,4 +1,3 @@
-import { Vault } from "@/types/vault";
 import {
   Card,
   CardActions,
@@ -10,7 +9,8 @@ import { FC } from "react";
 import theme from "@/lib/ui/theme";
 import { Icons } from "../../../components/Icons";
 import { useRouter } from "next/router";
-import { useVaults } from "@/lib/hooks/useVaults";
+import { useVaults } from "../hooks/useVaults";
+import { Vault } from "../types/vaultsTypes";
 
 interface VaultsCardProps {
   vault: Vault;
