@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import { FC } from "react";
 import VaultsCard from "./VaultsCard";
-import { Vault } from "../types/vaultsTypes";
+import { Vault } from "../types/vaultTypes";
 
 interface VaultsListProps {
   vaults: Vault[] | null;

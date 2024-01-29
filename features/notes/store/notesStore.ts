@@ -7,7 +7,7 @@ interface NoteSocketStore {
   setCurrentNoteId: (noteId: string | null) => void;
 
   currentNoteTitle: string | null;
-  setCurrentNoteTitle: (title: string) => void;
+  setCurrentNoteTitle: (title: string | null) => void;
 
   socket: Socket | null;
   initializeSocket: (accessToken: string) => Promise<Socket | undefined>;
@@ -22,7 +22,7 @@ const useNoteStore = create<NoteSocketStore>()((set, get) => ({
   },
 
   currentNoteTitle: null,
-  setCurrentNoteTitle: (title: string) => {
+  setCurrentNoteTitle: (title: string | null) => {
     set({ currentNoteTitle: title });
   },
 

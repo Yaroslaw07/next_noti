@@ -1,5 +1,5 @@
 import api from "@/lib/api/api";
-import { Vault } from "../types/vaultsTypes";
+import { Vault } from "../types/vaultTypes";
 import { AxiosError } from "axios";
 import { parseCookies, setCookie } from "nookies";
 import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";

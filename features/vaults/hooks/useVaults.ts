@@ -1,5 +1,5 @@
 import { vaultService } from "../services/vaultService";
-import { Vault } from "../types/vaultsTypes";
+import { Vault } from "../types/vaultTypes";
 import useVaultStore from "@/features/vaults/store/vaultStore";
 import { useEffect } from "react";
 

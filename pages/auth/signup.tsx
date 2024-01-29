@@ -2,13 +2,13 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import SignupForm from "@/features/auth/components/SignupForm";
-import { useToast } from "@/lib/hooks/useToast";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { SignupCredentials } from "@/features/auth/types/authTypes";
 import Link from "@/components/ui/Link";
 import { NextPageWithLayout } from "../_app";
 import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";
 import AuthTitle from "@/features/auth/components/AuthTitle";
+import { useToast } from "@/hooks/useToast";
 
 const SignUpPage: NextPageWithLayout = () => {
   const router = useRouter();

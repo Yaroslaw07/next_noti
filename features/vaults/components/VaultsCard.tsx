@@ -10,7 +10,7 @@ import theme from "@/lib/ui/theme";
 import { Icons } from "../../../components/Icons";
 import { useRouter } from "next/router";
 import { useVaults } from "../hooks/useVaults";
-import { Vault } from "../types/vaultsTypes";
+import { Vault } from "../types/vaultTypes";
 
 interface VaultsCardProps {
   vault: Vault;

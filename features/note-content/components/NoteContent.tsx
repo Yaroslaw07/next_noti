@@ -1,21 +1,20 @@
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
-import TextBlock from "../../note-blocks/components/TextBlock";
+import { FC } from "react";
+import TextBlock from "./TextBlock";
+import { ContentBlock } from "../../notes/types/noteTypes";
 
-const NoteContent = () => {
-  const { note, updateContent } = useCurrentNote();
+interface NoteContentProps {
+  blocks: ContentBlock[];
+}
 
-  const handleOnChange = (id: string, props: any) => {
-    updateContent(id, props);
-  };
-
+const NoteContent: FC<NoteContentProps> = ({ blocks }) => {
   return (
     <>
-      {note?.blocks &&
-        note.blocks
+      {blocks &&
+        blocks
           .sort((block) => block.order)
           .map((block) => {
             const updateBlocks = (text: string) => {
-              handleOnChange(block.id, { ...block.props, text });
+              console.log("changing");
             };
 
             return (

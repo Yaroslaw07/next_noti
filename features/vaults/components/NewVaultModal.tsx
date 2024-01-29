@@ -12,8 +12,8 @@ import { Icons } from "../../../components/Icons";
 
 import { validateVaultName } from "@/lib/validator";
 import { useRouter } from "next/router";
-import { useToast } from "@/lib/hooks/useToast";
 import { useVaults } from "../hooks/useVaults";
+import { useToast } from "@/hooks/useToast";
 
 interface NewVaultModalProps {
   isOpen: boolean;

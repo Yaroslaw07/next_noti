@@ -1,8 +1,8 @@
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
 import { TextField } from "@mui/material";
+import useNoteStore from "../store/notesStore";
 
 const NoteTitle = () => {
-  const { note, updateTitle } = useCurrentNote();
+  const { currentNoteTitle, setCurrentNoteTitle } = useNoteStore();
 
   return (
     <TextField
@@ -10,9 +10,9 @@ const NoteTitle = () => {
       placeholder="Undefined"
       sx={{ input: { fontSize: "40px", fontWeight: "500", height: "70px" } }}
       InputProps={{ disableUnderline: true }}
-      value={note?.title || ""}
+      value={currentNoteTitle || ""}
       spellCheck={false}
-      onChange={(e) => updateTitle(e.target.value)}
+      onChange={(e) => setCurrentNoteTitle(e.target.value)}
     />
   );
 };

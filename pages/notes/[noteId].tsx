@@ -1,6 +1,4 @@
-import { getNotiLayout } from "@/components/notes-layout/Layout";
-import Note from "@/components/notes/Note";
-import { Note as NoteType } from "@/types/note";
+import { Note as NoteType } from "@/features/notes/types/noteTypes";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { NextPageWithLayout } from "../_app";
@@ -8,7 +6,11 @@ import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import useCurrentNote from "@/lib/hooks/useCurrentNote";
+import { getNotiLayout } from "@/features/notes/components/layout/Layout";
+import { Box, Container } from "@mui/material";
+import NoteTitle from "@/features/notes/components/NoteTitle";
+import NoteContent from "@/features/note-content/components/NoteContent";
+import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 
 interface NotePageProps {
   note: NoteType;
@@ -18,37 +20,41 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
   note,
 }: NotePageProps) => {
   const router = useRouter();
-
-  const { setCurrentNote, saveCurrentNote } = useCurrentNote();
+  const { enterNote, leaveNote } = useCurrentNote();
 
   useEffect(() => {
     if (note == null) {
       router.push("/notes");
     }
 
-    setCurrentNote({
-      ...note,
-    });
-
-    return () => {};
-  }, [note?.id]);
-
-  useEffect(() => {
-    const timer = setInterval(async () => {
-      await saveCurrentNote();
-    }, 1000);
+    enterNote(note.id, note.title);
 
     return () => {
-      clearInterval(timer);
+      leaveNote();
     };
-  });
+  }, [note?.id]);
 
   return (
     <>
       <Head>
-        <title>{"Noti"}</title>
+        <title>Noti | Notes</title>
       </Head>
-      <Note />
+      <Box sx={{ paddingX: "80px" }}>
+        <Container
+          component="main"
+          maxWidth="md"
+          sx={{
+            height: "90%",
+            marginX: "auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ height: "80px" }}></Box>
+          <NoteTitle />
+          <NoteContent blocks={note.blocks} />
+        </Container>
+      </Box>
     </>
   );
 };
@@ -56,6 +62,15 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const noteId = context.query.noteId as string;
   const cookies = parseCookies(context);
+
+  if (!cookies.currentVault) {
+    return {
+      redirect: {
+        destination: "/vaults",
+        permanent: false,
+      },
+    };
+  }
 
   const response = await fetchCall(context, `/notes/${noteId}`, {
     method: "GET",

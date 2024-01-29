@@ -7,7 +7,7 @@ import Backdrop from "@/components/ui/Backdrop";
 import { useRouter } from "next/router";
 import { getAccessToken } from "@/features/auth/accessToken";
 import useVaultStore from "@/features/vaults/store/vaultStore";
-import useNoteStore from "../../store/notesStore";
+
 interface NotiLayoutProps {
   children: React.ReactNode;
 }
@@ -52,7 +52,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
 
   return (
     <Grid container wrap="nowrap">
-      <Backdrop open={currentVault === undefined} />
+      <Backdrop open={currentVault === null} />
       <Grid item>
         <Sidebar />
       </Grid>

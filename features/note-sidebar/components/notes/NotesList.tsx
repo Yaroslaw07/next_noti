@@ -21,14 +21,11 @@ const NotesList: FC = () => {
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
 
-  console.log("NotesList", notes);
-
   useEffect(() => {
     if (currentVault === null) return;
 
     const fetchData = async () => {
       const response = await getNotes();
-      console.log("response", response);
       setNotes(response.data);
     };
 
@@ -52,7 +49,6 @@ const NotesList: FC = () => {
     });
 
     socket.on("note-deleted", (deletedNoteId) => {
-      console.log("note-deleted", deletedNoteId);
       setNotes((prev) => prev.filter((note) => note.id !== deletedNoteId));
     });
 

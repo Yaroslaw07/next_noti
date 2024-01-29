@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { Socket } from "socket.io-client";
 import connectSocket from "../../../lib/api/connectSocket";
-import { Vault } from "../types/vaultsTypes";
+import { Vault } from "../types/vaultTypes";
 
 interface VaultStore {
   currentVault: Vault | null;

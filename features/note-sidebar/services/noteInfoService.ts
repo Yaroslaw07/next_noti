@@ -13,8 +13,6 @@ export const notesInfoService = {
     try {
       const response = await api.get(`/notes/`, getVaultHeader(vaultId));
 
-      console.log(response);
-
       return {
         ok: true,
         message: "Notes loaded successfully",

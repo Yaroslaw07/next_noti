@@ -1,4 +1,4 @@
-import { NoteInfo } from "@/features/note-sidebar/types/noteInfosTypes";
+import { NoteInfo } from "@/features/note-sidebar/types/noteInfoTypes";
 
 export type ContentBlock = {
   id: string;

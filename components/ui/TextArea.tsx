@@ -1,4 +1,3 @@
-import { updateContent } from "@/lib/stores/reducers/currentNote";
 import theme from "@/lib/ui/theme";
 import { FC, useEffect, useRef } from "react";
 

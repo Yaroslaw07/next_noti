@@ -9,7 +9,7 @@ import { FC, useState } from "react";
 import { Vault } from "@/features/vaults/types/vaultsTypes";
 import NewVaultModal from "@/features/vaults/components/NewVaultModal";
 import { useRouter } from "next/router";
-import { useToast } from "@/lib/hooks/useToast";
+import { useToast } from "@/hooks/useToast";
 
 interface VaultsPageProps {
   vaults: Vault[] | null;
@@ -33,7 +33,7 @@ const VaultsPage: FC<VaultsPageProps> = ({ vaults }: VaultsPageProps) => {
   return (
     <>
       <Head>
-        <title></title>
+        <title>Noti | Vaults</title>
         <meta name="description" content="Noti" />
       </Head>
       <NewVaultModal isOpen={isModalOpen} handleClose={handleModalClose} />

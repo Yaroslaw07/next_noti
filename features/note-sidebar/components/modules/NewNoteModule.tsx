@@ -3,7 +3,7 @@ import { FC } from "react";
 import SidebarItem from "./SidebarItem";
 import { useNotesInfo } from "../../hooks/useNotesInfo";
 import { useRouter } from "next/router";
-import { useToast } from "@/lib/hooks/useToast";
+import { useToast } from "@/hooks/useToast";
 
 const NewNoteModule: FC = () => {
   const router = useRouter();
