@@ -21,6 +21,7 @@ export const useVaults = () => {
   ): Promise<ServiceOperationResult> => {
     const result = await vaultService.createNewVault(name);
 
+    console.log(result);
     result.ok && vaultService.selectVault(result.data as Vault);
     setCurrentVault(result.data as Vault);
 

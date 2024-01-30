@@ -1,5 +1,6 @@
 import api from "@/lib/api/api";
 import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";
+import { serviceApiCall } from "@/lib/api/serviceCall";
 import { AxiosError } from "axios";
 
 const getVaultHeader = (vaultId: string) => ({
@@ -10,69 +11,30 @@ const getVaultHeader = (vaultId: string) => ({
 
 export const notesInfoService = {
   getNotes: async (vaultId: string): Promise<ServiceOperationResult> => {
-    try {
-      const response = await api.get(`/notes/`, getVaultHeader(vaultId));
-
-      return {
-        ok: true,
-        message: "Notes loaded successfully",
-        data: response.data,
-      };
-    } catch (error) {
-      const err = error as AxiosError;
-
-      return {
-        ok: false,
-        message: getAxiosErrorMessage(err, "Error loading notes"),
-      };
-    }
+    return serviceApiCall(
+      () => api.get("/notes/", getVaultHeader(vaultId)),
+      "Notes loaded successfully",
+      "Error loading notes"
+    );
   },
 
   addNote: async (vaultId: string): Promise<ServiceOperationResult> => {
-    try {
-      const response = await api.post(
-        `/notes/`,
-        undefined,
-        getVaultHeader(vaultId)
-      );
-
-      return {
-        ok: true,
-        message: "Note created successfully",
-        data: response.data,
-      };
-    } catch (error) {
-      const err = error as AxiosError;
-
-      return {
-        ok: false,
-        message: getAxiosErrorMessage(err, "Error creating note"),
-      };
-    }
+    return serviceApiCall(
+      () => api.post("/notes/", {}, getVaultHeader(vaultId)),
+      "Note added successfully",
+      "Error adding note"
+    );
   },
 
   removeNote: async (
     vaultId: string,
     noteId: string
   ): Promise<ServiceOperationResult> => {
-    try {
-      const response = await api.delete(
-        `/notes/${noteId}`,
-        getVaultHeader(vaultId)
-      );
-      return {
-        ok: true,
-        message: "Note removed successfully",
-        data: response.data,
-      };
-    } catch (error) {
-      const err = error as AxiosError;
-
-      return {
-        ok: false,
-        message: getAxiosErrorMessage(err, "Error removing note"),
-      };
-    }
+    return serviceApiCall(
+      () => api.delete(`/notes/${noteId}`, getVaultHeader(vaultId)),
+      "Note removed successfully",
+      "Error removing note"
+    );
   },
 };
 

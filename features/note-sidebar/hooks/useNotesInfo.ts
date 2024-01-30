@@ -1,7 +1,4 @@
-import { useRouter } from "next/router";
-import api from "../../../lib/api/api";
 import useVaultStore from "../../vaults/store/vaultStore";
-import { NoteInfo } from "../types/noteInfoTypes";
 import notesInfoService from "../services/noteInfoService";
 
 export const useNotesInfo = () => {

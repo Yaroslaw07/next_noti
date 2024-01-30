@@ -3,22 +3,15 @@ import { Vault } from "../types/vaultTypes";
 import { AxiosError } from "axios";
 import { parseCookies, setCookie } from "nookies";
 import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";
+import { serviceApiCall } from "@/lib/api/serviceCall";
 
 export const vaultService = {
   createNewVault: async (name: string): Promise<ServiceOperationResult> => {
-    try {
-      await api.post<Vault>("/vaults/", { name });
-      return {
-        ok: true,
-        message: "Vault created successfully",
-      };
-    } catch (error) {
-      const err = error as AxiosError;
-      return {
-        ok: false,
-        message: getAxiosErrorMessage(err, "Error creating vault"),
-      };
-    }
+    return serviceApiCall(
+      () => api.post("/vaults/", { name }),
+      "Vault created successfully",
+      "Error creating vault"
+    );
   },
 
   selectVault: async (vault: Vault): Promise<void> => {

@@ -79,7 +79,7 @@ const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
             textAlign: "center",
           }}
         >
-          {"New vault's name"}
+          {"New vault"}
         </Typography>
         <TextField
           fullWidth

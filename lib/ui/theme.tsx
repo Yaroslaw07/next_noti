@@ -1,8 +1,6 @@
+import { BorderAllRounded } from "@mui/icons-material";
 import { createTheme } from "@mui/material";
-import {
-  PaletteColor,
-  Palette as defaultPalette,
-} from "@mui/material/styles/createPalette";
+import { PaletteColor } from "@mui/material/styles/createPalette";
 
 interface CustomColors {
   additional?: PaletteColor;
@@ -16,17 +14,17 @@ declare module "@mui/material/styles" {
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#3a3a3a", //black
+      main: "#3a3a3a",
       dark: "#474747",
     },
     secondary: {
-      main: "#fafafa", // white
+      main: "#fafafa",
       dark: "#e4e4e7",
     },
     additional: {
-      dark: "#d6d6d6",
+      dark: "#e5e5e5",
       contrastText: "#fafafa",
-      main: "#ededed",
+      main: "#f4f4f4",
       light: "#fafafa",
     },
 
@@ -46,7 +44,18 @@ const theme = createTheme({
   },
   components: {
     MuiCssBaseline: {
-      styleOverrides: {},
+      styleOverrides: {
+        "::selection": {
+          backgroundColor: "#3a3a3a",
+          color: "#fafafa",
+          BorderAllRounded: "8px",
+        },
+        "::-moz-selection": {
+          backgroundColor: "#3a3a3a",
+          color: "#fafafa",
+          borderRadius: "8px",
+        },
+      },
     },
     MuiTypography: {
       styleOverrides: {

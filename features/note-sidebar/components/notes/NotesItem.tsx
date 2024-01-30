@@ -59,6 +59,8 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
         borderTopRightRadius: "8px",
         height: "40px",
 
+        flexShrink: 0,
+
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

@@ -33,7 +33,7 @@ const NotesList: FC = () => {
   }, [currentVault]);
 
   useEffect(() => {
-    if (socket === null || socket === undefined) {
+    if (socket === null) {
       return;
     }
 
@@ -87,7 +87,6 @@ const NotesList: FC = () => {
           sx={{
             overflowY: "auto",
             overflowX: "hidden",
-            maxHeight: "100%",
             paddingBottom: "8px",
             width: "100%",
           }}

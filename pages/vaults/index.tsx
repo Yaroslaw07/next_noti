@@ -6,7 +6,7 @@ import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
 import { FC, useState } from "react";
-import { Vault } from "@/features/vaults/types/vaultsTypes";
+import { Vault } from "@/features/vaults/types/vaultTypes";
 import NewVaultModal from "@/features/vaults/components/NewVaultModal";
 import { useRouter } from "next/router";
 import { useToast } from "@/hooks/useToast";

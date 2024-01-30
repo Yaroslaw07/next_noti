@@ -1,53 +1,27 @@
 import axios, { AxiosError } from "axios";
 import { LoginCredentials, SignupCredentials } from "../types/authTypes";
 import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";
+import { serviceApiCall } from "@/lib/api/serviceCall";
 
 axios.defaults.headers["Content-Type"] = "application/json";
-
-const authFetch = async (
-  url: string,
-  credentials?: any
-): Promise<ServiceOperationResult> => {
-  try {
-    await axios.post(url, credentials);
-
-    return {
-      ok: true,
-      message: "",
-    };
-  } catch (error) {
-    const err = error as AxiosError;
-
-    return {
-      ok: false,
-      message: getAxiosErrorMessage(err, "Error"),
-    };
-  }
-};
 
 export const authService = {
   login: async (
     credentials: LoginCredentials
   ): Promise<ServiceOperationResult> =>
-    authFetch("/api/auth/login", credentials).then((res) =>
-      res.ok
-        ? { ok: true, message: "Login successful" }
-        : {
-            ok: false,
-            message: res.message !== "" ? res.message : "Login failed",
-          }
+    serviceApiCall(
+      () => axios.post("/api/auth/login", credentials),
+      "Login successful",
+      "Login failed"
     ),
 
   signup: async (
     credentials: SignupCredentials
   ): Promise<ServiceOperationResult> =>
-    authFetch("/api/auth/signup", credentials).then((res) =>
-      res.ok
-        ? { ok: true, message: "Signup successful" }
-        : {
-            ok: false,
-            message: res.message !== "" ? res.message : "Signup failed",
-          }
+    serviceApiCall(
+      () => axios.post("/api/auth/signup", credentials),
+      "Signup successful",
+      "Signup failed"
     ),
 
   logout: async (): Promise<void> => {

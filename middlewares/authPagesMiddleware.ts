@@ -4,7 +4,7 @@ import {
   type NextRequest,
 } from "next/server";
 
-import { CustomMiddleware } from "@/types/middleware";
+import { CustomMiddleware } from "@/types/middlewareTypes";
 
 export function authPagesMiddleware(middleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {

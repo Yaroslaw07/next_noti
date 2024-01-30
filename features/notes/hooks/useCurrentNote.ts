@@ -13,8 +13,12 @@ export const useCurrentNote = () => {
     setCurrentNoteTitle(null);
   };
 
+  const saveTitleHandler = (noteId: string, newTitle: string) => {};
+
   return {
     enterNote: enterNoteHandler,
     leaveNote: leaveNoteHandler,
+
+    saveTitle: saveTitleHandler,
   };
 };
