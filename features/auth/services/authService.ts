@@ -1,9 +1,14 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { LoginCredentials, SignupCredentials } from "../types/authTypes";
-import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";
-import { serviceApiCall } from "@/lib/api/serviceCall";
+import { serviceApiCall } from "@/lib/api/serviceApiCall";
 
 axios.defaults.headers["Content-Type"] = "application/json";
+
+export const getVaultHeader = (vaultId: string) => ({
+  headers: {
+    vault_id: vaultId,
+  },
+});
 
 export const authService = {
   login: async (

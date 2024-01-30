@@ -11,7 +11,7 @@ export const serviceApiCall = async (
     return {
       ok: true,
       message: successMessage,
-      data: response.data,
+      data: response.data ? response.data : null,
     };
   } catch (error) {
     const err = error as AxiosError;

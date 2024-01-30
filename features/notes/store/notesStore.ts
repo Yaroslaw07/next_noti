@@ -12,6 +12,8 @@ interface NoteSocketStore {
   socket: Socket | null;
   initializeSocket: (accessToken: string) => Promise<Socket | undefined>;
   closeSocket: () => void;
+  joinNote: (noteId: string) => void;
+  leaveNote: (noteId: string) => void;
 }
 
 const useNoteStore = create<NoteSocketStore>()((set, get) => ({
@@ -22,16 +24,9 @@ const useNoteStore = create<NoteSocketStore>()((set, get) => ({
   },
 
   currentNoteTitle: null,
+
   setCurrentNoteTitle: (title: string | null) => {
     set({ currentNoteTitle: title });
-  },
-
-  enterNote: (noteId: string) => {
-    set({ currentNoteId: noteId, currentNoteTitle: null });
-  },
-
-  exitNote: () => {
-    set({ currentNoteId: null });
   },
 
   socket: null,
@@ -47,6 +42,20 @@ const useNoteStore = create<NoteSocketStore>()((set, get) => ({
       return socket;
     } catch (error) {
       console.error("Error initializing socket:", error);
+    }
+  },
+
+  joinNote: (noteId: string) => {
+    const { socket } = get();
+    if (socket) {
+      socket.emit("joinNoteRoom", noteId);
+    }
+  },
+
+  leaveNote: (noteId: string) => {
+    const { socket } = get();
+    if (socket) {
+      socket.emit("leaveNoteRoom", noteId);
     }
   },
 

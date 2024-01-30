@@ -1,22 +1,40 @@
 import { TextField, debounce } from "@mui/material";
 import useNoteStore from "../store/notesStore";
 import { useCurrentNote } from "../hooks/useCurrentNote";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { has } from "lodash";
+import {
+  ChangeEvent,
+  use,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { autoSaveTime } from "@/constants";
+import { useToast } from "@/hooks/useToast";
+import { useVaults } from "@/features/vaults/hooks/useVaults";
 
 const NoteTitle = () => {
-  const { currentNoteId, currentNoteTitle, setCurrentNoteTitle } =
+  const { currentNoteId, currentNoteTitle, setCurrentNoteTitle, socket } =
     useNoteStore();
   const { saveTitle } = useCurrentNote();
+
+  const { openToast } = useToast();
 
   const currentTitle = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);
 
-  const handleSave = () => {
-    if (hasChanges.current && currentTitle.current !== null) {
+  const handleSave = async () => {
+    if (
+      hasChanges.current &&
+      currentTitle.current !== null &&
+      currentNoteTitle !== ""
+    ) {
       hasChanges.current = false;
-      saveTitle(currentNoteId!, currentTitle.current);
+      const resp = await saveTitle(currentNoteId!, currentTitle.current);
+
+      if (resp.ok == false) {
+        openToast(resp.message, "error");
+      }
     }
   };
 
@@ -32,6 +50,20 @@ const NoteTitle = () => {
       handleSave();
     }
   };
+
+  useEffect(() => {
+    if (socket === null) return;
+
+    socket.on("noteTitle-updated", (payload) => {
+      setCurrentNoteTitle(payload.title);
+      currentTitle.current = payload.title;
+      hasChanges.current = false;
+    });
+
+    return () => {
+      socket.off("noteTitle-updated");
+    };
+  }, [socket]);
 
   useEffect(() => {
     if (currentNoteId === null) return;

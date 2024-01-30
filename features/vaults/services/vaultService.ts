@@ -1,9 +1,7 @@
 import api from "@/lib/api/api";
 import { Vault } from "../types/vaultTypes";
-import { AxiosError } from "axios";
 import { parseCookies, setCookie } from "nookies";
-import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";
-import { serviceApiCall } from "@/lib/api/serviceCall";
+import { serviceApiCall } from "@/lib/api/serviceApiCall";
 
 export const vaultService = {
   createNewVault: async (name: string): Promise<ServiceOperationResult> => {

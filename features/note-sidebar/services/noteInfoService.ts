@@ -1,13 +1,6 @@
+import { getVaultHeader } from "@/features/auth/services/authService";
 import api from "@/lib/api/api";
-import { getAxiosErrorMessage } from "@/lib/api/getAxiosErrorMessage";
-import { serviceApiCall } from "@/lib/api/serviceCall";
-import { AxiosError } from "axios";
-
-const getVaultHeader = (vaultId: string) => ({
-  headers: {
-    vault_id: vaultId,
-  },
-});
+import { serviceApiCall } from "@/lib/api/serviceApiCall";
 
 export const notesInfoService = {
   getNotes: async (vaultId: string): Promise<ServiceOperationResult> => {
