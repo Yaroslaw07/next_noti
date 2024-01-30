@@ -5,6 +5,7 @@ import SidebarModule from "../SidebarModule";
 import { useNotesInfo } from "../../hooks/useNotesInfo";
 import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
+import { useToast } from "@/hooks/useToast";
 
 interface NotesItemProps {
   note: NoteInfo;
@@ -17,6 +18,9 @@ const MAX_TITLE_LENGTH_HOVER = 8;
 
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
   const [maxTitleLength, setMaxTitleLength] = useState(MAX_TITLE_LENGTH);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const { openToast } = useToast();
 
   const router = useRouter();
   const { removeNote } = useNotesInfo();
@@ -27,37 +31,33 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
 
     const response = await removeNote(note.id);
 
-    if (response === undefined) {
-      console.log("Error deleting note");
+    if (response.ok === false) {
+      openToast(response.message, "error");
     } else if (active) {
       router.replace("/notes");
     }
   };
 
   const setFullTitleLength = () => {
-    setMaxTitleLength(MAX_TITLE_LENGTH);
+    setIsHovered(true);
   };
 
   const setHoverTitleLength = () => {
-    setMaxTitleLength(MAX_TITLE_LENGTH_HOVER);
+    setIsHovered(false);
   };
 
   const currentTitle: string = active
     ? !title || title === ""
       ? "Undefined"
-      : title
-    : note.title;
-
-  const displayTitle =
-    currentTitle!.length > maxTitleLength
-      ? `${currentTitle.slice(0, maxTitleLength)}...`
-      : currentTitle;
+      : title.trim()
+    : note.title.trim();
 
   return (
     <SidebarModule
       sx={{
         borderTopRightRadius: "8px",
         height: "40px",
+        width: "100%",
 
         flexShrink: 0,
 
@@ -79,9 +79,25 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
       onMouseEnter={setHoverTitleLength}
       onMouseLeave={setFullTitleLength}
     >
-      <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "8px",
+          alignItems: "center",
+          width: isHovered ? "100%" : "calc(100% - 40px)",
+        }}
+      >
         <Icons.Note sx={{ color: "text.secondary" }} />
-        <Typography sx={{ color: "text.secondary" }}>{displayTitle}</Typography>
+        <Typography
+          sx={{
+            color: "text.secondary",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {currentTitle}
+        </Typography>
       </Box>
 
       <IconButton

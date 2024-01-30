@@ -1,17 +1,9 @@
 import { TextField, debounce } from "@mui/material";
 import useNoteStore from "../store/notesStore";
 import { useCurrentNote } from "../hooks/useCurrentNote";
-import {
-  ChangeEvent,
-  use,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import { autoSaveTime } from "@/constants";
 import { useToast } from "@/hooks/useToast";
-import { useVaults } from "@/features/vaults/hooks/useVaults";
 
 const NoteTitle = () => {
   const { currentNoteId, currentNoteTitle, setCurrentNoteTitle, socket } =

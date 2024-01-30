@@ -14,7 +14,6 @@ api.interceptors.request.use(
       const accessToken = await getAccessToken();
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     } catch (error) {
-      console.log(error);
       throw error;
     }
     return config;

@@ -19,7 +19,6 @@ const useVaultStore = create<VaultStore>((set, get) => ({
   currentVault: null,
 
   setCurrentVault: (vault: Vault) => {
-    console.log("setCurrentVault", vault);
     set({ currentVault: vault });
   },
 
