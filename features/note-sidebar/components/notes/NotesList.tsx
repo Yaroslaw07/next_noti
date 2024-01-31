@@ -37,23 +37,26 @@ const NotesList: FC = () => {
       return;
     }
 
-    socket.on("note-created", (createdNote) => {
+    socket.on("noteCreated", (createdNote) => {
+      console.log("noteCreated");
       setNotes((prev) => [...prev, createdNote]);
       router.push(`/notes/${createdNote.id}`);
     });
 
-    socket.on("noteInfos-updated", (updatedNote) => {
+    socket.on("updateNoteInfos", (updatedNote) => {
       setNotes((prev) =>
         prev.map((note) => (note.id === updatedNote.id ? updatedNote : note))
       );
     });
 
-    socket.on("note-deleted", (deletedNoteId) => {
+    socket.on("deleteNote", (deletedNoteId) => {
       setNotes((prev) => prev.filter((note) => note.id !== deletedNoteId));
     });
 
     return () => {
-      socket.off("notes");
+      socket.off("updateNoteInfos");
+      socket.off("deleteNote");
+      socket.off("noteCreated");
     };
   }, [socket]);
 

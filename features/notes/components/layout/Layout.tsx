@@ -77,7 +77,7 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
     };
   }, [currentNoteId, noteSocket]);
 
-  if (currentVault === null) {
+  if (currentVault === null || noteSocket === null) {
     return <Backdrop open={true} />;
   }
 

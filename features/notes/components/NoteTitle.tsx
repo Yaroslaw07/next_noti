@@ -19,14 +19,14 @@ const NoteTitle = () => {
     if (
       hasChanges.current &&
       currentTitle.current !== null &&
-      currentNoteTitle !== ""
+      currentTitle.current !== ""
     ) {
       hasChanges.current = false;
-      const resp = await saveTitle(currentNoteId!, currentTitle.current);
+      saveTitle(currentNoteId!, currentTitle.current);
 
-      if (resp.ok == false) {
-        openToast(resp.message, "error");
-      }
+      // if (resp.ok == false) {
+      //   openToast(resp.message, "error");
+      // }
     }
   };
 
@@ -38,22 +38,20 @@ const NoteTitle = () => {
   );
 
   const onBlur = () => {
-    if (hasChanges.current) {
-      handleSave();
-    }
+    handleSave();
   };
 
   useEffect(() => {
     if (socket === null) return;
 
-    socket.on("noteTitle-updated", (payload) => {
+    socket.on("updateNoteTitle", (payload) => {
       setCurrentNoteTitle(payload.title);
       currentTitle.current = payload.title;
       hasChanges.current = false;
     });
 
     return () => {
-      socket.off("noteTitle-updated");
+      socket.off("updateNoteTitle");
     };
   }, [socket]);
 
@@ -61,9 +59,7 @@ const NoteTitle = () => {
     if (currentNoteId === null) return;
 
     return () => {
-      if (hasChanges.current) {
-        handleSave();
-      }
+      handleSave();
     };
   }, [currentNoteId]);
 
