@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material";
 import { FC } from "react";
-import VaultSidebar from "./modules/VaultModule";
+import VaultSidebar from "./VaultModule";
 import HR from "@/components/ui/HR";
-import NotesList from "./notes/NotesList";
+import NotesList from "./notes-infos/NotesList";
 import SidebarWrapper from "./SidebarWrapper";
-import SidebarModules from "./modules/SidebarModules";
+import SidebarModules from "./SidebarModules";
 
 const Sidebar: FC = () => {
   return (

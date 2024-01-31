@@ -4,7 +4,7 @@ import { useVaults } from "@/features/vaults/hooks/useVaults";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import SidebarModule from "../SidebarModule";
+import SidebarModule from "./SidebarModule";
 import VaultModuleMenuItem from "./VaultModuleMenuItem";
 
 const VaultSidebar = () => {

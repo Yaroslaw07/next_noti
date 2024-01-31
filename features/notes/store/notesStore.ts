@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Socket } from "socket.io-client";
 import connectSocket from "../../../lib/api/connectSocket";
+import { NOTE_EVENTS } from "../notesEvents";
 
 interface NoteSocketStore {
   currentNoteId: string | null;
@@ -48,14 +49,14 @@ const useNoteStore = create<NoteSocketStore>()((set, get) => ({
   joinNote: (noteId: string) => {
     const { socket } = get();
     if (socket) {
-      socket.emit("joinNoteRoom", noteId);
+      socket.emit(NOTE_EVENTS.JOIN_NOTE_ROOM, noteId);
     }
   },
 
   leaveNote: (noteId: string) => {
     const { socket } = get();
     if (socket) {
-      socket.emit("leaveNoteRoom", noteId);
+      socket.emit(NOTE_EVENTS.LEAVE_NOTE_ROOM, noteId);
     }
   },
 

@@ -1,6 +1,6 @@
 import { MenuItem } from "@mui/material";
 import { FC } from "react";
-import SidebarModule from "../SidebarModule";
+import SidebarModule from "./SidebarModule";
 
 interface VaultModuleMenuItemProps {
   children: React.ReactNode;

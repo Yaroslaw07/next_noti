@@ -2,7 +2,7 @@ import theme from "@/lib/ui/theme";
 import { SvgIconTypeMap, SxProps, Typography } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { FC } from "react";
-import SidebarModule from "../SidebarModule";
+import SidebarModule from "./SidebarModule";
 
 interface SidebarItemProps {
   Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };

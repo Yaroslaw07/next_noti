@@ -9,6 +9,7 @@ import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
 import useVaultStore from "@/features/vaults/store/vaultStore";
 import useNoteStore from "@/features/notes/store/notesStore";
+import { NOTE_INFOS_EVENTS } from "../../notesInfoEvents";
 
 const NotesList: FC = () => {
   const router = useRouter();
@@ -37,26 +38,24 @@ const NotesList: FC = () => {
       return;
     }
 
-    socket.on("noteCreated", (createdNote) => {
-      console.log("noteCreated");
+    socket.on(NOTE_INFOS_EVENTS.NOTE_CREATED, (createdNote) => {
       setNotes((prev) => [...prev, createdNote]);
-      router.push(`/notes/${createdNote.id}`);
     });
 
-    socket.on("updateNoteInfos", (updatedNote) => {
+    socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, (updatedNote) => {
       setNotes((prev) =>
         prev.map((note) => (note.id === updatedNote.id ? updatedNote : note))
       );
     });
 
-    socket.on("deleteNote", (deletedNoteId) => {
+    socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, (deletedNoteId) => {
       setNotes((prev) => prev.filter((note) => note.id !== deletedNoteId));
     });
 
     return () => {
-      socket.off("updateNoteInfos");
-      socket.off("deleteNote");
-      socket.off("noteCreated");
+      socket.off(NOTE_INFOS_EVENTS.NOTE_CREATED);
+      socket.off(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED);
+      socket.off(NOTE_INFOS_EVENTS.NOTE_DELETED);
     };
   }, [socket]);
 
