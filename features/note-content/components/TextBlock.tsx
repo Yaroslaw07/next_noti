@@ -1,33 +1,26 @@
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import TextArea from "../../../components/ui/TextArea";
 
 interface TextBlocksProps {
   props: TextProps;
-  onChange: (block: string) => void;
   createNewBlock?: (props: string) => void;
   deleteBlock?: () => void;
 }
 
 const TextBlock: FC<TextBlocksProps> = ({
   props,
-  onChange,
   createNewBlock,
   deleteBlock,
 }) => {
   const [text, setText] = useState(props.text || "");
+  console.log(text);
+
+  const textUpdated = useRef<string | null>(null);
+  const hasChanges = useRef<boolean>(false);
 
   const handleOnChange = (content: string) => {
     setText(content);
-    onChange(content);
   };
-
-  // const handleOnFocus = () => {
-  //   setIsFocused(true);
-  // };
-
-  // const handleOnBlur = () => {
-  //   setIsFocused(false);
-  // };
 
   const handleOnKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const isEnterPressed = event.key === "Enter";

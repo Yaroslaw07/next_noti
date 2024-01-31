@@ -4,4 +4,6 @@ export const NOTE_EVENTS = {
   NOTE_TITLE_UPDATED: "note-TitleUpdated",
   NOTE_BLOCKS_UPDATED: "note-BlocksUpdated",
   NOTE_UPDATED: "note-Updated",
+
+  TO_UPDATE_NOTE_TITLE: "toUpdateNoteTitle",
 };

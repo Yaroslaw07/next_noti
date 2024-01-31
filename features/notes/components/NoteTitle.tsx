@@ -3,14 +3,12 @@ import useNoteStore from "../store/notesStore";
 import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import { autoSaveTime } from "@/constants";
-import { useToast } from "@/hooks/useToast";
+import { NOTE_EVENTS } from "../notesEvents";
 
 const NoteTitle = () => {
   const { currentNoteId, currentNoteTitle, setCurrentNoteTitle, socket } =
     useNoteStore();
   const { saveTitle } = useCurrentNote();
-
-  const { openToast } = useToast();
 
   const currentTitle = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);
@@ -23,10 +21,6 @@ const NoteTitle = () => {
     ) {
       hasChanges.current = false;
       saveTitle(currentNoteId!, currentTitle.current);
-
-      // if (resp.ok == false) {
-      //   openToast(resp.message, "error");
-      // }
     }
   };
 
@@ -44,14 +38,14 @@ const NoteTitle = () => {
   useEffect(() => {
     if (socket === null) return;
 
-    socket.on("updateNoteTitle", (payload) => {
+    socket.on(NOTE_EVENTS.NOTE_TITLE_UPDATED, (payload) => {
       setCurrentNoteTitle(payload.title);
       currentTitle.current = payload.title;
       hasChanges.current = false;
     });
 
     return () => {
-      socket.off("updateNoteTitle");
+      socket.off(NOTE_EVENTS.NOTE_TITLE_UPDATED);
     };
   }, [socket]);
 

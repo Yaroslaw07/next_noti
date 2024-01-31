@@ -8,9 +8,10 @@ import {
 import { FC } from "react";
 import theme from "@/lib/ui/theme";
 import { Icons } from "../../../components/Icons";
-import { useRouter } from "next/router";
-import { useVaults } from "../hooks/useVaults";
 import { Vault } from "../types/vaultTypes";
+import useVaultStore from "../store/vaultStore";
+import { useVaults } from "../hooks/useVaults";
+import { useRouter } from "next/router";
 
 interface VaultsCardProps {
   vault: Vault;
@@ -19,11 +20,12 @@ interface VaultsCardProps {
 const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
   const router = useRouter();
 
+  const { socket } = useVaultStore();
   const { selectVault } = useVaults();
 
   const handleClick = () => {
     selectVault(vault);
-    router.push("/notes");
+    router.push(`/notes/`);
   };
 
   return (

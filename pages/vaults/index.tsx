@@ -5,17 +5,21 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Vault } from "@/features/vaults/types/vaultTypes";
 import NewVaultModal from "@/features/vaults/components/NewVaultModal";
 import { useRouter } from "next/router";
 import { useToast } from "@/hooks/useToast";
+import { NextPageWithLayout } from "../_app";
+import { getVaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
 
 interface VaultsPageProps {
   vaults: Vault[] | null;
 }
 
-const VaultsPage: FC<VaultsPageProps> = ({ vaults }: VaultsPageProps) => {
+const VaultsPage: NextPageWithLayout<VaultsPageProps> = ({
+  vaults,
+}: VaultsPageProps) => {
   const router = useRouter();
 
   const { openToast } = useToast();
@@ -99,5 +103,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   };
 }
+
+VaultsPage.getLayout = (page) => getVaultSocketLayout(page);
 
 export default VaultsPage;

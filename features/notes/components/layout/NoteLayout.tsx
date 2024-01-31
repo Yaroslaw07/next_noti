@@ -5,79 +5,76 @@ import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
 import { useVaults } from "@/features/vaults/hooks/useVaults";
 import Backdrop from "@/components/ui/Backdrop";
 import { useRouter } from "next/router";
-import { getAccessToken } from "@/features/auth/accessToken";
 import useVaultStore from "@/features/vaults/store/vaultStore";
 import useNoteStore from "../../store/notesStore";
+import { VaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
+import { VAULT_EVENTS } from "@/features/vaults/vaultsEvents";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
 }
 
-const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
+const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
   const router = useRouter();
 
   const { currentVault } = useVaults();
+  const { socket: vaultsSocket } = useVaultStore();
 
-  const { initializeSocket, closeSocket } = useVaultStore();
   const {
-    initializeSocket: initializeNoteSocket,
-    closeSocket: closeNoteSocket,
+    initializeSocket,
+    closeSocket: closeSocket,
     currentNoteId,
-    socket: noteSocket,
+    socket,
     joinNote,
     leaveNote,
   } = useNoteStore();
 
   useEffect(() => {
-    if (currentVault === null) {
+    if (!currentVault) {
       return;
     }
 
-    const initSocket = async () => {
+    const initNoteSocket = async () => {
       try {
-        const token = await getAccessToken();
-
-        const vaultSocket = await initializeSocket(token);
-        const noteSocket = await initializeNoteSocket(token);
-
-        if (vaultSocket === undefined || noteSocket === undefined) {
+        if (vaultsSocket === undefined) {
           router.push("/vaults");
           return;
         }
 
-        vaultSocket.on("connect", () => {
-          vaultSocket.emit("joinVault", currentVault.id);
-        });
+        vaultsSocket?.emit(VAULT_EVENTS.JOIN_VAULT_ROOM, currentVault.id);
 
-        return () => {
-          closeSocket();
-          closeNoteSocket();
-        };
+        const noteSocket = await initializeSocket(currentVault.id);
+
+        if (noteSocket === undefined) {
+          router.push("/vaults");
+          return;
+        }
       } catch (error) {
         console.log(error);
         router.push("/auth/login");
       }
     };
-    initSocket();
-  }, [currentVault?.id]);
+    initNoteSocket();
+
+    return () => {
+      vaultsSocket?.emit(VAULT_EVENTS.LEAVE_VAULT_ROOM, currentVault.id);
+      closeSocket();
+    };
+  }, [currentVault]);
 
   useEffect(() => {
-    if (
-      currentVault !== null &&
-      currentNoteId !== null &&
-      noteSocket !== null
-    ) {
+    if (currentVault !== null && currentNoteId !== null && socket !== null) {
       joinNote(currentNoteId);
     }
 
     return () => {
-      if (noteSocket !== null && currentNoteId !== null) {
+      if (socket !== null && currentNoteId !== null) {
         leaveNote(currentNoteId!);
       }
     };
-  }, [currentNoteId, noteSocket]);
+  }, [currentNoteId, socket]);
 
-  if (currentVault === null || noteSocket === null) {
+  if (currentVault === null || socket === null) {
     return <Backdrop open={true} />;
   }
 
@@ -98,7 +95,11 @@ const NotiLayout: FC<NotiLayoutProps> = ({ children }) => {
 const getNotiLayout = (
   page: ReactElement<any, string | JSXElementConstructor<any>>
 ) => {
-  return <NotiLayout>{page}</NotiLayout>;
+  return (
+    <VaultSocketLayout>
+      <NoteLayout>{page}</NoteLayout>
+    </VaultSocketLayout>
+  );
 };
 
-export { NotiLayout, getNotiLayout };
+export { NoteLayout as NotiLayout, getNotiLayout };

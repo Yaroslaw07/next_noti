@@ -48,8 +48,8 @@ const NotesList: FC = () => {
       );
     });
 
-    socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, (deletedNoteId) => {
-      setNotes((prev) => prev.filter((note) => note.id !== deletedNoteId));
+    socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, (deletedNote) => {
+      setNotes((prev) => prev.filter((note) => note.id !== deletedNote.id));
     });
 
     return () => {

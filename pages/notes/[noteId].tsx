@@ -6,11 +6,11 @@ import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import { getNotiLayout } from "@/features/notes/components/layout/Layout";
+import { getNotiLayout } from "@/features/notes/components/layout/NoteLayout";
 import { Box, Container } from "@mui/material";
 import NoteTitle from "@/features/notes/components/NoteTitle";
-import NoteContent from "@/features/note-content/components/NoteContent";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
+import NoteContent from "@/features/note-content/components/NoteContent";
 
 interface NotePageProps {
   note: NoteType;
@@ -28,11 +28,14 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
     }
 
     enterNote(note.id, note.title);
+    console.log("entering note");
 
     return () => {
       leaveNote();
     };
   }, [note?.id]);
+
+  console.log(note.blocks);
 
   return (
     <>
@@ -79,10 +82,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   });
 
-  if (!response!.ok) {
+  if (response == undefined || response.status !== 200) {
     return {
-      props: {
-        note: null,
+      redirect: {
+        destination: "/notes",
+        permanent: false,
       },
     };
   }

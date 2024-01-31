@@ -1,7 +1,8 @@
-import { create } from "zustand";
 import { Socket } from "socket.io-client";
 import connectSocket from "../../../lib/api/connectSocket";
 import { NOTE_EVENTS } from "../notesEvents";
+import { createWithEqualityFn } from "zustand/traditional";
+import { getAccessToken } from "@/features/auth/accessToken";
 
 interface NoteSocketStore {
   currentNoteId: string | null;
@@ -11,13 +12,13 @@ interface NoteSocketStore {
   setCurrentNoteTitle: (title: string | null) => void;
 
   socket: Socket | null;
-  initializeSocket: (accessToken: string) => Promise<Socket | undefined>;
+  initializeSocket: (vaultId: string) => Promise<Socket | undefined>;
   closeSocket: () => void;
   joinNote: (noteId: string) => void;
   leaveNote: (noteId: string) => void;
 }
 
-const useNoteStore = create<NoteSocketStore>()((set, get) => ({
+const useNoteStore = createWithEqualityFn<NoteSocketStore>()((set, get) => ({
   currentNoteId: null,
 
   setCurrentNoteId: (noteId: string | null) => {
@@ -32,12 +33,13 @@ const useNoteStore = create<NoteSocketStore>()((set, get) => ({
 
   socket: null,
 
-  initializeSocket: async (accessToken: string) => {
+  initializeSocket: async (vaultId: string) => {
     try {
+      const accessToken = await getAccessToken();
+
       const socket = connectSocket("notes", {
-        extraHeaders: {
-          token: accessToken,
-        },
+        extraHeaders: { token: accessToken, vault_id: vaultId },
+        multiplex: false,
       });
       set({ socket });
       return socket;
