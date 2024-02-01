@@ -1,24 +1,22 @@
-import { getAccessToken } from "@/features/auth/accessToken";
 import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
-import useVaultStore from "../../store/vaultStore";
+import { useSocketStore } from "@/lib/socketStore";
+import { useToast } from "@/hooks/useToast";
 
 interface VaultSocketLayoutProps {
   children: React.ReactNode;
 }
 
 export const VaultSocketLayout: FC<VaultSocketLayoutProps> = ({ children }) => {
-  const router = useRouter();
-
-  const { initializeSocket, closeSocket } = useVaultStore();
+  const { initializeSocket, closeSocket } = useSocketStore();
+  const { openToast } = useToast();
 
   useEffect(() => {
     const initVaultSocket = async () => {
-      const token = await getAccessToken();
-      const socket = await initializeSocket(token);
+      const socket = await initializeSocket();
 
       if (socket === undefined) {
-        router.push("/vaults");
+        openToast("Unable to connect to server", "error");
         return;
       }
     };

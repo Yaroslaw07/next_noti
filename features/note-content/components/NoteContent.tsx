@@ -7,8 +7,6 @@ interface NoteContentProps {
 }
 
 const NoteContent: FC<NoteContentProps> = ({ blocks }) => {
-  console.log(blocks);
-
   return (
     <>
       {blocks &&

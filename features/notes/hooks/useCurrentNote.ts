@@ -1,16 +1,18 @@
 import useNoteStore from "../store/notesStore";
 import { NOTE_EVENTS } from "../notesEvents";
 import { shallow } from "zustand/shallow";
+import { useSocketStore } from "@/lib/socketStore";
 
 export const useCurrentNote = () => {
-  const { setCurrentNoteId, setCurrentNoteTitle, socket } = useNoteStore(
+  const { setCurrentNoteId, setCurrentNoteTitle } = useNoteStore(
     (state) => ({
       setCurrentNoteId: state.setCurrentNoteId,
       setCurrentNoteTitle: state.setCurrentNoteTitle,
-      socket: state.socket,
     }),
     shallow
   );
+
+  const socket = useSocketStore((state) => state.socket, shallow);
 
   const enterNoteHandler = (noteId: string, noteTitle: string) => {
     setCurrentNoteId(noteId);

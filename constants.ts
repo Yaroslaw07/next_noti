@@ -1,1 +1,1 @@
-export const autoSaveTime = 2500;
+export const autoSaveTime = 3500;

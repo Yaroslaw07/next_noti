@@ -4,11 +4,13 @@ import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import { autoSaveTime } from "@/constants";
 import { NOTE_EVENTS } from "../notesEvents";
+import { useSocketStore } from "@/lib/socketStore";
 
 const NoteTitle = () => {
-  const { currentNoteId, currentNoteTitle, setCurrentNoteTitle, socket } =
+  const { currentNoteId, currentNoteTitle, setCurrentNoteTitle } =
     useNoteStore();
   const { saveTitle } = useCurrentNote();
+  const { socket } = useSocketStore();
 
   const currentTitle = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);

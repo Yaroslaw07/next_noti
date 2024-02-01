@@ -9,6 +9,7 @@ import useVaultStore from "@/features/vaults/store/vaultStore";
 import useNoteStore from "../../store/notesStore";
 import { VaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
 import { VAULT_EVENTS } from "@/features/vaults/vaultsEvents";
+import { useSocketStore } from "@/lib/socketStore";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
@@ -18,16 +19,9 @@ const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
   const router = useRouter();
 
   const { currentVault } = useVaults();
-  const { socket: vaultsSocket } = useVaultStore();
+  const { socket } = useSocketStore();
 
-  const {
-    initializeSocket,
-    closeSocket: closeSocket,
-    currentNoteId,
-    socket,
-    joinNote,
-    leaveNote,
-  } = useNoteStore();
+  const { joinNote, leaveNote, currentNoteId } = useNoteStore();
 
   useEffect(() => {
     if (!currentVault) {
@@ -36,19 +30,12 @@ const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
 
     const initNoteSocket = async () => {
       try {
-        if (vaultsSocket === undefined) {
+        if (socket === undefined) {
           router.push("/vaults");
           return;
         }
 
-        vaultsSocket?.emit(VAULT_EVENTS.JOIN_VAULT_ROOM, currentVault.id);
-
-        const noteSocket = await initializeSocket(currentVault.id);
-
-        if (noteSocket === undefined) {
-          router.push("/vaults");
-          return;
-        }
+        socket?.emit(VAULT_EVENTS.JOIN_VAULT_ROOM, currentVault.id);
       } catch (error) {
         console.log(error);
         router.push("/auth/login");
@@ -57,19 +44,18 @@ const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
     initNoteSocket();
 
     return () => {
-      vaultsSocket?.emit(VAULT_EVENTS.LEAVE_VAULT_ROOM, currentVault.id);
-      closeSocket();
+      socket?.emit(VAULT_EVENTS.LEAVE_VAULT_ROOM, currentVault.id);
     };
   }, [currentVault]);
 
   useEffect(() => {
     if (currentVault !== null && currentNoteId !== null && socket !== null) {
-      joinNote(currentNoteId);
+      joinNote(socket, currentNoteId);
     }
 
     return () => {
       if (socket !== null && currentNoteId !== null) {
-        leaveNote(currentNoteId!);
+        leaveNote(socket, currentNoteId!);
       }
     };
   }, [currentNoteId, socket]);

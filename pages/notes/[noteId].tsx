@@ -28,7 +28,6 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
     }
 
     enterNote(note.id, note.title);
-    console.log("entering note");
 
     return () => {
       leaveNote();

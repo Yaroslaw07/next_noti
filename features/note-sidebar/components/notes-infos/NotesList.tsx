@@ -7,9 +7,9 @@ import SidebarModule from "../SidebarModule";
 import { useNotesInfo } from "../../hooks/useNotesInfo";
 import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
-import useVaultStore from "@/features/vaults/store/vaultStore";
 import useNoteStore from "@/features/notes/store/notesStore";
 import { NOTE_INFOS_EVENTS } from "../../notesInfoEvents";
+import { useSocketStore } from "@/lib/socketStore";
 
 const NotesList: FC = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const NotesList: FC = () => {
   const { currentVault } = useVaults();
   const { getNotes } = useNotesInfo();
 
-  const { socket } = useVaultStore();
+  const { socket } = useSocketStore();
   const { currentNoteId, currentNoteTitle } = useNoteStore();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
