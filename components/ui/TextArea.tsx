@@ -1,25 +1,39 @@
 import theme from "@/lib/ui/theme";
-import { FC, useEffect, useRef } from "react";
+import { text } from "node:stream/consumers";
+import { FC, useEffect, useRef, useState } from "react";
 
 interface TextAreaProps {
   value: string;
   onChange: (content: string) => void;
+  onBlur?: () => void;
+  handleEnter?: () => void;
+  handleBackspace?: () => void;
 }
 
-const MIN_TEXTAREA_HEIGHT = 32;
+const MIN_TEXTAREA_HEIGHT = 2;
 
-const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
+const TextArea: FC<TextAreaProps> = ({
+  value,
+  onChange,
+  onBlur,
+  handleEnter,
+  handleBackspace,
+}) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const isBackspacePressed = event.key === "Backspace";
 
     if (isBackspacePressed && textareaRef.current?.value.length === 0) {
-      console.log("handle backspace");
+      handleBackspace && handleBackspace();
+      event.preventDefault();
+      return;
     }
 
     if (event.key === "Enter") {
-      console.log("handle enter");
+      handleEnter && handleEnter();
+      event.preventDefault();
+      return;
     }
   };
 
@@ -31,7 +45,6 @@ const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "inherit";
-
       textareaRef.current.style.height = `${Math.max(
         textareaRef.current.scrollHeight,
         MIN_TEXTAREA_HEIGHT
@@ -44,7 +57,8 @@ const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
       placeholder="Empty content"
       ref={textareaRef}
       value={value || ""}
-      onKeyUp={handleKeyUp}
+      onKeyDown={handleKeyDown}
+      onBlur={onBlur}
       onChange={handleOnChange}
       style={{
         width: "100%",
@@ -57,7 +71,6 @@ const TextArea: FC<TextAreaProps> = ({ value, onChange }) => {
         lineHeight: "1.5",
         overflow: "hidden",
         boxSizing: "border-box",
-        height: "100%",
       }}
     />
   );

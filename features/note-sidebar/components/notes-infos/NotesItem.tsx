@@ -1,7 +1,7 @@
 import { Icons } from "@/components/Icons";
 import { Box, IconButton, Typography } from "@mui/material";
 import { FC, useState } from "react";
-import SidebarModule from "../SidebarModule";
+import SidebarModule from "../base/SidebarModule";
 import { useNotesInfo } from "../../hooks/useNotesInfo";
 import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
@@ -13,12 +13,8 @@ interface NotesItemProps {
   title?: string;
 }
 
-const MAX_TITLE_LENGTH = 12;
-const MAX_TITLE_LENGTH_HOVER = 8;
-
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
-  const [maxTitleLength, setMaxTitleLength] = useState(MAX_TITLE_LENGTH);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(true);
 
   const { openToast } = useToast();
 

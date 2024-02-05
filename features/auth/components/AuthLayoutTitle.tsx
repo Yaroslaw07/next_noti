@@ -2,11 +2,11 @@ import { Box, Link, Typography } from "@mui/material";
 import { FC } from "react";
 import { Icons } from "../../../components/Icons";
 
-interface AuthTitleProps {
+interface AuthLayoutTitleProps {
   title: string;
 }
 
-const AuthTitle: FC<AuthTitleProps> = ({ title }) => {
+const AuthLayoutTitle: FC<AuthLayoutTitleProps> = ({ title }) => {
   return (
     <Box>
       <Link href="../">
@@ -28,4 +28,4 @@ const AuthTitle: FC<AuthTitleProps> = ({ title }) => {
   );
 };
 
-export default AuthTitle;
+export default AuthLayoutTitle;

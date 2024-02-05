@@ -3,7 +3,7 @@ import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
 import { useVaults } from "@/features/vaults/hooks/useVaults";
 import { FC, useEffect, useState } from "react";
-import SidebarModule from "../SidebarModule";
+import SidebarModule from "../base/SidebarModule";
 import { useNotesInfo } from "../../hooks/useNotesInfo";
 import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";

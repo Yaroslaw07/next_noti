@@ -24,10 +24,9 @@ export const useCurrentNote = () => {
     setCurrentNoteTitle(null);
   };
 
-  const saveTitleHandler = (noteId: string, newTitle: string) => {
+  const saveTitleHandler = (newTitle: string) => {
     if (socket) {
       socket.emit(NOTE_EVENTS.TO_UPDATE_NOTE_TITLE, {
-        noteId,
         newTitle,
       });
     }

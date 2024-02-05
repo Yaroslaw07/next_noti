@@ -34,8 +34,6 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
     };
   }, [note?.id]);
 
-  console.log(note.blocks);
-
   return (
     <>
       <Head>
@@ -54,7 +52,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
         >
           <Box sx={{ height: "80px" }}></Box>
           <NoteTitle />
-          <NoteContent blocks={note.blocks} />
+          <NoteContent originalBlocks={note.blocks} />
         </Container>
       </Box>
     </>

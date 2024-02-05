@@ -1,4 +1,3 @@
-import { BorderAllRounded } from "@mui/icons-material";
 import { createTheme } from "@mui/material";
 import { PaletteColor } from "@mui/material/styles/createPalette";
 
@@ -96,13 +95,14 @@ const theme = createTheme({
           height: "30px",
           fontSize: "1.1rem",
           display: "flex",
+          justifyContent: "center",
         },
       },
     },
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          fontSize: "1.1rem",
+          fontSize: "1.05rem",
         },
       },
     },

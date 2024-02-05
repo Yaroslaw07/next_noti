@@ -5,12 +5,15 @@ import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import { autoSaveTime } from "@/constants";
 import { NOTE_EVENTS } from "../notesEvents";
 import { useSocketStore } from "@/lib/socketStore";
+import { useBlockEvents } from "@/features/note-content/hooks/useBlockEvents";
 
 const NoteTitle = () => {
   const { currentNoteId, currentNoteTitle, setCurrentNoteTitle } =
     useNoteStore();
   const { saveTitle } = useCurrentNote();
   const { socket } = useSocketStore();
+
+  const { createBlock } = useBlockEvents();
 
   const currentTitle = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);
@@ -22,7 +25,7 @@ const NoteTitle = () => {
       currentTitle.current !== ""
     ) {
       hasChanges.current = false;
-      saveTitle(currentNoteId!, currentTitle.current);
+      saveTitle(currentTitle.current);
     }
   };
 
@@ -66,6 +69,13 @@ const NoteTitle = () => {
     debounced();
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      createBlock(0);
+      e.preventDefault();
+    }
+  };
+
   return (
     <TextField
       variant="standard"
@@ -75,6 +85,7 @@ const NoteTitle = () => {
       value={currentNoteTitle || ""}
       spellCheck={false}
       onChange={handleChange}
+      onKeyDown={handleKeyDown}
       onBlur={onBlur}
     />
   );

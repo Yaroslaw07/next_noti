@@ -1,6 +1,6 @@
 import { Icons } from "@/components/Icons";
 import { FC } from "react";
-import SidebarItem from "./SidebarItem";
+import SidebarItem from "./base/SidebarItem";
 import { useNotesInfo } from "../hooks/useNotesInfo";
 import { useToast } from "@/hooks/useToast";
 import { useRouter } from "next/router";

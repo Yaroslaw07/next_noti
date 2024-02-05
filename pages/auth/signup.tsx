@@ -7,7 +7,7 @@ import { SignupCredentials } from "@/features/auth/types/authTypes";
 import Link from "@/components/ui/Link";
 import { NextPageWithLayout } from "../_app";
 import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";
-import AuthTitle from "@/features/auth/components/AuthTitle";
+import AuthLayoutTitle from "@/features/auth/components/AuthLayoutTitle";
 import { useToast } from "@/hooks/useToast";
 
 const SignUpPage: NextPageWithLayout = () => {
@@ -39,7 +39,7 @@ const SignUpPage: NextPageWithLayout = () => {
         <title>Signup to Noti</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
-      <AuthTitle title="Sign up" />
+      <AuthLayoutTitle title="Sign up" />
       <SignupForm handleSubmit={handleSubmit} />
       <Link
         href="login"
