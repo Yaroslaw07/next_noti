@@ -94,7 +94,7 @@ const NotesList: FC = () => {
           }}
         >
           {notes
-            .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
+            .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
             .map((currNote) => (
               <NotesItem
                 key={currNote.id}

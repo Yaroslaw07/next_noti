@@ -3,23 +3,30 @@ import TextArea from "../../../../components/ui/TextArea";
 import { debounce } from "lodash";
 import { autoSaveTime } from "@/constants";
 import { useBlockEvents } from "../../hooks/useBlockEvents";
+import { ContentBlock } from "@/features/notes/types/noteTypes";
+import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
 
 interface TextBlocksProps {
-  blockId: string;
-  props: TextProps;
-  order: number;
+  block: ContentBlock;
+  getNextBlockId: (order: number) => string | null;
+  getPrevBlockId: (order: number) => string | null;
 }
 
-const TextBlock: FC<TextBlocksProps> = ({ blockId, props, order }) => {
+const TextBlock: FC<TextBlocksProps> = ({
+  block,
+  getNextBlockId,
+  getPrevBlockId,
+}) => {
   const { updateBlockProps, createBlock, deleteBlock } = useBlockEvents();
+  const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
 
   const [text, setText] = useState("");
+  const { id, order, props } = block;
 
   const textUpdated = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);
 
   useEffect(() => {
-    console.log("text updated", props.text);
     setText(props.text || "");
 
     hasChanges.current = false;
@@ -29,16 +36,30 @@ const TextBlock: FC<TextBlocksProps> = ({ blockId, props, order }) => {
   const handleSave = async () => {
     if (hasChanges.current && textUpdated.current !== null) {
       hasChanges.current = false;
-      updateBlockProps(blockId, { text: textUpdated.current });
+      updateBlockProps(id, { text: textUpdated.current });
     }
   };
+
+  const isFocused: boolean = focusedBlockId === id;
 
   const handleEnter = () => {
     createBlock(order + 1);
   };
 
+  const handleFocus = () => {
+    setFocusedBlockId(id);
+  };
+
   const handleBackspace = () => {
-    deleteBlock(blockId);
+    deleteBlock(id);
+  };
+
+  const moveToPrevious = () => {
+    setFocusedBlockId(getPrevBlockId(order));
+  };
+
+  const moveToNext = () => {
+    setFocusedBlockId(getNextBlockId(order));
   };
 
   const debounced = useCallback(
@@ -66,6 +87,10 @@ const TextBlock: FC<TextBlocksProps> = ({ blockId, props, order }) => {
       onBlur={onBlur}
       handleEnter={handleEnter}
       handleBackspace={handleBackspace}
+      onFocus={handleFocus}
+      isFocused={isFocused}
+      moveToNext={moveToNext}
+      moveToPrevious={moveToPrevious}
     />
   );
 };

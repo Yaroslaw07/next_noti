@@ -1,13 +1,20 @@
 import theme from "@/lib/ui/theme";
-import { text } from "node:stream/consumers";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef } from "react";
 
 interface TextAreaProps {
   value: string;
   onChange: (content: string) => void;
-  onBlur?: () => void;
+
   handleEnter?: () => void;
   handleBackspace?: () => void;
+
+  onFocus?: () => void;
+  isFocused?: boolean;
+
+  moveToPrevious?: () => void;
+  moveToNext?: () => void;
+
+  onBlur?: () => void;
 }
 
 const MIN_TEXTAREA_HEIGHT = 2;
@@ -15,9 +22,17 @@ const MIN_TEXTAREA_HEIGHT = 2;
 const TextArea: FC<TextAreaProps> = ({
   value,
   onChange,
-  onBlur,
+
   handleEnter,
   handleBackspace,
+
+  onFocus,
+  isFocused,
+
+  moveToPrevious,
+  moveToNext,
+
+  onBlur,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -32,6 +47,21 @@ const TextArea: FC<TextAreaProps> = ({
 
     if (event.key === "Enter") {
       handleEnter && handleEnter();
+      event.preventDefault();
+      return;
+    }
+
+    if (event.key === "ArrowUp" && textareaRef.current?.selectionStart === 0) {
+      moveToPrevious && moveToPrevious();
+      event.preventDefault();
+      return;
+    }
+
+    if (
+      event.key === "ArrowDown" &&
+      textareaRef.current?.selectionEnd === value.length
+    ) {
+      moveToNext && moveToNext();
       event.preventDefault();
       return;
     }
@@ -52,11 +82,18 @@ const TextArea: FC<TextAreaProps> = ({
     }
   }, [value]);
 
+  useEffect(() => {
+    if (isFocused && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [isFocused]);
+
   return (
     <textarea
       placeholder="Empty content"
       ref={textareaRef}
       value={value || ""}
+      onFocus={onFocus}
       onKeyDown={handleKeyDown}
       onBlur={onBlur}
       onChange={handleOnChange}

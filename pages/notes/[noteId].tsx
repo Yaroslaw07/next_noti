@@ -11,6 +11,7 @@ import { Box, Container } from "@mui/material";
 import NoteTitle from "@/features/notes/components/NoteTitle";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import NoteContent from "@/features/note-content/components/NoteContent";
+import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
 
 interface NotePageProps {
   note: NoteType;
@@ -20,7 +21,9 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
   note,
 }: NotePageProps) => {
   const router = useRouter();
+
   const { enterNote, leaveNote } = useCurrentNote();
+  const { setFocusedBlockId } = useFocusedBlockStore();
 
   useEffect(() => {
     if (note == null) {
@@ -28,6 +31,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
     }
 
     enterNote(note.id, note.title);
+    setFocusedBlockId(null);
 
     return () => {
       leaveNote();
@@ -50,8 +54,9 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
             flexDirection: "column",
           }}
         >
-          <Box sx={{ height: "80px" }}></Box>
+          <Box sx={{ height: "60px" }}></Box>
           <NoteTitle />
+          <Box sx={{ height: "16px" }}></Box>
           <NoteContent originalBlocks={note.blocks} />
         </Container>
       </Box>

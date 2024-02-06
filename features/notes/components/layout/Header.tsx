@@ -31,9 +31,13 @@ const Header = () => {
             ? "Untitled"
             : currentNoteTitle}
         </Typography>
-        <IconButton sx={{}}>
-          <Icons.More sx={{ fontSize: "32px", marginTop: "-8px" }} />
-        </IconButton>
+        <Icons.More
+          sx={{
+            fontSize: "34px",
+            marginTop: "-10px",
+            color: theme.palette.primary.light,
+          }}
+        />
       </Toolbar>
     </AppBar>
   );
