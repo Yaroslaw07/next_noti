@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import Sidebar from "@/features/note-sidebar/components/Sidebar";
 import Header from "./Header";
 import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
@@ -65,16 +65,20 @@ const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
   }
 
   return (
-    <Grid container wrap="nowrap">
+    <>
       <Backdrop open={currentVault === null} />
-      <Grid item>
-        <Sidebar />
+      <Grid container wrap="nowrap" style={{ height: "100vh", width: "100vw" }}>
+        <Grid item>
+          <Sidebar />
+        </Grid>
+        <Grid xs item>
+          <Stack spacing={0} sx={{ height: "100%", width: "100%" }}>
+            <Header />
+            {children}
+          </Stack>
+        </Grid>
       </Grid>
-      <Grid xs item>
-        <Header />
-        {children}
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

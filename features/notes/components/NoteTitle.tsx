@@ -87,6 +87,7 @@ const NoteTitle = () => {
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       onBlur={onBlur}
+      autoComplete={"off"}
     />
   );
 };

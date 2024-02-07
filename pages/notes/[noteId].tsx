@@ -43,17 +43,15 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
       <Head>
         <title>Noti | Notes</title>
       </Head>
-      <Box sx={{ paddingX: "80px" }}>
-        <Container
-          component="main"
-          maxWidth="md"
-          sx={{
-            height: "90%",
-            marginX: "auto",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+      <Box
+        component="main"
+        sx={{
+          height: "100%",
+          width: "100%",
+          overflowY: "auto",
+        }}
+      >
+        <Container sx={{ marginX: "auto", width: "min(75%, 1000px)" }}>
           <Box sx={{ height: "60px" }}></Box>
           <NoteTitle />
           <Box sx={{ height: "16px" }}></Box>

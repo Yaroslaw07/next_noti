@@ -17,7 +17,7 @@ interface TextAreaProps {
   onBlur?: () => void;
 }
 
-const MIN_TEXTAREA_HEIGHT = 2;
+const MIN_TEXTAREA_HEIGHT = 32;
 
 const TextArea: FC<TextAreaProps> = ({
   value,
@@ -75,6 +75,7 @@ const TextArea: FC<TextAreaProps> = ({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "inherit";
+
       textareaRef.current.style.height = `${Math.max(
         textareaRef.current.scrollHeight,
         MIN_TEXTAREA_HEIGHT
@@ -108,6 +109,7 @@ const TextArea: FC<TextAreaProps> = ({
         lineHeight: "1.5",
         overflow: "hidden",
         boxSizing: "border-box",
+        minHeight: MIN_TEXTAREA_HEIGHT,
       }}
     />
   );

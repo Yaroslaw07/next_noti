@@ -3,7 +3,6 @@ import { useSocketStore } from "@/lib/socketStore";
 import { useEffect, useRef, useState } from "react";
 import { BLOCK_EVENTS } from "../blocksEvents";
 import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
-import { Co2Sharp } from "@mui/icons-material";
 
 export const useBlocks = (originalBlocks: ContentBlock[]) => {
   const { socket } = useSocketStore();
@@ -55,9 +54,11 @@ export const useBlocks = (originalBlocks: ContentBlock[]) => {
 
     socket?.on(BLOCK_EVENTS.BLOCK_DELETED, (payload) => {
       setBlocks((prevBlocks) => {
-        const deletedBlockOrder = prevBlocks.find(
+        const deleteBlock = prevBlocks.find(
           (block) => block.id === payload.blockId
-        )!.order;
+        );
+
+        const deletedBlockOrder = deleteBlock?.order || 0;
 
         deletedBlockOrder === 0
           ? setFocusedBlockId("title")

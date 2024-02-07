@@ -25,6 +25,7 @@ const TextBlock: FC<TextBlocksProps> = ({
 
   const textUpdated = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);
+  const isSetToDelete = useRef(false);
 
   useEffect(() => {
     setText(props.text || "");
@@ -34,7 +35,11 @@ const TextBlock: FC<TextBlocksProps> = ({
   }, [props]);
 
   const handleSave = async () => {
-    if (hasChanges.current && textUpdated.current !== null) {
+    if (
+      hasChanges.current &&
+      textUpdated.current !== null &&
+      !isSetToDelete.current
+    ) {
       hasChanges.current = false;
       updateBlockProps(id, { text: textUpdated.current });
     }
@@ -51,14 +56,17 @@ const TextBlock: FC<TextBlocksProps> = ({
   };
 
   const handleBackspace = () => {
+    isSetToDelete.current = true;
     deleteBlock(id);
   };
 
   const moveToPrevious = () => {
+    handleSave();
     setFocusedBlockId(getPrevBlockId(order));
   };
 
   const moveToNext = () => {
+    handleSave();
     setFocusedBlockId(getNextBlockId(order));
   };
 
