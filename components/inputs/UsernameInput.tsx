@@ -1,11 +1,6 @@
 import React from "react";
 import { TextField } from "@mui/material";
-import {
-  Control,
-  Controller,
-  UseFormRegisterReturn,
-  useController,
-} from "react-hook-form";
+import { Control, Controller, useController } from "react-hook-form";
 
 interface UsernameInputProps {
   control: Control<any>;
