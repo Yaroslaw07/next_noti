@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { setCookie } from "nookies";
+import jwt from "jsonwebtoken";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
@@ -33,13 +34,34 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  const decodedAccessToken = jwt.decode(accessToken) as jwt.JwtPayload;
+  const accessTokenExpTime = decodedAccessToken?.exp;
+
+  if (!accessTokenExpTime) {
+    res.status(400).end("Invalid access token");
+    return;
+  }
+
+  const remainingTime = accessTokenExpTime - Math.floor(Date.now() / 1000);
+
   setCookie({ res }, "accessToken", accessToken, {
-    maxAge: +process.env.ACCESS_TOKEN_EXP_TIME!,
+    maxAge: remainingTime,
     path: "/",
   });
 
+  const decodedRefreshToken = jwt.decode(refreshToken) as jwt.JwtPayload;
+  const refreshTokenExpTime = decodedRefreshToken?.exp;
+
+  if (!refreshTokenExpTime) {
+    res.status(400).end("Invalid refresh token");
+    return;
+  }
+
+  const refreshTokenRemainingTime =
+    refreshTokenExpTime - Math.floor(Date.now() / 1000);
+
   setCookie({ res }, "refreshToken", refreshToken, {
-    maxAge: +process.env.REFRESH_TOKEN_EXP_TIME!,
+    maxAge: refreshTokenRemainingTime,
     path: "/",
     httpOnly: true,
   });

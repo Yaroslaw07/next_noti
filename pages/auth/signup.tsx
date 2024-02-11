@@ -16,18 +16,8 @@ const SignUpPage: NextPageWithLayout = () => {
   const { signup } = useAuth();
   const { openToast } = useToast();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    const data = new FormData(event.currentTarget);
-
-    const username = data.get("username");
-    const email = data.get("email");
-    const password = data.get("password");
-
-    const { ok, message } = await signup({
-      username,
-      email,
-      password,
-    } as SignupCredentials);
+  const handleSubmit = async (data: SignupCredentials) => {
+    const { ok, message } = await signup(data);
 
     openToast(message, ok ? "success" : "error");
     ok && router.push("/vaults");

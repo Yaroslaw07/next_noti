@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import {
-  IconButton,
-  InputAdornment,
-  TextField,
-  TextFieldPropsSizeOverrides,
-} from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { Icons } from "../Icons";
+import { Control, Controller } from "react-hook-form";
 
 interface PasswordInputProps {
-  onPasswordChange: (value: string) => void;
-  passwordErrorText?: string;
+  control: Control<any>;
+  error: string | undefined;
 }
 
 const PasswordInputComponent: React.FC<PasswordInputProps> = ({
-  onPasswordChange,
-  passwordErrorText,
+  control,
+  error,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,35 +22,41 @@ const PasswordInputComponent: React.FC<PasswordInputProps> = ({
     event.preventDefault();
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onPasswordChange(event.target.value);
-  };
-
   return (
-    <TextField
-      margin="normal"
-      size="small"
-      fullWidth
+    <Controller
       name="password"
-      label="Password"
-      type={showPassword ? "text" : "password"}
-      autoComplete="current-password"
-      error={!!passwordErrorText}
-      helperText={passwordErrorText}
-      onChange={handlePasswordChange}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleShowPassword}
-              onMouseDown={handleMouseDownPassword}
-            >
-              {showPassword ? <Icons.HidePassword /> : <Icons.ShowPassword />}
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
+      control={control}
+      render={({ field }) => (
+        <TextField
+          {...field}
+          margin="normal"
+          size="small"
+          fullWidth
+          name="password"
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          autoComplete="current-password"
+          error={!!error}
+          helperText={error || ""}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {showPassword ? (
+                    <Icons.HidePassword />
+                  ) : (
+                    <Icons.ShowPassword />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
     />
   );
 };

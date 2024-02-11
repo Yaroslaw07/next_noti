@@ -1,19 +1,14 @@
-import {
-  Box,
-  Button,
-  Modal,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { FC, useState } from "react";
+import { Button, Modal, Stack, TextField, Typography } from "@mui/material";
+import { FC } from "react";
 import HR from "../../../components/ui/HR";
 import { Icons } from "../../../components/Icons";
-
-import { validateVaultName } from "@/lib/validator";
 import { useRouter } from "next/router";
 import { useVaults } from "../hooks/useVaults";
 import { useToast } from "@/hooks/useToast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Vault } from "../types/vaultTypes";
+import { Controller, useForm } from "react-hook-form";
+import { vaultSchema } from "../vaultsValidator";
 
 interface NewVaultModalProps {
   isOpen: boolean;
@@ -22,25 +17,27 @@ interface NewVaultModalProps {
 
 const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
   const router = useRouter();
-  const { openToast } = useToast();
 
+  const { openToast } = useToast();
   const { createNewVault } = useVaults();
 
-  const [newVaultName, setNewVaultName] = useState("");
-  const [error, setError] = useState("");
+  const {
+    handleSubmit: onSubmit,
+    formState: { errors },
+    control,
+  } = useForm<{ name: string }>({
+    resolver: zodResolver(vaultSchema),
+    defaultValues: { name: "" },
+  });
 
-  const handleCreateNewVault = async () => {
-    setError(validateVaultName(newVaultName));
-    if (error !== "") return;
+  const handleCreateNewVault = async (vault: Partial<Vault>) => {
+    const { ok, message } = await createNewVault(vault.name as string);
 
-    const { ok, message } = await createNewVault(newVaultName);
     openToast(message, ok ? "success" : "error");
-    ok === true ? router.push("/notes") : null;
+    ok && router.push("/notes");
   };
 
   const handleCloseModal = () => {
-    setNewVaultName("");
-    setError("");
     handleClose();
   };
 
@@ -57,7 +54,9 @@ const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
     >
       <Stack
         spacing={2}
+        component="form"
         alignItems={"center"}
+        onSubmit={onSubmit(handleCreateNewVault)}
         sx={{
           backgroundColor: "secondary.main",
           width: "320px",
@@ -81,17 +80,22 @@ const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
         >
           {"New vault"}
         </Typography>
-        <TextField
-          fullWidth
-          margin="normal"
-          size="small"
-          id="vault-name"
-          label="Vault Name"
-          name="vaultName"
-          autoComplete="vault"
-          error={!!error}
-          helperText={error}
-          onChange={(e) => setNewVaultName(e.target.value)}
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              name="name"
+              fullWidth
+              margin="normal"
+              size="small"
+              id="vault-name"
+              label="Vault Name"
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
+          )}
         />
         <HR />
         <Stack spacing={0.5} sx={{ width: "100%" }}>
@@ -99,11 +103,11 @@ const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
             fullWidth
             variant="contained"
             color="primary"
+            type="submit"
             sx={{
               fontSize: "18px",
             }}
             endIcon={<Icons.KeyboardRight />}
-            onClick={handleCreateNewVault}
           >
             Create New
           </Button>

@@ -1,35 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextField } from "@mui/material";
+import { Control, Controller, useController } from "react-hook-form";
 
 interface UsernameInputProps {
-  onUsernameChange: (value: string) => void;
-  usernameErrorText?: string;
+  control: Control<any>;
+  error?: string | undefined;
 }
 
 const UsernameInputComponent: React.FC<UsernameInputProps> = ({
-  onUsernameChange,
-  usernameErrorText,
+  control,
+  error,
 }) => {
-  const [username, setUsername] = useState("");
-
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newUsername = event.target.value;
-    setUsername(newUsername);
-    onUsernameChange(newUsername);
-  };
+  const { field } = useController({ name: "username", control });
 
   return (
-    <TextField
-      margin="normal"
-      size="small"
-      fullWidth
-      id="username"
-      label="Username"
+    <Controller
       name="username"
-      autoComplete="username"
-      error={!!usernameErrorText}
-      helperText={usernameErrorText}
-      onChange={handleUsernameChange}
+      control={control}
+      render={({ field }) => (
+        <TextField
+          {...field}
+          margin="normal"
+          size="small"
+          fullWidth
+          id="username"
+          label="Username"
+          name="username"
+          autoComplete="username"
+          error={!!error}
+          helperText={error || ""}
+        />
+      )}
     />
   );
 };

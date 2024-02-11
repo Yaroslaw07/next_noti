@@ -16,16 +16,8 @@ const LoginPage: NextPageWithLayout = () => {
   const { login } = useAuth();
   const { openToast } = useToast();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    const data = new FormData(event.currentTarget);
-
-    const email = data.get("email");
-    const password = data.get("password");
-
-    const { ok, message } = await login({
-      email,
-      password,
-    } as LoginCredentials);
+  const handleSubmit = async (data: LoginCredentials) => {
+    const { ok, message } = await login(data);
 
     openToast(message, ok ? "success" : "error");
     ok && router.push("/vaults");
