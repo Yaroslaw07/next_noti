@@ -3,6 +3,7 @@ import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { IncomingMessage, ServerResponse } from "http";
 import { NextApiRequestCookies } from "next/dist/server/api-utils";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 interface RefreshTokensResponse {
   ok: boolean;
@@ -36,13 +37,32 @@ export async function refreshTokens(
   if (response.ok) {
     const { accessToken, refreshToken } = await response.json();
 
+    const decodedAccessToken = jwt.decode(accessToken) as jwt.JwtPayload;
+    const accessTokenExpTime = decodedAccessToken?.exp;
+
+    if (!accessTokenExpTime) {
+      return { ok: false };
+    }
+
+    const remainingTime = accessTokenExpTime - Math.floor(Date.now() / 1000);
+
     setCookie({ res }, "accessToken", accessToken, {
-      maxAge: +process.env.ACCESS_TOKEN_EXP_TIME!,
+      maxAge: remainingTime,
       path: "/",
     });
 
+    const decodedRefreshToken = jwt.decode(refreshToken) as jwt.JwtPayload;
+    const refreshTokenExpTime = decodedRefreshToken?.exp;
+
+    if (!refreshTokenExpTime) {
+      return { ok: false };
+    }
+
+    const refreshTokenRemainingTime =
+      refreshTokenExpTime - Math.floor(Date.now() / 1000);
+
     setCookie({ res }, "refreshToken", refreshToken, {
-      maxAge: +process.env.REFRESH_TOKEN_EXP_TIME!,
+      maxAge: refreshTokenRemainingTime,
       path: "/",
       httpOnly: true,
     });

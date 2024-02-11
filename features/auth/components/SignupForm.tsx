@@ -20,6 +20,7 @@ const SignupForm: FC<SignupFormProps> = ({ handleSubmit }) => {
     control,
   } = useForm<SignupCredentials>({
     resolver: zodResolver(signupSchema),
+    defaultValues: { username: "", email: "", password: "" },
   });
 
   return (
