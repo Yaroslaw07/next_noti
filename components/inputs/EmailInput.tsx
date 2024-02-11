@@ -1,37 +1,30 @@
 import { TextField } from "@mui/material";
-import { FC } from "react";
+import { Control, Controller } from "react-hook-form";
 
 interface EmailInputProps {
-  onEmailChange: (value: string) => void;
-  emailErrorText?: string;
+  control: Control<any>;
+  error: string | undefined;
 }
 
-const EmailInputComponent: React.FC<EmailInputProps> = ({
-  onEmailChange,
-  emailErrorText,
-}) => {
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onEmailChange(event.target.value);
-  };
-
+const EmailInputComponent: React.FC<EmailInputProps> = ({ control, error }) => {
   return (
-    <TextField
-      margin="normal"
-      size="small"
-      fullWidth
-      id="email"
-      label="Email Address"
+    <Controller
       name="email"
-      autoComplete="email"
-      // inputProps={{
-      //   style: {
-      //     // height: "2rem",
-      //     fontSize: "1.5rem",
-      //   },
-      // }}
-      error={!!emailErrorText}
-      helperText={emailErrorText}
-      onChange={handleEmailChange}
+      control={control}
+      render={({ field }) => (
+        <TextField
+          {...field}
+          margin="normal"
+          size="small"
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          error={!!error}
+          helperText={error}
+        />
+      )}
     />
   );
 };
