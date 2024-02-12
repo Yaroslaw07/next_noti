@@ -19,6 +19,8 @@ import {
   MenuOpenOutlined as MenuOpenOutlinedIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
   SaveOutlined as SaveOutlinedIcon,
+  LightModeOutlined as LightModeOutlinedIcon,
+  DarkModeOutlined as DarkModeOutlinedIcon,
 } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
@@ -33,6 +35,10 @@ const StyledIcon = (IconComponent: any, width: number) => {
 export const Icons = {
   //logo
   Logo: StyledIcon(CollectionsBookmarkOutlinedIcon, 0.7),
+
+  //themes
+  LightMode: StyledIcon(LightModeOutlinedIcon, 0.4),
+  DarkMode: StyledIcon(DarkModeOutlinedIcon, 0.4),
 
   //auth
   ShowPassword: VisibilityOutlinedIcon,

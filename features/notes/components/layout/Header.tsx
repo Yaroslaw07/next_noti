@@ -7,13 +7,10 @@ const getToolbarSx = (theme: Theme) => {
   return {
     display: "flex",
     justifyContent: "space-between",
-    paddingLeft: "10px",
-    paddingRight: "12px",
-    minHeight: "40px",
+    minHeight: "50px",
     [theme.breakpoints.up("sm")]: {
-      paddingLeft: "16px",
-      paddingRight: "6px",
       minHeight: "50px",
+      paddingX: "12px",
     },
   };
 };
@@ -38,7 +35,7 @@ const Header = () => {
         <Icons.More
           sx={{
             fontSize: "38px",
-            marginTop: "-10px",
+            marginTop: "-3px",
             borderRadius: "8px",
             color: currentTheme.palette.primary.light,
             "&:hover": {

@@ -26,7 +26,7 @@ const LoginPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Login to Noti</title>
+        <title>Noti | Login</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
       <AuthLayoutTitle title="Log In" />

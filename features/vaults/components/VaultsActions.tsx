@@ -1,9 +1,10 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Icon } from "@mui/material";
 import HR from "../../../components/ui/HR";
 import { Icons } from "../../../components/Icons";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useRouter } from "next/router";
 import { FC } from "react";
+import useThemeStore from "@/lib/stores/themeStore";
 
 interface VaultsActionsProps {
   handleNewVault: () => void;
@@ -12,6 +13,7 @@ interface VaultsActionsProps {
 const VaultsActions: FC<VaultsActionsProps> = ({ handleNewVault }) => {
   const router = useRouter();
 
+  const { currentTheme, toggleCurrentTheme } = useThemeStore();
   const { logout } = useAuth();
 
   const handleLogout = async () => {
@@ -38,6 +40,20 @@ const VaultsActions: FC<VaultsActionsProps> = ({ handleNewVault }) => {
             onClick={handleNewVault}
           >
             New Vault
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            sx={{
+              height: "45px",
+              borderColor: "primary.main",
+            }}
+            onClick={toggleCurrentTheme}
+          >
+            {currentTheme === "dark" ? <Icons.LightMode /> : <Icons.DarkMode />}
           </Button>
         </Grid>
         <Grid item>

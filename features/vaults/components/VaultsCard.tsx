@@ -31,7 +31,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
     <Card
       variant="outlined"
       sx={{
-        backgroundColor: "additional.main",
+        backgroundColor: "secondary.main",
         borderWidth: "0.5px",
         borderColor: "text.secondary",
         display: "flex",
@@ -40,7 +40,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
         boxShadow: "0 1px 0px 1px rgba(0, 0, 0, 0.1)",
         "&:hover": {
           backgroundColor: `${
-            getCurrentTheme().palette.additional?.light
+            getCurrentTheme().palette.additional?.main
           } !important`,
           cursor: "pointer",
         },

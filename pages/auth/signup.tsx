@@ -26,7 +26,7 @@ const SignUpPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Signup to Noti</title>
+        <title>Noti | Signup</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
       <AuthLayoutTitle title="Sign up" />
