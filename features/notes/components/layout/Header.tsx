@@ -1,27 +1,31 @@
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Theme, Toolbar, Typography } from "@mui/material";
 import { Icons } from "../../../../components/Icons";
-import theme from "@/lib/ui/theme";
-import useNoteStore from "../../store/notesStore";
+import useNoteStore from "../../stores/notesStore";
+import useThemeStore from "@/lib/stores/themeStore";
 
-const ToolbarSx = {
-  display: "flex",
-  justifyContent: "space-between",
-  paddingLeft: "10px",
-  paddingRight: "6px",
-  minHeight: "40px",
-  [theme.breakpoints.up("sm")]: {
-    paddingLeft: "16px",
+const getToolbarSx = (theme: Theme) => {
+  return {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingLeft: "10px",
     paddingRight: "6px",
-    minHeight: "50px",
-  },
+    minHeight: "40px",
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: "16px",
+      paddingRight: "6px",
+      minHeight: "50px",
+    },
+  };
 };
 
 const Header = () => {
   const { currentNoteId, currentNoteTitle } = useNoteStore();
+  const { getCurrentTheme } = useThemeStore();
+  const currentTheme = getCurrentTheme();
 
   return (
     <AppBar component="nav" position="static" sx={{ height: "40px" }}>
-      <Toolbar sx={ToolbarSx}>
+      <Toolbar sx={getToolbarSx(currentTheme)}>
         <Typography
           variant="subtitle1"
           sx={{ paddingTop: "0px", fontSize: "1.15rem" }}
@@ -35,7 +39,7 @@ const Header = () => {
           sx={{
             fontSize: "34px",
             marginTop: "-10px",
-            color: theme.palette.primary.light,
+            color: currentTheme.palette.primary.light,
           }}
         />
       </Toolbar>

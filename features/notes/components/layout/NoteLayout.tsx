@@ -6,7 +6,7 @@ import { useVaults } from "@/features/vaults/hooks/useVaults";
 import Backdrop from "@/components/ui/Backdrop";
 import { useRouter } from "next/router";
 import useVaultStore from "@/features/vaults/store/vaultStore";
-import useNoteStore from "../../store/notesStore";
+import useNoteStore from "../../stores/notesStore";
 import { VaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
 import { VAULT_EVENTS } from "@/features/vaults/vaultsEvents";
 import { useSocketStore } from "@/lib/socketStore";

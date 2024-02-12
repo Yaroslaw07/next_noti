@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
 import { useSocketStore } from "@/lib/socketStore";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 
 interface VaultSocketLayoutProps {
   children: React.ReactNode;

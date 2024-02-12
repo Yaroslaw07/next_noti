@@ -6,11 +6,11 @@ import {
   Typography,
 } from "@mui/material";
 import { FC } from "react";
-import theme from "@/lib/ui/theme";
 import { Icons } from "../../../components/Icons";
 import { Vault } from "../types/vaultTypes";
 import { useVaults } from "../hooks/useVaults";
 import { useRouter } from "next/router";
+import useThemeStore from "@/lib/stores/themeStore";
 
 interface VaultsCardProps {
   vault: Vault;
@@ -18,6 +18,7 @@ interface VaultsCardProps {
 
 const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
   const router = useRouter();
+  const { getCurrentTheme } = useThemeStore();
 
   const { selectVault } = useVaults();
 
@@ -38,7 +39,9 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
         height: "55px",
         boxShadow: "0 1px 0px 1px rgba(0, 0, 0, 0.1)",
         "&:hover": {
-          backgroundColor: `${theme.palette.additional?.main} !important`,
+          backgroundColor: `${
+            getCurrentTheme().palette.additional?.main
+          } !important`,
           cursor: "pointer",
         },
       }}

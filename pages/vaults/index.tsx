@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Vault } from "@/features/vaults/types/vaultTypes";
 import NewVaultModal from "@/features/vaults/components/NewVaultModal";
 import { useRouter } from "next/router";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 import { NextPageWithLayout } from "../_app";
 import { getVaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
 

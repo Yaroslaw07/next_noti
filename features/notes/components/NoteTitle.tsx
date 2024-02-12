@@ -1,5 +1,5 @@
 import { TextField, debounce } from "@mui/material";
-import useNoteStore from "../store/notesStore";
+import useNoteStore from "../stores/notesStore";
 import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import { autoSaveTime } from "@/constants";

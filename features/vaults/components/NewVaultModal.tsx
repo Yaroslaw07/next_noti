@@ -4,7 +4,7 @@ import HR from "../../../components/ui/HR";
 import { Icons } from "../../../components/Icons";
 import { useRouter } from "next/router";
 import { useVaults } from "../hooks/useVaults";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Vault } from "../types/vaultTypes";
 import { Controller, useForm } from "react-hook-form";

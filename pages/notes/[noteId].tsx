@@ -11,7 +11,7 @@ import { Box, Container } from "@mui/material";
 import NoteTitle from "@/features/notes/components/NoteTitle";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import NoteContent from "@/features/note-content/components/NoteContent";
-import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
+import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 
 interface NotePageProps {
   note: NoteType;

@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { autoSaveTime } from "@/constants";
 import { useBlockEvents } from "../../hooks/useBlockEvents";
 import { ContentBlock } from "@/features/notes/types/noteTypes";
-import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
+import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 
 interface TextBlocksProps {
   block: ContentBlock;

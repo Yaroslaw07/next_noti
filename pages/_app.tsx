@@ -1,7 +1,9 @@
 import { Providers } from "@/components/Providers";
-import { ToastProvider } from "@/contexts/toastContext";
-import theme from "@/lib/ui/theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ToastProvider } from "@/lib/contexts/toastContext";
+import useThemeStore from "@/lib/stores/themeStore";
+import darkTheme from "@/lib/ui/darkTheme";
+import lightTheme from "@/lib/ui/lightTheme";
+import { CssBaseline, ThemeProvider, useThemeProps } from "@mui/material";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
@@ -16,6 +18,9 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const { getCurrentTheme } = useThemeStore();
+  const theme = getCurrentTheme();
+
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (

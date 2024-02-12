@@ -1,16 +1,6 @@
 import { createTheme } from "@mui/material";
-import { PaletteColor } from "@mui/material/styles/createPalette";
 
-interface CustomColors {
-  additional?: PaletteColor;
-}
-
-declare module "@mui/material/styles" {
-  interface Palette extends CustomColors {}
-  interface PaletteOptions extends CustomColors {}
-}
-
-const theme = createTheme({
+const darkTheme = createTheme({
   palette: {
     primary: {
       main: "#3a3a3a",
@@ -109,4 +99,4 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+export default darkTheme;

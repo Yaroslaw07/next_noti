@@ -1,4 +1,4 @@
-import useVaultStore from "../../vaults/store/vaultStore";
+import useVaultStore from "../../vaults/stores/vaultStore";
 import notesInfoService from "../services/noteInfoService";
 
 export const useNotesInfo = () => {
