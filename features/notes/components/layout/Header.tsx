@@ -1,4 +1,4 @@
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { Icons } from "../../../../components/Icons";
 import theme from "@/lib/ui/theme";
 import useNoteStore from "../../store/notesStore";
@@ -24,7 +24,7 @@ const Header = () => {
       <Toolbar sx={ToolbarSx}>
         <Typography
           variant="subtitle1"
-          sx={{ paddingTop: "0px", fontSize: "1.15rem" }}
+          sx={{ paddingTop: "0px", fontSize: "1.15rem", fontWeight: "500" }}
         >
           {currentNoteId === null && "No note open"}
           {currentNoteId !== null && currentNoteTitle == ""
@@ -33,9 +33,14 @@ const Header = () => {
         </Typography>
         <Icons.More
           sx={{
-            fontSize: "34px",
-            marginTop: "-10px",
+            fontSize: "37px",
             color: theme.palette.primary.light,
+            marginTop: "-8px",
+            borderRadius: "8px",
+            "&:hover": {
+              color: theme.palette.primary.dark,
+              background: theme.palette.additional?.dark,
+            },
           }}
         />
       </Toolbar>
