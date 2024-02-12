@@ -28,7 +28,7 @@ const Header = () => {
       <Toolbar sx={getToolbarSx(currentTheme)}>
         <Typography
           variant="subtitle1"
-          sx={{ paddingTop: "0px", fontSize: "1.15rem" }}
+          sx={{ paddingTop: "0px", fontSize: "1.15rem", fontWeight: "500" }}
         >
           {currentNoteId === null && "No note open"}
           {currentNoteId !== null && currentNoteTitle == ""
@@ -40,6 +40,7 @@ const Header = () => {
             fontSize: "34px",
             marginTop: "-10px",
             color: currentTheme.palette.primary.light,
+            background: currentTheme.palette.additional?.dark,
           }}
         />
       </Toolbar>

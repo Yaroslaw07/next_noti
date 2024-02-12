@@ -1,8 +1,21 @@
 import { Icons } from "@/components/Icons";
 import SidebarItem from "./base/SidebarItem";
+import { useToast } from "@/hooks/useToast";
 
 const SettingsModule = () => {
-  return <SidebarItem Icon={Icons.Settings} title={"Settings"} />;
+  const { openToast } = useToast();
+
+  const handleSettingClick = () => {
+    openToast("Setting are not implemented now. Wait for update", "info");
+  };
+
+  return (
+    <SidebarItem
+      Icon={Icons.Settings}
+      title={"Settings"}
+      onClick={handleSettingClick}
+    />
+  );
 };
 
 export default SettingsModule;
