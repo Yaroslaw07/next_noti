@@ -1,5 +1,5 @@
 import useThemeStore from "@/lib/stores/themeStore";
-import { Box, BoxProps, SxProps, Theme } from "@mui/material";
+import { Box, BoxProps, Theme } from "@mui/material";
 import { FC } from "react";
 
 const getDefaultSidebarItemSx = (theme: Theme) => {

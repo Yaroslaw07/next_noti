@@ -109,6 +109,7 @@ const TextArea: FC<TextAreaProps> = ({
         fontSize: "1.1rem",
         background: theme.palette.background.default,
         fontFamily: theme.typography.fontFamily,
+        color: theme.palette.text.primary,
         lineHeight: "1.5",
         overflow: "hidden",
         boxSizing: "border-box",

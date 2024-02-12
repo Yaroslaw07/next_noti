@@ -1,8 +1,6 @@
 import { Providers } from "@/components/Providers";
 import { ToastProvider } from "@/lib/contexts/toastContext";
 import useThemeStore from "@/lib/stores/themeStore";
-import darkTheme from "@/lib/ui/darkTheme";
-import lightTheme from "@/lib/ui/lightTheme";
 import { CssBaseline, ThemeProvider, useThemeProps } from "@mui/material";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";

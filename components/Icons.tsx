@@ -1,31 +1,34 @@
-import CollectionsBookmarkOutlinedIcon from "@mui/icons-material/CollectionsBookmarkOutlined";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import NoteAddOutlinedIcon from "@mui/icons-material/NoteAddOutlined";
-import DoorFrontOutlinedIcon from "@mui/icons-material/DoorFrontOutlined";
-import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import ViewAgendaOutlinedIcon from "@mui/icons-material/ViewAgendaOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import {
+  CollectionsBookmarkOutlined as CollectionsBookmarkOutlinedIcon,
+  VisibilityOutlined as VisibilityOutlinedIcon,
+  VisibilityOffOutlined as VisibilityOffOutlinedIcon,
+  DeleteOutlineOutlined as DeleteOutlineOutlinedIcon,
+  EditOutlined as EditOutlinedIcon,
+  LogoutOutlined as LogoutOutlinedIcon,
+  AddCircleOutlined as AddCircleOutlinedIcon,
+  ArrowCircleRightOutlined as ArrowCircleRightOutlinedIcon,
+  MoreHorizOutlined as MoreHorizOutlinedIcon,
+  SettingsOutlined as SettingsOutlinedIcon,
+  ClearOutlined as ClearOutlinedIcon,
+  NoteAddOutlined as NoteAddOutlinedIcon,
+  DoorFrontOutlined as DoorFrontOutlinedIcon,
+  ListOutlined as ListOutlinedIcon,
+  SearchOutlined as SearchOutlinedIcon,
+  ViewAgendaOutlined as ViewAgendaOutlinedIcon,
+  DescriptionOutlined as DescriptionOutlinedIcon,
+  MenuOpenOutlined as MenuOpenOutlinedIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+  SaveOutlined as SaveOutlinedIcon,
+} from "@mui/icons-material";
 
 import styled from "@emotion/styled";
 
-const StyledIcon = (IconComponent: any, width: number) =>
-  styled(IconComponent)(() => ({
-    stroke: "#ffff",
+const StyledIcon = (IconComponent: any, width: number) => {
+  return styled(IconComponent)(({ theme }) => ({
+    stroke: theme.palette.background.default,
     strokeWidth: width,
   }));
+};
 
 export const Icons = {
   //logo

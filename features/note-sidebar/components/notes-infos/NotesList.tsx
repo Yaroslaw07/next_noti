@@ -64,7 +64,7 @@ const NotesList: FC = () => {
       <SidebarModule
         sx={{
           ...(router.pathname === "/notes" && {
-            backgroundColor: "#d8d8d8",
+            backgroundColor: "additional.dark",
           }),
         }}
         onClick={() => router.push("/notes")}

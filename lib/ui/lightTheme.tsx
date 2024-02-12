@@ -32,32 +32,11 @@ const lightTheme = createTheme({
     fontFamily: "Poppins, Space Grotesk, sans-serif",
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        "::selection": {
-          backgroundColor: "#3a3a3a",
-          color: "#fafafa",
-          BorderAllRounded: "8px",
-        },
-        "::-moz-selection": {
-          backgroundColor: "#3a3a3a",
-          color: "#fafafa",
-          borderRadius: "8px",
-        },
-      },
-    },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          color: "#262626",
-        },
-      },
-    },
     MuiAppBar: {
       styleOverrides: {
         root: {
           boxShadow: "none",
-          backgroundColor: "#fafafa",
+          background: "#fafafa",
           color: "#262626",
         },
       },

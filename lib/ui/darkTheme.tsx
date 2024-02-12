@@ -2,27 +2,28 @@ import { createTheme } from "@mui/material";
 
 const darkTheme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
-      main: "#3a3a3a",
-      dark: "#474747",
-    },
-    secondary: {
       main: "#fafafa",
       dark: "#e4e4e7",
     },
+    secondary: {
+      main: "#2b2b2b",
+      dark: "#494949",
+    },
     additional: {
-      dark: "#e5e5e5",
-      contrastText: "#fafafa",
-      main: "#f4f4f4",
-      light: "#fafafa",
+      dark: "#242424",
+      contrastText: "#2b2b2b",
+      main: "#242424",
+      light: "#303030",
     },
 
     text: {
-      primary: "#262626",
-      secondary: "#515151",
+      primary: "#f2f2f2",
+      secondary: "#dedede",
     },
     background: {
-      default: "#fafafa",
+      default: "#242424",
     },
   },
   shape: {
@@ -32,33 +33,11 @@ const darkTheme = createTheme({
     fontFamily: "Poppins, Space Grotesk, sans-serif",
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        "::selection": {
-          backgroundColor: "#3a3a3a",
-          color: "#fafafa",
-          BorderAllRounded: "8px",
-        },
-        "::-moz-selection": {
-          backgroundColor: "#3a3a3a",
-          color: "#fafafa",
-          borderRadius: "8px",
-        },
-      },
-    },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          color: "#262626",
-        },
-      },
-    },
     MuiAppBar: {
       styleOverrides: {
         root: {
           boxShadow: "none",
-          backgroundColor: "#fafafa",
-          color: "#262626",
+          background: "#242424",
         },
       },
     },
@@ -67,7 +46,7 @@ const darkTheme = createTheme({
         root: {
           textTransform: "capitalize",
           border: "1px solid",
-          borderColor: "#262626",
+          borderColor: "#fafafa",
           fontSize: "1rem",
         },
       },

@@ -13,7 +13,7 @@ interface ThemeStore {
 }
 
 const useThemeStore = create<ThemeStore>((set, get) => ({
-  currentTheme: "light",
+  currentTheme: "dark",
 
   getCurrentTheme: () => {
     return get().currentTheme == "light" ? lightTheme : darkTheme;

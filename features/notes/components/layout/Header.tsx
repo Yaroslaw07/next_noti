@@ -8,7 +8,7 @@ const getToolbarSx = (theme: Theme) => {
     display: "flex",
     justifyContent: "space-between",
     paddingLeft: "10px",
-    paddingRight: "6px",
+    paddingRight: "12px",
     minHeight: "40px",
     [theme.breakpoints.up("sm")]: {
       paddingLeft: "16px",
@@ -37,10 +37,14 @@ const Header = () => {
         </Typography>
         <Icons.More
           sx={{
-            fontSize: "34px",
+            fontSize: "38px",
             marginTop: "-10px",
+            borderRadius: "8px",
             color: currentTheme.palette.primary.light,
-            background: currentTheme.palette.additional?.dark,
+            "&:hover": {
+              color: currentTheme.palette.primary.dark,
+              background: currentTheme.palette.additional?.dark,
+            },
           }}
         />
       </Toolbar>
