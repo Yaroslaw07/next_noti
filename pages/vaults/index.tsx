@@ -72,7 +72,7 @@ const VaultsPage: NextPageWithLayout<VaultsPageProps> = ({
                 fontSize: { xs: "2rem", sm: "2.2rem" },
               }}
             >
-              Your vaults
+              Your Vaults
             </Typography>
           </Box>
           <Box

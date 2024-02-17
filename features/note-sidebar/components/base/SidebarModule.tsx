@@ -1,5 +1,6 @@
-import useThemeStore from "@/lib/stores/themeStore";
+import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 import { Box, BoxProps, Theme } from "@mui/material";
+import { useTheme } from "next-themes";
 import { FC } from "react";
 
 const getDefaultSidebarItemSx = (theme: Theme) => {
@@ -32,9 +33,10 @@ const getDefaultSidebarItemSx = (theme: Theme) => {
 };
 
 const SidebarModule: FC<BoxProps> = (props) => {
-  const { getCurrentTheme } = useThemeStore();
+  const { resolvedTheme } = useTheme();
+  const theme = getCurrentTheme(resolvedTheme);
 
-  const defaultSidebarItemSx = getDefaultSidebarItemSx(getCurrentTheme());
+  const defaultSidebarItemSx = getDefaultSidebarItemSx(theme);
 
   return <Box {...props} sx={{ ...defaultSidebarItemSx, ...props.sx }}></Box>;
 };

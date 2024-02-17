@@ -1,7 +1,8 @@
 import { AppBar, Theme, Toolbar, Typography } from "@mui/material";
 import { Icons } from "../../../../components/Icons";
 import useNoteStore from "../../stores/notesStore";
-import useThemeStore from "@/lib/stores/themeStore";
+import { useTheme } from "next-themes";
+import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 
 const getToolbarSx = (theme: Theme) => {
   return {
@@ -17,12 +18,12 @@ const getToolbarSx = (theme: Theme) => {
 
 const Header = () => {
   const { currentNoteId, currentNoteTitle } = useNoteStore();
-  const { getCurrentTheme } = useThemeStore();
-  const currentTheme = getCurrentTheme();
+  const { resolvedTheme } = useTheme();
+  const theme = getCurrentTheme(resolvedTheme);
 
   return (
     <AppBar component="nav" position="static" sx={{ height: "40px" }}>
-      <Toolbar sx={getToolbarSx(currentTheme)}>
+      <Toolbar sx={getToolbarSx(theme)}>
         <Typography
           variant="subtitle1"
           sx={{ paddingTop: "0px", fontSize: "1.15rem", fontWeight: "500" }}
@@ -37,10 +38,10 @@ const Header = () => {
             fontSize: "38px",
             marginTop: "-3px",
             borderRadius: "8px",
-            color: currentTheme.palette.primary.light,
+            color: theme.palette.primary.light,
             "&:hover": {
-              color: currentTheme.palette.primary.dark,
-              background: currentTheme.palette.additional?.dark,
+              color: theme.palette.primary.dark,
+              background: theme.palette.additional?.dark,
             },
           }}
         />

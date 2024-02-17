@@ -4,7 +4,7 @@ import { Icons } from "../../../components/Icons";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import useThemeStore from "@/lib/stores/themeStore";
+import { useTheme } from "next-themes";
 
 interface VaultsActionsProps {
   handleNewVault: () => void;
@@ -13,8 +13,12 @@ interface VaultsActionsProps {
 const VaultsActions: FC<VaultsActionsProps> = ({ handleNewVault }) => {
   const router = useRouter();
 
-  const { currentTheme, toggleCurrentTheme } = useThemeStore();
+  const { setTheme, theme } = useTheme();
   const { logout } = useAuth();
+
+  const toggleCurrentTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -53,7 +57,7 @@ const VaultsActions: FC<VaultsActionsProps> = ({ handleNewVault }) => {
             }}
             onClick={toggleCurrentTheme}
           >
-            {currentTheme === "dark" ? <Icons.LightMode /> : <Icons.DarkMode />}
+            {theme === "dark" ? <Icons.LightMode /> : <Icons.DarkMode />}
           </Button>
         </Grid>
         <Grid item>

@@ -1,4 +1,5 @@
-import useThemeStore from "@/lib/stores/themeStore";
+import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
+import { useTheme } from "next-themes";
 import { FC, useEffect, useRef } from "react";
 
 interface TextAreaProps {
@@ -34,8 +35,8 @@ const TextArea: FC<TextAreaProps> = ({
 
   onBlur,
 }) => {
-  const { getCurrentTheme } = useThemeStore();
-  const theme = getCurrentTheme();
+  const { resolvedTheme } = useTheme();
+  const theme = getCurrentTheme(resolvedTheme);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 

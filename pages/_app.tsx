@@ -1,11 +1,12 @@
+import MUIThemeProvider from "@/components/MuiThemeProvider";
 import { Providers } from "@/components/Providers";
+import Backdrop from "@/components/ui/Backdrop";
 import { ToastProvider } from "@/lib/contexts/toastContext";
-import useThemeStore from "@/lib/stores/themeStore";
-import { CssBaseline, ThemeProvider, useThemeProps } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -16,9 +17,6 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  const { getCurrentTheme } = useThemeStore();
-  const theme = getCurrentTheme();
-
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -26,7 +24,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
+
+      <MUIThemeProvider>
         <CssBaseline />
         <ToastProvider>
           {getLayout ? (
@@ -35,7 +34,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             <Component {...pageProps} />
           )}
         </ToastProvider>
-      </ThemeProvider>
+      </MUIThemeProvider>
     </Providers>
   );
 }

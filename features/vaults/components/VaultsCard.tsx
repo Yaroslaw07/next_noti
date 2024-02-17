@@ -10,7 +10,8 @@ import { Icons } from "../../../components/Icons";
 import { Vault } from "../types/vaultTypes";
 import { useVaults } from "../hooks/useVaults";
 import { useRouter } from "next/router";
-import useThemeStore from "@/lib/stores/themeStore";
+import { useTheme } from "next-themes";
+import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 
 interface VaultsCardProps {
   vault: Vault;
@@ -18,7 +19,8 @@ interface VaultsCardProps {
 
 const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
   const router = useRouter();
-  const { getCurrentTheme } = useThemeStore();
+  const { resolvedTheme } = useTheme();
+  const theme = getCurrentTheme(resolvedTheme);
 
   const { selectVault } = useVaults();
 
@@ -39,9 +41,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
         height: "55px",
         boxShadow: "0 1px 0px 1px rgba(0, 0, 0, 0.1)",
         "&:hover": {
-          backgroundColor: `${
-            getCurrentTheme().palette.additional?.main
-          } !important`,
+          backgroundColor: `${theme.palette.additional?.main} !important`,
           cursor: "pointer",
         },
       }}
