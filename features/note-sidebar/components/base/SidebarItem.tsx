@@ -1,4 +1,3 @@
-import theme from "@/lib/ui/theme";
 import { SvgIconTypeMap, SxProps, Typography } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { FC } from "react";
