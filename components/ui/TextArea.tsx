@@ -1,4 +1,5 @@
-import theme from "@/lib/ui/theme";
+import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
+import { useTheme } from "next-themes";
 import { FC, useEffect, useRef } from "react";
 
 interface TextAreaProps {
@@ -34,6 +35,9 @@ const TextArea: FC<TextAreaProps> = ({
 
   onBlur,
 }) => {
+  const { resolvedTheme } = useTheme();
+  const theme = getCurrentTheme(resolvedTheme);
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -106,6 +110,7 @@ const TextArea: FC<TextAreaProps> = ({
         fontSize: "1.1rem",
         background: theme.palette.background.default,
         fontFamily: theme.typography.fontFamily,
+        color: theme.palette.text.primary,
         lineHeight: "1.5",
         overflow: "hidden",
         boxSizing: "border-box",

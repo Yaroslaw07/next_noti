@@ -1,6 +1,6 @@
 import { vaultService } from "../services/vaultService";
 import { Vault } from "../types/vaultTypes";
-import useVaultStore from "@/features/vaults/store/vaultStore";
+import useVaultStore from "@/features/vaults/stores/vaultStore";
 import { useEffect } from "react";
 
 export const useVaults = () => {

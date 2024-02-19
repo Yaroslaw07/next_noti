@@ -8,7 +8,7 @@ interface VaultStore {
   exitVault: () => void;
 }
 
-const useVaultStore = create<VaultStore>((set, get) => ({
+const useVaultStore = create<VaultStore>((set) => ({
   currentVault: null,
 
   setCurrentVault: (vault: Vault) => {

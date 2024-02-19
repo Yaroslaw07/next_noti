@@ -24,7 +24,6 @@ const VaultSidebar = () => {
   };
 
   const handleLogout = async () => {
-    // await saveCurrentNote();
     await logout();
   };
 

@@ -8,7 +8,7 @@ import { LoginCredentials } from "@/features/auth/types/authTypes";
 import { NextPageWithLayout } from "../_app";
 import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";
 import AuthLayoutTitle from "@/features/auth/components/AuthLayoutTitle";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 
 const LoginPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const LoginPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Login to Noti</title>
+        <title>Noti | Login</title>
         <meta name="description" content="Login page of Noti" />
       </Head>
       <AuthLayoutTitle title="Log In" />

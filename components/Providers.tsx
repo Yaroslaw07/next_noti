@@ -1,5 +1,6 @@
 import createEmotionCache from "@/lib/ui/emotionCache";
 import { CacheProvider, EmotionCache } from "@emotion/react";
+import { ThemeProvider as PreferredThemeProvider } from "next-themes";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -12,5 +13,9 @@ export const Providers = ({
   children,
   emotionCache = clientSideEmotionCache,
 }: ProvidersProps) => {
-  return <CacheProvider value={emotionCache}>{children}</CacheProvider>;
+  return (
+    <PreferredThemeProvider>
+      <CacheProvider value={emotionCache}>{children}</CacheProvider>
+    </PreferredThemeProvider>
+  );
 };

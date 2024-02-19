@@ -7,7 +7,7 @@ import SidebarModule from "../base/SidebarModule";
 import { useNotesInfo } from "../../hooks/useNotesInfo";
 import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
-import useNoteStore from "@/features/notes/store/notesStore";
+import useNoteStore from "@/features/notes/stores/notesStore";
 import { NOTE_INFOS_EVENTS } from "../../notesInfoEvents";
 import { useSocketStore } from "@/lib/socketStore";
 
@@ -64,7 +64,7 @@ const NotesList: FC = () => {
       <SidebarModule
         sx={{
           ...(router.pathname === "/notes" && {
-            backgroundColor: "#d8d8d8",
+            backgroundColor: "additional.dark",
           }),
         }}
         onClick={() => router.push("/notes")}

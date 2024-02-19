@@ -13,7 +13,7 @@ export default function WelcomePage() {
   return (
     <>
       <Head>
-        <title>Noti</title>
+        <title>Noti | Welcome</title>
         <meta name="description" content="Welcome page of Noti" />
       </Head>
       <Container>
