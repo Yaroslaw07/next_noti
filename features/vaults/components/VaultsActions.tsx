@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Icon } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import HR from "../../../components/ui/HR";
 import { Icons } from "../../../components/Icons";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -13,11 +13,11 @@ interface VaultsActionsProps {
 const VaultsActions: FC<VaultsActionsProps> = ({ handleNewVault }) => {
   const router = useRouter();
 
-  const { setTheme, theme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const { logout } = useAuth();
 
   const toggleCurrentTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   const handleLogout = async () => {
@@ -57,7 +57,11 @@ const VaultsActions: FC<VaultsActionsProps> = ({ handleNewVault }) => {
             }}
             onClick={toggleCurrentTheme}
           >
-            {theme === "dark" ? <Icons.LightMode /> : <Icons.DarkMode />}
+            {resolvedTheme === "dark" ? (
+              <Icons.LightTheme />
+            ) : (
+              <Icons.DarkTheme />
+            )}
           </Button>
         </Grid>
         <Grid item>

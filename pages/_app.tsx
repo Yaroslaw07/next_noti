@@ -1,6 +1,5 @@
 import MUIThemeProvider from "@/components/MuiThemeProvider";
 import { Providers } from "@/components/Providers";
-import Backdrop from "@/components/ui/Backdrop";
 import { ToastProvider } from "@/lib/contexts/toastContext";
 import { CssBaseline } from "@mui/material";
 import { NextPage } from "next";

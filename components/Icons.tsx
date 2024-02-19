@@ -21,6 +21,7 @@ import {
   SaveOutlined as SaveOutlinedIcon,
   LightModeOutlined as LightModeOutlinedIcon,
   DarkModeOutlined as DarkModeOutlinedIcon,
+  MonitorOutlined as MonitorIconOutlinedIcon,
 } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
@@ -37,8 +38,9 @@ export const Icons = {
   Logo: StyledIcon(CollectionsBookmarkOutlinedIcon, 0.7),
 
   //themes
-  LightMode: StyledIcon(LightModeOutlinedIcon, 0.4),
-  DarkMode: StyledIcon(DarkModeOutlinedIcon, 0.4),
+  LightTheme: StyledIcon(LightModeOutlinedIcon, 0.4),
+  DarkTheme: StyledIcon(DarkModeOutlinedIcon, 0.4),
+  DeviceTheme: StyledIcon(MonitorIconOutlinedIcon, 0.4),
 
   //auth
   ShowPassword: VisibilityOutlinedIcon,

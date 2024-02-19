@@ -1,8 +1,14 @@
 import { useTheme } from "next-themes";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import {
+  Backdrop,
+  CircularProgress,
+  CssBaseline,
+  ThemeProvider,
+} from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import darkTheme from "../lib/ui/themes/darkTheme";
 import lightTheme from "../lib/ui/themes/lightTheme";
+import { Icons } from "./Icons";
 
 const MUIThemeProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
   const { resolvedTheme } = useTheme();
