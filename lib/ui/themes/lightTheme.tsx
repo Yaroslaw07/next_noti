@@ -1,17 +1,8 @@
 import { createTheme } from "@mui/material";
-import { PaletteColor } from "@mui/material/styles/createPalette";
 
-interface CustomColors {
-  additional?: PaletteColor;
-}
-
-declare module "@mui/material/styles" {
-  interface Palette extends CustomColors {}
-  interface PaletteOptions extends CustomColors {}
-}
-
-const theme = createTheme({
+const lightTheme = createTheme({
   palette: {
+    mode: "light",
     primary: {
       main: "#3a3a3a",
       dark: "#474747",
@@ -21,10 +12,10 @@ const theme = createTheme({
       dark: "#e4e4e7",
     },
     additional: {
-      dark: "#e5e5e5",
+      dark: "#e2e2e2",
       contrastText: "#fafafa",
-      main: "#f4f4f4",
-      light: "#fafafa",
+      main: "#efefef",
+      light: "#f7f7f7",
     },
 
     text: {
@@ -42,32 +33,11 @@ const theme = createTheme({
     fontFamily: "Poppins, Space Grotesk, sans-serif",
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        "::selection": {
-          backgroundColor: "#3a3a3a",
-          color: "#fafafa",
-          BorderAllRounded: "8px",
-        },
-        "::-moz-selection": {
-          backgroundColor: "#3a3a3a",
-          color: "#fafafa",
-          borderRadius: "8px",
-        },
-      },
-    },
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          color: "#262626",
-        },
-      },
-    },
     MuiAppBar: {
       styleOverrides: {
         root: {
           boxShadow: "none",
-          backgroundColor: "#fafafa",
+          background: "#fafafa",
           color: "#262626",
         },
       },
@@ -109,4 +79,4 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+export default lightTheme;

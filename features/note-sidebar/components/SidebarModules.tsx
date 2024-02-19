@@ -3,7 +3,7 @@ import SettingsModule from "./SettingsModule";
 import NewNoteModule from "./NewNoteModule";
 import SidebarItem from "./base/SidebarItem";
 import { Icons } from "@/components/Icons";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 
 const SidebarModules = () => {
   const { openToast } = useToast();

@@ -1,4 +1,4 @@
-import { ToastContext } from "@/contexts/toastContext";
+import { ToastContext } from "@/lib/contexts/toastContext";
 import { useContext } from "react";
 
 export const useToast = () => {

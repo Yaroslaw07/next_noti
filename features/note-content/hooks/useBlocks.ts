@@ -2,7 +2,7 @@ import { ContentBlock } from "@/features/notes/types/noteTypes";
 import { useSocketStore } from "@/lib/socketStore";
 import { useEffect, useRef, useState } from "react";
 import { BLOCK_EVENTS } from "../blocksEvents";
-import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
+import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 
 export const useBlocks = (originalBlocks: ContentBlock[]) => {
   const { socket } = useSocketStore();

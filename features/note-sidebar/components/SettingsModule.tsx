@@ -1,6 +1,6 @@
 import { Icons } from "@/components/Icons";
 import SidebarItem from "./base/SidebarItem";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 
 const SettingsModule = () => {
   const { openToast } = useToast();

@@ -17,6 +17,9 @@ const VaultModuleMenuItem: FC<VaultModuleMenuItemProps> = ({
         width: "190px",
         paddingX: "0px",
         paddingY: "0px",
+        "&:hover": {
+          backgroundColor: "additional.dark",
+        },
       }}
       onClick={onClick}
     >

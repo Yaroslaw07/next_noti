@@ -20,12 +20,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    const errorMessage = await response.json();
-    res.status(response.status).json(errorMessage);
+    res.status(response.status).json(data);
   }
 
-  const { accessToken, refreshToken } = await response.json();
+  const { accessToken, refreshToken } = data;
 
   if (!accessToken || !refreshToken) {
     res.status(400).end("Invalid response from server");
