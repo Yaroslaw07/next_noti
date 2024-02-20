@@ -31,6 +31,7 @@ const Header = () => {
   const { resolvedTheme, theme, setTheme } = useTheme();
   const themeConfig = getCurrentTheme(resolvedTheme);
 
+  const [alignment, setAlignment] = useState<string>(theme || "system");
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const isModalOpen = Boolean(anchorEl);
 
@@ -71,7 +72,7 @@ const Header = () => {
             color: themeConfig.palette.primary.light,
             "&:hover": {
               color: themeConfig.palette.primary.dark,
-              background: themeConfig.palette.secondary.dark,
+              background: themeConfig.palette.additional?.dark,
             },
           }}
           onClick={(e) => handleMenuOpen(e)}
@@ -80,7 +81,7 @@ const Header = () => {
           <MenuItem
             sx={{
               "&:hover": {
-                backgroundColor: "inherit", // Remove hover effect
+                backgroundColor: "inherit",
               },
             }}
             disableRipple

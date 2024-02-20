@@ -1,20 +1,35 @@
 import { Icons } from "@/components/Icons";
 import SidebarItem from "./base/SidebarItem";
-import { useToast } from "@/lib/hooks/useToast";
+import { useState } from "react";
+import VaultSettingsModal from "@/features/vaults/components/modals/VaultSettingsModal";
+import { useVaults } from "@/features/vaults/hooks/useVaults";
 
 const SettingsModule = () => {
-  const { openToast } = useToast();
+  const [open, setOpen] = useState(false);
 
   const handleSettingClick = () => {
-    openToast("Setting are not implemented now. Wait for update", "info");
+    setOpen(true);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const { currentVault } = useVaults();
+
   return (
-    <SidebarItem
-      Icon={Icons.Settings}
-      title={"Settings"}
-      onClick={handleSettingClick}
-    />
+    <>
+      <VaultSettingsModal
+        isOpen={open}
+        handleClose={handleClose}
+        vault={currentVault!}
+      />
+      <SidebarItem
+        Icon={Icons.Settings}
+        title={"Settings"}
+        onClick={handleSettingClick}
+      ></SidebarItem>
+    </>
   );
 };
 

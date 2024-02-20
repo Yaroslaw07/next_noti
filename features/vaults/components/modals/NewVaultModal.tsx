@@ -1,14 +1,14 @@
 import { Button, Modal, Stack, TextField, Typography } from "@mui/material";
 import { FC } from "react";
-import HR from "../../../components/ui/HR";
-import { Icons } from "../../../components/Icons";
+import HR from "../../../../components/ui/HR";
+import { Icons } from "../../../../components/Icons";
 import { useRouter } from "next/router";
-import { useVaults } from "../hooks/useVaults";
+import { useVaults } from "../../hooks/useVaults";
 import { useToast } from "@/lib/hooks/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Vault } from "../types/vaultTypes";
+import { Vault } from "../../types/vaultTypes";
 import { Controller, useForm } from "react-hook-form";
-import { vaultSchema } from "../vaultsValidator";
+import { vaultSchema } from "../../vaultsValidator";
 
 interface NewVaultModalProps {
   isOpen: boolean;

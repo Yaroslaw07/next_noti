@@ -7,7 +7,7 @@ import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
 import { useState } from "react";
 import { Vault } from "@/features/vaults/types/vaultTypes";
-import NewVaultModal from "@/features/vaults/components/NewVaultModal";
+import NewVaultModal from "@/features/vaults/components/modals/NewVaultModal";
 import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
 import { NextPageWithLayout } from "../_app";

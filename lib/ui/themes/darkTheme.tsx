@@ -8,14 +8,14 @@ const darkTheme = createTheme({
       dark: "#e4e4e7",
     },
     secondary: {
-      main: "#2b2b2b",
+      main: "#212121",
       dark: "#494949",
     },
     additional: {
-      dark: "#242424",
+      dark: "#303030",
       contrastText: "#2b2b2b",
-      main: "#242424",
-      light: "#303030",
+      main: "#1e1e1e",
+      light: "#141414",
     },
 
     text: {
@@ -23,7 +23,7 @@ const darkTheme = createTheme({
       secondary: "#dedede",
     },
     background: {
-      default: "#242424",
+      default: "#161616",
     },
   },
   shape: {
@@ -37,7 +37,7 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           boxShadow: "none",
-          background: "#242424",
+          background: "#161616",
         },
       },
     },
@@ -55,6 +55,12 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           marginTop: "4px",
+          input: {
+            "&:-webkit-autofill": {
+              WebkitBoxShadow: "0 0 0 100px #2d2a2a inset",
+              WebkitTextFillColor: "#ededed",
+            },
+          },
         },
       },
     },
