@@ -2,13 +2,13 @@ import { Grid, Stack } from "@mui/material";
 import Sidebar from "@/features/note-sidebar/components/Sidebar";
 import Header from "./Header";
 import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
-import { useVaults } from "@/features/vaults/hooks/useVaults";
 import Backdrop from "@/components/ui/Backdrop";
 import { useRouter } from "next/router";
 import useNoteStore from "../../stores/notesStore";
 import { VaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
 import { VAULT_EVENTS } from "@/features/vaults/vaultsEvents";
 import { useSocketStore } from "@/lib/socketStore";
+import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
 
 interface NotiLayoutProps {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ interface NotiLayoutProps {
 const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
   const router = useRouter();
 
-  const { currentVault } = useVaults();
+  const { currentVault, selectVault, leaveVault } = useCurrentVault();
   const { socket } = useSocketStore();
 
   const { joinNote, leaveNote, currentNoteId } = useNoteStore();
@@ -29,7 +29,7 @@ const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
 
     const initNoteSocket = async () => {
       try {
-        if (socket === undefined) {
+        if (socket === null) {
           router.push("/vaults");
           return;
         }
@@ -42,7 +42,18 @@ const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
     };
     initNoteSocket();
 
+    socket?.on(VAULT_EVENTS.VAULT_UPDATED, (vault) => {
+      selectVault(vault);
+    });
+
+    socket?.on(VAULT_EVENTS.VAULT_DELETED, () => {
+      leaveVault();
+      router.push("/vaults");
+    });
+
     return () => {
+      socket?.off(VAULT_EVENTS.VAULT_UPDATED);
+      socket?.off(VAULT_EVENTS.VAULT_DELETED);
       socket?.emit(VAULT_EVENTS.LEAVE_VAULT_ROOM, currentVault.id);
     };
   }, [currentVault]);

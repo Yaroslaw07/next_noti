@@ -3,7 +3,7 @@ import { FC } from "react";
 import HR from "../../../../components/ui/HR";
 import { Icons } from "../../../../components/Icons";
 import { useRouter } from "next/router";
-import { useVaults } from "../../hooks/useVaults";
+import { useCurrentVault } from "../../hooks/useCurrentVault";
 import { useToast } from "@/lib/hooks/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Vault } from "../../types/vaultTypes";
@@ -19,7 +19,7 @@ const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
   const router = useRouter();
 
   const { openToast } = useToast();
-  const { createNewVault } = useVaults();
+  const { createNewVault } = useCurrentVault();
 
   const {
     handleSubmit: onSubmit,
@@ -78,7 +78,7 @@ const NewVaultModal: FC<NewVaultModalProps> = ({ isOpen, handleClose }) => {
             textAlign: "center",
           }}
         >
-          {"New vault"}
+          {"New Vault"}
         </Typography>
         <Controller
           name="name"

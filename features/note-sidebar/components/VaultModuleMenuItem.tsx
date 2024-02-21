@@ -14,7 +14,7 @@ const VaultModuleMenuItem: FC<VaultModuleMenuItemProps> = ({
   return (
     <MenuItem
       sx={{
-        width: "190px",
+        width: "230px",
         paddingX: "0px",
         paddingY: "0px",
         "&:hover": {

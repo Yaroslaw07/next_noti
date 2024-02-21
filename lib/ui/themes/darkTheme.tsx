@@ -20,7 +20,7 @@ const darkTheme = createTheme({
 
     text: {
       primary: "#dedede",
-      secondary: "#dedede",
+      secondary: "#d1d1d1",
     },
     background: {
       default: "#161616",
@@ -33,6 +33,19 @@ const darkTheme = createTheme({
     fontFamily: "Poppins, Space Grotesk, sans-serif",
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          "&::-webkit-scrollbar": {
+            width: "40px", // width of the scrollbar
+          },
+          "&::-webkit-scrollbar-thumb": {
+            borderRadius: "40px", // roundness of the thumb
+            backgroundColor: "#888", // color of the thumb
+          },
+        },
+      },
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {

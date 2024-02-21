@@ -8,7 +8,7 @@ import {
 import { FC } from "react";
 import { Icons } from "../../../components/Icons";
 import { Vault } from "../types/vaultTypes";
-import { useVaults } from "../hooks/useVaults";
+import { useCurrentVault } from "../hooks/useCurrentVault";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
@@ -22,7 +22,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
   const { resolvedTheme } = useTheme();
   const theme = getCurrentTheme(resolvedTheme);
 
-  const { selectVault } = useVaults();
+  const { selectVault } = useCurrentVault();
 
   const handleClick = () => {
     selectVault(vault);

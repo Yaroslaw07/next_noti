@@ -5,10 +5,11 @@ const HR = () => {
     <Box
       sx={{
         width: "33%",
-        height: "1px",
+        height: "2px",
         backgroundColor: "text.secondary",
         paddingY: "0.07rem",
         marginX: "auto",
+        borderRadius: "8px",
       }}
     />
   );

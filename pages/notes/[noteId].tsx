@@ -51,10 +51,10 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
           overflowY: "auto",
         }}
       >
-        <Container sx={{ marginX: "auto", width: "min(75%, 1000px)" }}>
+        <Container sx={{ marginX: "auto", width: "min(65%, 1000px)" }}>
           <Box sx={{ height: "60px" }}></Box>
           <NoteTitle />
-          <Box sx={{ height: "16px" }}></Box>
+          <Box sx={{ height: "30px" }}></Box>
           <NoteContent originalBlocks={note.blocks} />
         </Container>
       </Box>

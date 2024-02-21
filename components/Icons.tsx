@@ -58,7 +58,7 @@ export const Icons = {
   Vault: DoorFrontOutlinedIcon,
 
   //notes
-  SelectItem: StyledIcon(MenuOpenOutlinedIcon, 0.4),
+  SelectItem: StyledIcon(MenuOpenOutlinedIcon, 0.6),
   Note: DescriptionOutlinedIcon,
   ListOfNotes: ListOutlinedIcon,
   newNote: NoteAddOutlinedIcon,

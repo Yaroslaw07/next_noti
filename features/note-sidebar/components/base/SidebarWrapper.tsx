@@ -11,11 +11,11 @@ const SidebarWrapper: FC<SidebarWrapperProps> = ({ children }) => {
       component="aside"
       sx={{
         height: "100dvh",
-        width: "200px",
+        width: "240px",
 
         mr: "4px",
 
-        backgroundColor: "additional.main",
+        backgroundColor: "additional.light",
 
         display: "flex",
         flexDirection: "column",

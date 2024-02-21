@@ -2,7 +2,7 @@ import { Icons } from "@/components/Icons";
 import SidebarItem from "./base/SidebarItem";
 import { useState } from "react";
 import VaultSettingsModal from "@/features/vaults/components/modals/VaultSettingsModal";
-import { useVaults } from "@/features/vaults/hooks/useVaults";
+import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
 
 const SettingsModule = () => {
   const [open, setOpen] = useState(false);
@@ -15,7 +15,7 @@ const SettingsModule = () => {
     setOpen(false);
   };
 
-  const { currentVault } = useVaults();
+  const { currentVault } = useCurrentVault();
 
   return (
     <>

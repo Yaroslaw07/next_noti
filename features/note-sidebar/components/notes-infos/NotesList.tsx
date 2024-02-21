@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
-import { useVaults } from "@/features/vaults/hooks/useVaults";
+import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
 import { FC, useEffect, useState } from "react";
 import SidebarModule from "../base/SidebarModule";
 import { useNotesInfo } from "../../hooks/useNotesInfo";
@@ -14,7 +14,7 @@ import { useSocketStore } from "@/lib/socketStore";
 const NotesList: FC = () => {
   const router = useRouter();
 
-  const { currentVault } = useVaults();
+  const { currentVault } = useCurrentVault();
   const { getNotes } = useNotesInfo();
 
   const { socket } = useSocketStore();

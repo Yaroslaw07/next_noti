@@ -1,6 +1,6 @@
 import { Box, Menu, MenuItem, Typography } from "@mui/material";
 import { Icons } from "@/components/Icons";
-import { useVaults } from "@/features/vaults/hooks/useVaults";
+import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -11,7 +11,7 @@ const VaultSidebar = () => {
   const router = useRouter();
 
   const { logout } = useAuth();
-  const { currentVault } = useVaults();
+  const { currentVault } = useCurrentVault();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

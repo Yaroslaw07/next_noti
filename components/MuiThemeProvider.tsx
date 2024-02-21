@@ -30,7 +30,7 @@ const MUIThemeProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <ThemeProvider theme={currentTheme}>
-      <CssBaseline />
+      <CssBaseline enableColorScheme />
       {children}
     </ThemeProvider>
   );
