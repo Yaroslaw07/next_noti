@@ -1,10 +1,10 @@
-import { vaultService } from "../services/vaultsService";
-import { Vault } from "../types/vaultTypes";
-import useVaultStore from "@/features/vaults/stores/vaultStore";
+import { vaultService } from "../../vaults/services/vaultsService";
+import { Vault } from "../../vaults/types/vaultTypes";
 import { useEffect } from "react";
+import useCurrentVaultStore from "../stores/currentVaultStore";
 
 export const useCurrentVault = () => {
-  const { currentVault, setCurrentVault } = useVaultStore();
+  const { currentVault, setCurrentVault } = useCurrentVaultStore();
 
   useEffect(() => {
     if (currentVault === null) {

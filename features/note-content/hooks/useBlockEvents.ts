@@ -1,6 +1,6 @@
-import { useSocketStore } from "@/lib/socketStore";
 import { shallow } from "zustand/shallow";
 import { BLOCK_EVENTS } from "../blocksEvents";
+import { useSocketStore } from "@/features/socket/socketStore";
 
 export const useBlockEvents = () => {
   const socket = useSocketStore((state) => state.socket, shallow);

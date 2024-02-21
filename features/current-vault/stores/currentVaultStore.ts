@@ -1,14 +1,14 @@
 import { create } from "zustand";
-import { Vault } from "../types/vaultTypes";
+import { Vault } from "../../vaults/types/vaultTypes";
 
-interface VaultStore {
+interface CurrentVaultStore {
   currentVault: Vault | null;
 
   setCurrentVault: (vault: Vault | null) => void;
   exitVault: () => void;
 }
 
-const useVaultStore = create<VaultStore>((set) => ({
+const useCurrentVaultStore = create<CurrentVaultStore>((set) => ({
   currentVault: null,
 
   setCurrentVault: (vault: Vault | null) => {
@@ -20,4 +20,4 @@ const useVaultStore = create<VaultStore>((set) => ({
   },
 }));
 
-export default useVaultStore;
+export default useCurrentVaultStore;

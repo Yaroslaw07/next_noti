@@ -1,11 +1,11 @@
 import { Icons } from "@/components/Icons";
 import { Box, IconButton, Typography } from "@mui/material";
 import { FC, useState } from "react";
-import SidebarModule from "../base/SidebarModule";
-import { useNotesInfo } from "../../hooks/useNotesInfo";
+import SidebarModule from "../../../current-vault/components/layout/sidebar/base/SidebarModule";
 import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
+import { useNotesInfo } from "../../hooks/useNotesInfo";
 
 interface NotesItemProps {
   note: NoteInfo;

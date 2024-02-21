@@ -1,7 +1,6 @@
 import { getAccessToken } from "@/features/auth/accessToken";
 import { Socket } from "socket.io-client";
-import { create } from "zustand";
-import connectSocket from "./api/connectSocket";
+import connectSocket from "../../lib/api/connectSocket";
 import { createWithEqualityFn } from "zustand/traditional";
 
 export interface SocketStore {

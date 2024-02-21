@@ -33,7 +33,6 @@ const TextBlock: FC<TextBlocksProps> = ({
         const confirmationMessage =
           "You have unsaved changes. Are you sure you want to leave?";
         event.preventDefault();
-        event.returnValue = confirmationMessage;
         return confirmationMessage;
       }
     };

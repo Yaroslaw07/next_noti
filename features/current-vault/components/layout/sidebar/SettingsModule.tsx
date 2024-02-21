@@ -2,7 +2,7 @@ import { Icons } from "@/components/Icons";
 import SidebarItem from "./base/SidebarItem";
 import { useState } from "react";
 import VaultSettingsModal from "@/features/vaults/components/modals/VaultSettingsModal";
-import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
+import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault";
 
 const SettingsModule = () => {
   const [open, setOpen] = useState(false);

@@ -11,7 +11,7 @@ import NewVaultModal from "@/features/vaults/components/modals/NewVaultModal";
 import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
 import { NextPageWithLayout } from "../_app";
-import { getVaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
+import { getVaultSocketLayout } from "@/features/socket/SocketLayout";
 
 interface VaultsPageProps {
   vaults: Vault[] | null;

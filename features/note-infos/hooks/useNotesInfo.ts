@@ -1,8 +1,8 @@
-import useVaultStore from "../../vaults/stores/vaultStore";
+import useCurrentVaultStore from "../../current-vault/stores/currentVaultStore";
 import notesInfoService from "../services/noteInfoService";
 
 export const useNotesInfo = () => {
-  const { currentVault } = useVaultStore();
+  const { currentVault } = useCurrentVaultStore();
 
   const getNotesHandler = async () => {
     return notesInfoService.getNotes(currentVault!.id);

@@ -22,6 +22,7 @@ import {
   LightModeOutlined as LightModeOutlinedIcon,
   DarkModeOutlined as DarkModeOutlinedIcon,
   MonitorOutlined as MonitorIconOutlinedIcon,
+  CompareArrowsOutlined as CompareArrowsOutlinedIcon,
 } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
@@ -52,6 +53,7 @@ export const Icons = {
   Empty: ClearOutlinedIcon,
   Search: SearchOutlinedIcon,
   ArrowDown: KeyboardArrowDownIcon,
+  Swap: CompareArrowsOutlinedIcon,
 
   //vaults
   ChangeVault: ViewAgendaOutlinedIcon,

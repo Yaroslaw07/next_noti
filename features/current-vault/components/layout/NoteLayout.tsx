@@ -1,20 +1,20 @@
 import { Grid, Stack } from "@mui/material";
-import Sidebar from "@/features/note-sidebar/components/Sidebar";
+import Sidebar from "@/features/current-vault/components/layout/sidebar/Sidebar";
 import Header from "./Header";
 import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
 import Backdrop from "@/components/ui/Backdrop";
 import { useRouter } from "next/router";
-import useNoteStore from "../../stores/notesStore";
-import { VaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
+import useNoteStore from "../../../notes/stores/notesStore";
 import { VAULT_EVENTS } from "@/features/vaults/vaultsEvents";
-import { useSocketStore } from "@/lib/socketStore";
-import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
+import { useCurrentVault } from "../../hooks/useCurrentVault";
+import { useSocketStore } from "@/features/socket/socketStore";
+import { SocketLayout } from "@/features/socket/SocketLayout";
 
-interface NotiLayoutProps {
+interface NoteLayoutProps {
   children: React.ReactNode;
 }
 
-const NoteLayout: FC<NotiLayoutProps> = ({ children }) => {
+const NoteLayout: FC<NoteLayoutProps> = ({ children }) => {
   const router = useRouter();
 
   const { currentVault, selectVault, leaveVault } = useCurrentVault();
@@ -96,9 +96,9 @@ const getNotiLayout = (
   page: ReactElement<any, string | JSXElementConstructor<any>>
 ) => {
   return (
-    <VaultSocketLayout>
+    <SocketLayout>
       <NoteLayout>{page}</NoteLayout>
-    </VaultSocketLayout>
+    </SocketLayout>
   );
 };
 

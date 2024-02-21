@@ -1,15 +1,16 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
-import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
 import { FC, useEffect, useState } from "react";
-import SidebarModule from "../base/SidebarModule";
-import { useNotesInfo } from "../../hooks/useNotesInfo";
+import SidebarModule from "../../../current-vault/components/layout/sidebar/base/SidebarModule";
 import { NoteInfo } from "../../types/noteInfoTypes";
 import { useRouter } from "next/router";
 import useNoteStore from "@/features/notes/stores/notesStore";
 import { NOTE_INFOS_EVENTS } from "../../notesInfoEvents";
-import { useSocketStore } from "@/lib/socketStore";
+import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault";
+import { useNotesInfo } from "../../hooks/useNotesInfo";
+import { useSocketStore } from "@/features/socket/socketStore";
+import { MouseEvent } from "react";
 
 const NotesList: FC = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const NotesList: FC = () => {
   const { currentNoteId, currentNoteTitle } = useNoteStore();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
     if (currentVault === null) return;
@@ -59,6 +61,11 @@ const NotesList: FC = () => {
     };
   }, [socket]);
 
+  const toggleOrder = (event: MouseEvent<any>) => {
+    event.stopPropagation();
+    setOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
   return (
     <>
       <SidebarModule
@@ -66,20 +73,34 @@ const NotesList: FC = () => {
           ...(router.pathname === "/notes" && {
             backgroundColor: "additional.dark",
           }),
+          justifyContent: "space-between",
         }}
         onClick={() => router.push("/notes")}
       >
-        <Icons.ListOfNotes sx={{ fontSize: "30px", color: "text.secondary" }} />
-        <Typography
+        <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <Icons.ListOfNotes
+            sx={{ fontSize: "30px", color: "text.secondary" }}
+          />
+          <Typography
+            sx={{
+              fontSize: "1.2rem",
+              fontWeight: "500",
+              color: "text.secondary",
+              marginTop: "2px",
+            }}
+          >
+            {"My Notes"}
+          </Typography>
+        </Box>
+        <Icons.Swap
           sx={{
-            fontSize: "1.2rem",
-            fontWeight: "500",
             color: "text.secondary",
-            marginTop: "2px",
+            fontSize: "24px",
+            marginRight: "4px",
+            rotate: "90deg",
           }}
-        >
-          {"My Notes"}
-        </Typography>
+          onClick={(e) => toggleOrder(e)}
+        />
       </SidebarModule>
 
       {!notes ? (
@@ -94,7 +115,15 @@ const NotesList: FC = () => {
           }}
         >
           {notes
-            .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
+            .sort((a, b) =>
+              order === "asc"
+                ? a.createdAt < b.createdAt
+                  ? 1
+                  : -1
+                : a.createdAt > b.createdAt
+                ? 1
+                : -1
+            )
             .map((currNote) => (
               <NotesItem
                 key={currNote.id}

@@ -1,9 +1,9 @@
 import { Icons } from "@/components/Icons";
 import { FC } from "react";
 import SidebarItem from "./base/SidebarItem";
-import { useNotesInfo } from "../hooks/useNotesInfo";
 import { useToast } from "@/lib/hooks/useToast";
 import { useRouter } from "next/router";
+import { useNotesInfo } from "@/features/note-infos/hooks/useNotesInfo";
 
 const NewNoteModule: FC = () => {
   const router = useRouter();

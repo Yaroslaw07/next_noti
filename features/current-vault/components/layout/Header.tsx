@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Icons } from "../../../../components/Icons";
-import useNoteStore from "../../stores/notesStore";
+import useNoteStore from "../../../notes/stores/notesStore";
 import { useTheme } from "next-themes";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 import { useState } from "react";

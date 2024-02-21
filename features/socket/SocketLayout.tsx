@@ -1,13 +1,12 @@
-import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
-import { useSocketStore } from "@/lib/socketStore";
+import { useSocketStore } from "./socketStore";
 import { useToast } from "@/lib/hooks/useToast";
 
-interface VaultSocketLayoutProps {
+interface SocketLayout {
   children: React.ReactNode;
 }
 
-export const VaultSocketLayout: FC<VaultSocketLayoutProps> = ({ children }) => {
+export const SocketLayout: FC<SocketLayout> = ({ children }) => {
   const { initializeSocket, closeSocket } = useSocketStore();
   const { openToast } = useToast();
 
@@ -32,5 +31,5 @@ export const VaultSocketLayout: FC<VaultSocketLayoutProps> = ({ children }) => {
 };
 
 export const getVaultSocketLayout = (page: any) => (
-  <VaultSocketLayout>{page}</VaultSocketLayout>
+  <SocketLayout>{page}</SocketLayout>
 );

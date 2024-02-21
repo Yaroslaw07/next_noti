@@ -6,12 +6,12 @@ import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import { getNotiLayout } from "@/features/notes/components/layout/NoteLayout";
 import { Box, Container } from "@mui/material";
 import NoteTitle from "@/features/notes/components/NoteTitle";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import NoteContent from "@/features/note-content/components/NoteContent";
 import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
+import { getNotiLayout } from "@/features/current-vault/components/layout/NoteLayout";
 
 interface NotePageProps {
   note: NoteType;

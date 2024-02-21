@@ -1,7 +1,7 @@
 import useNoteStore from "../stores/notesStore";
 import { NOTE_EVENTS } from "../notesEvents";
 import { shallow } from "zustand/shallow";
-import { useSocketStore } from "@/lib/socketStore";
+import { useSocketStore } from "@/features/socket/socketStore";
 
 export const useCurrentNote = () => {
   const { setCurrentNoteId, setCurrentNoteTitle } = useNoteStore(

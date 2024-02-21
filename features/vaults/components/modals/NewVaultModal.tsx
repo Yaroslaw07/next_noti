@@ -3,7 +3,7 @@ import { FC } from "react";
 import HR from "../../../../components/ui/HR";
 import { Icons } from "../../../../components/Icons";
 import { useRouter } from "next/router";
-import { useCurrentVault } from "../../hooks/useCurrentVault";
+import { useCurrentVault } from "../../../current-vault/hooks/useCurrentVault";
 import { useToast } from "@/lib/hooks/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Vault } from "../../types/vaultTypes";

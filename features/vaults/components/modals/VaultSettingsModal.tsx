@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useCurrentVault } from "../../hooks/useCurrentVault";
+import { useCurrentVault } from "../../../current-vault/hooks/useCurrentVault";
 import HR from "@/components/ui/HR";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

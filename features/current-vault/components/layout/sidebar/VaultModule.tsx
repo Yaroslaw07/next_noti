@@ -1,11 +1,11 @@
 import { Box, Menu, MenuItem, Typography } from "@mui/material";
 import { Icons } from "@/components/Icons";
-import { useCurrentVault } from "@/features/vaults/hooks/useCurrentVault";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import SidebarModule from "./base/SidebarModule";
 import VaultModuleMenuItem from "./VaultModuleMenuItem";
+import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault";
 
 const VaultSidebar = () => {
   const router = useRouter();
