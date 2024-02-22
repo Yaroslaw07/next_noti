@@ -22,7 +22,10 @@ import {
   LightModeOutlined as LightModeOutlinedIcon,
   DarkModeOutlined as DarkModeOutlinedIcon,
   MonitorOutlined as MonitorIconOutlinedIcon,
-  CompareArrowsOutlined as CompareArrowsOutlinedIcon,
+  KeyboardDoubleArrowDownOutlined as KeyboardArrowDownOutlinedIcon,
+  KeyboardDoubleArrowUpOutlined as KeyboardArrowUpOutlinedIcon,
+  PushPinOutlined as PushPinOutlinedIcon,
+  PushPin as PushPinIcon,
 } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
@@ -53,7 +56,9 @@ export const Icons = {
   Empty: ClearOutlinedIcon,
   Search: SearchOutlinedIcon,
   ArrowDown: KeyboardArrowDownIcon,
-  Swap: CompareArrowsOutlinedIcon,
+
+  DoubleArrowDown: KeyboardArrowDownOutlinedIcon,
+  DoubleArrowUp: KeyboardArrowUpOutlinedIcon,
 
   //vaults
   ChangeVault: ViewAgendaOutlinedIcon,
@@ -64,6 +69,9 @@ export const Icons = {
   Note: DescriptionOutlinedIcon,
   ListOfNotes: ListOutlinedIcon,
   newNote: NoteAddOutlinedIcon,
+
+  ToPin: PushPinOutlinedIcon,
+  Pinned: PushPinIcon,
 
   // options
   More: MoreHorizOutlinedIcon,

@@ -14,12 +14,12 @@ interface NotesItemProps {
 }
 
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
-  const [isHovered, setIsHovered] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
   const { openToast } = useToast();
 
   const router = useRouter();
-  const { removeNote } = useNotesInfo();
+  const { removeNote, updateNotePin } = useNotesInfo();
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -34,12 +34,12 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
     }
   };
 
-  const setFullTitleLength = () => {
-    setIsHovered(true);
-  };
+  const handlePin = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const response = await updateNotePin(note.id, !note.pinned);
 
-  const setHoverTitleLength = () => {
-    setIsHovered(false);
+    if (!response.ok) {
+      openToast(response.message, "error");
+    }
   };
 
   const currentTitle: string = active
@@ -60,7 +60,6 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        gap: "4px",
 
         paddingLeft: "10px",
 
@@ -72,15 +71,16 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
         }),
       }}
       onClick={() => router.push(`/notes/${note.id}`)}
-      onMouseEnter={setHoverTitleLength}
-      onMouseLeave={setFullTitleLength}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Box
         sx={{
           display: "flex",
+
           gap: "8px",
           alignItems: "center",
-          width: isHovered ? "100%" : "calc(100% - 40px)",
+          width: "calc(100% - 40px)",
         }}
       >
         <Icons.Note sx={{ color: "text.secondary" }} />
@@ -96,16 +96,37 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
         </Typography>
       </Box>
 
-      <IconButton
-        className="remove-button"
-        onClick={handleDelete}
-        sx={{
-          paddingTop: "10px",
-          display: "none",
-        }}
-      >
-        <Icons.Delete sx={{ fontSize: "20px" }} />
-      </IconButton>
+      <Box display={"flex"}>
+        {/* <IconButton
+          className="remove-button"
+          onClick={handleDelete}
+          sx={{
+            paddingTop: "10px",
+            display: "none",
+          }}
+        >
+          <Icons.Delete sx={{ fontSize: "20px" }} />
+        </IconButton> */}
+        <IconButton
+          sx={{
+            display: "block",
+            marginX: "0px",
+            paddingTop: "10px",
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
+          }}
+          disableFocusRipple
+          disableRipple
+          onClick={handlePin}
+        >
+          {note.pinned ? (
+            <Icons.Pinned sx={{ fontSize: "20px", marginRight: "-8px" }} />
+          ) : (
+            <Icons.ToPin sx={{ fontSize: "20px", marginRight: "-8px" }} />
+          )}
+        </IconButton>
+      </Box>
     </SidebarModule>
   );
 };

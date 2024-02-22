@@ -29,6 +29,19 @@ export const notesInfoService = {
       "Error removing note"
     );
   },
+
+  updateNotePin: async (
+    vaultId: string,
+    noteId: string,
+    pinned: boolean
+  ): Promise<ServiceOperationResult> => {
+    return serviceApiCall(
+      () =>
+        api.patch(`/notes/${noteId}/pin`, { pinned }, getVaultHeader(vaultId)),
+      "Note pin updated successfully",
+      "Error updating note pin"
+    );
+  },
 };
 
 export default notesInfoService;

@@ -45,6 +45,7 @@ const NotesList: FC = () => {
     });
 
     socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, (updatedNote) => {
+      console.log(updatedNote);
       setNotes((prev) =>
         prev.map((note) => (note.id === updatedNote.id ? updatedNote : note))
       );
@@ -92,15 +93,24 @@ const NotesList: FC = () => {
             {"My Notes"}
           </Typography>
         </Box>
-        <Icons.Swap
-          sx={{
-            color: "text.secondary",
-            fontSize: "24px",
-            marginRight: "4px",
-            rotate: "90deg",
-          }}
-          onClick={(e) => toggleOrder(e)}
-        />
+
+        {order === "asc" ? (
+          <Icons.DoubleArrowDown
+            sx={{
+              color: "text.secondary",
+              fontSize: "20px",
+            }}
+            onClick={(e) => toggleOrder(e)}
+          />
+        ) : (
+          <Icons.DoubleArrowUp
+            sx={{
+              color: "text.secondary",
+              fontSize: "20px",
+            }}
+            onClick={(e) => toggleOrder(e)}
+          />
+        )}
       </SidebarModule>
 
       {!notes ? (
@@ -115,6 +125,30 @@ const NotesList: FC = () => {
           }}
         >
           {notes
+            .filter((note) => note.pinned)
+            .sort((a, b) =>
+              order === "asc"
+                ? a.createdAt < b.createdAt
+                  ? 1
+                  : -1
+                : a.createdAt > b.createdAt
+                ? 1
+                : -1
+            )
+            .map((currNote) => (
+              <NotesItem
+                key={currNote.id}
+                note={currNote}
+                active={currNote.id === currentNoteId}
+                title={
+                  currNote.id === currentNoteId
+                    ? currentNoteTitle || ""
+                    : undefined
+                }
+              />
+            ))}
+          {notes
+            .filter((note) => !note.pinned)
             .sort((a, b) =>
               order === "asc"
                 ? a.createdAt < b.createdAt

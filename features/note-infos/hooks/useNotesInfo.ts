@@ -16,9 +16,14 @@ export const useNotesInfo = () => {
     return notesInfoService.removeNote(currentVault!.id, noteId);
   };
 
+  const updateNotePinHandler = async (noteId: string, pinned: boolean) => {
+    return notesInfoService.updateNotePin(currentVault!.id, noteId, pinned);
+  };
+
   return {
     getNotes: getNotesHandler,
     addNote: addNoteHandler,
     removeNote: removeNoteHandler,
+    updateNotePin: updateNotePinHandler,
   };
 };
