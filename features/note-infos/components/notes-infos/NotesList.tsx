@@ -45,7 +45,6 @@ const NotesList: FC = () => {
     });
 
     socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, (updatedNote) => {
-      console.log(updatedNote);
       setNotes((prev) =>
         prev.map((note) => (note.id === updatedNote.id ? updatedNote : note))
       );

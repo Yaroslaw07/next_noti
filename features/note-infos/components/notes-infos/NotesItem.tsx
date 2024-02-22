@@ -1,5 +1,5 @@
 import { Icons } from "@/components/Icons";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import SidebarModule from "../../../current-vault/components/layout/sidebar/base/SidebarModule";
 import { NoteInfo } from "../../types/noteInfoTypes";
@@ -14,17 +14,24 @@ interface NotesItemProps {
 }
 
 const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   const { openToast } = useToast();
 
   const router = useRouter();
   const { removeNote, updateNotePin } = useNotesInfo();
 
-  const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
+  const [isHovered, setIsHovered] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = async () => {
     const response = await removeNote(note.id);
 
     if (response.ok === false) {
@@ -34,7 +41,11 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
     }
   };
 
-  const handlePin = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePin = async (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+
     const response = await updateNotePin(note.id, !note.pinned);
 
     if (!response.ok) {
@@ -49,89 +60,119 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
     : note.title.trim();
 
   return (
-    <SidebarModule
-      sx={{
-        borderTopRightRadius: "8px",
-        height: "40px",
-        width: "100%",
-
-        flexShrink: 0,
-
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-
-        paddingLeft: "10px",
-
-        "&:hover .remove-button": {
-          display: "block",
-        },
-        ...(active && {
-          backgroundColor: "additional.dark",
-        }),
-      }}
-      onClick={() => router.push(`/notes/${note.id}`)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Box
+    <>
+      <SidebarModule
         sx={{
+          borderTopRightRadius: "8px",
+          height: "40px",
+          width: "100%",
+
+          flexShrink: 0,
+
           display: "flex",
-
-          gap: "8px",
+          justifyContent: "space-between",
           alignItems: "center",
-          width: "calc(100% - 40px)",
-        }}
-      >
-        <Icons.Note sx={{ color: "text.secondary" }} />
-        <Typography
-          sx={{
-            color: "text.secondary",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {currentTitle}
-        </Typography>
-      </Box>
 
-      <Box display={"flex"}>
-        {/* <IconButton
-          className="remove-button"
-          onClick={handleDelete}
+          paddingLeft: "10px",
+
+          ...(active && {
+            backgroundColor: "additional.dark",
+          }),
+        }}
+        onClick={() => router.push(`/notes/${note.id}`)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Box
           sx={{
-            paddingTop: "10px",
-            display: "none",
+            display: "flex",
+
+            gap: "8px",
+            alignItems: "center",
+            width: isHovered || note.pinned ? "calc(100% - 40px)" : "100%",
           }}
         >
-          <Icons.Delete sx={{ fontSize: "20px" }} />
-        </IconButton> */}
-        <IconButton
+          <Icons.Note sx={{ color: "text.secondary" }} />
+          <Typography
+            sx={{
+              color: "text.secondary",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {currentTitle}
+          </Typography>
+        </Box>
+
+        {(note.pinned || isHovered) && (
+          <IconButton
+            sx={{
+              display: "block",
+              marginX: "0px",
+              paddingTop: "10px",
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+            }}
+            disableFocusRipple
+            disableRipple
+            onClick={handleClick}
+          >
+            {note.pinned && !isHovered ? (
+              <Icons.Pinned
+                sx={{
+                  color: "text.secondary",
+                  fontSize: "20px",
+                  marginRight: "-8px",
+                }}
+              />
+            ) : (
+              isHovered && (
+                <Icons.More
+                  sx={{
+                    fontSize: "30px",
+                    marginRight: "-12px",
+                    color: "text.secondary",
+                  }}
+                />
+              )
+            )}
+          </IconButton>
+        )}
+        <Menu
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
           sx={{
-            display: "block",
-            marginX: "0px",
-            paddingTop: "10px",
-            "&:hover": {
-              backgroundColor: "transparent",
+            marginLeft: "10px",
+            "& .MuiMenu-paper": {
+              backgroundColor: "additional.main",
             },
           }}
-          disableFocusRipple
-          disableRipple
-          onClick={handlePin}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+            disablePadding: true,
+          }}
         >
-          {note.pinned && (
-            <Icons.Pinned
-              sx={{
-                color: "text.secondary",
-                fontSize: "20px",
-                marginRight: "-8px",
-              }}
-            />
-          )}
-        </IconButton>
-      </Box>
-    </SidebarModule>
+          <MenuItem sx={{ display: "flex", gap: "4px" }} onClick={handlePin}>
+            {!note.pinned ? <Icons.Pinned /> : <Icons.ToPin />}
+            <Typography>{note.pinned ? "Unpin" : "Pin"}</Typography>
+          </MenuItem>
+          <MenuItem
+            sx={{ display: "flex", gap: "4px" }}
+            onClick={() => handleDelete()}
+          >
+            {<Icons.Delete />}
+            <Typography>{"Delete"}</Typography>
+          </MenuItem>
+        </Menu>
+      </SidebarModule>
+    </>
   );
 };
 
