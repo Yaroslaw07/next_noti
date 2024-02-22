@@ -6,11 +6,12 @@ import {
   Typography,
 } from "@mui/material";
 import { FC } from "react";
-import theme from "@/lib/ui/theme";
 import { Icons } from "../../../components/Icons";
 import { Vault } from "../types/vaultTypes";
-import { useVaults } from "../hooks/useVaults";
+import { useCurrentVault } from "../../current-vault/hooks/useCurrentVault";
 import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
+import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 
 interface VaultsCardProps {
   vault: Vault;
@@ -18,8 +19,10 @@ interface VaultsCardProps {
 
 const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
   const router = useRouter();
+  const { resolvedTheme } = useTheme();
+  const theme = getCurrentTheme(resolvedTheme);
 
-  const { selectVault } = useVaults();
+  const { selectVault } = useCurrentVault();
 
   const handleClick = () => {
     selectVault(vault);
@@ -30,7 +33,7 @@ const VaultsCard: FC<VaultsCardProps> = ({ vault }) => {
     <Card
       variant="outlined"
       sx={{
-        backgroundColor: "additional.light",
+        backgroundColor: "secondary.main",
         borderWidth: "0.5px",
         borderColor: "text.secondary",
         display: "flex",

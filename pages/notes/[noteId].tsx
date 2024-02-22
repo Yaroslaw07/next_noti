@@ -6,12 +6,12 @@ import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import { getNotiLayout } from "@/features/notes/components/layout/NoteLayout";
 import { Box, Container } from "@mui/material";
 import NoteTitle from "@/features/notes/components/NoteTitle";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import NoteContent from "@/features/note-content/components/NoteContent";
-import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
+import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
+import { getNotiLayout } from "@/features/current-vault/components/layout/NoteLayout";
 
 interface NotePageProps {
   note: NoteType;
@@ -30,7 +30,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
       router.push("/notes");
     }
 
-    enterNote(note.id, note.title);
+    enterNote(note.id, note.title, note.pinned);
     setFocusedBlockId(null);
 
     return () => {
@@ -51,10 +51,10 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
           overflowY: "auto",
         }}
       >
-        <Container sx={{ marginX: "auto", width: "min(75%, 1000px)" }}>
+        <Container sx={{ marginX: "auto", width: "min(65%, 1000px)" }}>
           <Box sx={{ height: "60px" }}></Box>
           <NoteTitle />
-          <Box sx={{ height: "16px" }}></Box>
+          <Box sx={{ height: "30px" }}></Box>
           <NoteContent originalBlocks={note.blocks} />
         </Container>
       </Box>

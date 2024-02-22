@@ -1,72 +1,34 @@
-import React, { useState } from "react";
-import { Box, Button, Link, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { FC } from "react";
-import {
-  validateEmail,
-  validatePassword,
-  validateUsername,
-} from "@/lib/validator";
 import EmailInputComponent from "../../../components/inputs/EmailInput";
 import PasswordInputComponent from "../../../components/inputs/PasswordInput";
 import UsernameInputComponent from "../../../components/inputs/UsernameInput";
 import HR from "../../../components/ui/HR";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signupSchema } from "../authValidator";
+import { SignupCredentials } from "../types/authTypes";
 
 interface SignupFormProps {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (e: SignupCredentials) => void;
 }
 
 const SignupForm: FC<SignupFormProps> = ({ handleSubmit }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [emailErrorText, setEmailErrorText] = useState("");
-  const [passwordErrorText, setPasswordErrorText] = useState("");
-  const [usernameErrorText, setUsernameErrorText] = useState("");
-
-  const handleEmailChange = (value: string) => {
-    setEmail(value);
-  };
-
-  const handlePasswordChange = (value: string) => {
-    setPassword(value);
-  };
-
-  const handleUsernameChange = (value: string) => {
-    setUsername(value);
-  };
-
-  const validateInputs = () => {
-    const usernameError = validateUsername(username);
-    usernameError
-      ? setUsernameErrorText(usernameError)
-      : setUsernameErrorText("");
-
-    const emailError = validateEmail(email);
-    emailError ? setEmailErrorText(emailError) : setEmailErrorText("");
-
-    const passwordError = validatePassword(password);
-    passwordError
-      ? setPasswordErrorText(passwordError)
-      : setPasswordErrorText("");
-
-    return usernameError === "" && emailError === "" && passwordError === "";
-  };
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (validateInputs()) {
-      handleSubmit(e);
-    }
-  };
+  const {
+    handleSubmit: onSubmit,
+    formState: { errors },
+    control,
+  } = useForm<SignupCredentials>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: { username: "", email: "", password: "" },
+  });
 
   return (
     <Stack
       component="form"
       spacing={1.5}
-      onSubmit={onSubmit}
       noValidate
+      onSubmit={onSubmit(handleSubmit)}
       sx={{
         mt: 1,
         display: "flex",
@@ -77,16 +39,13 @@ const SignupForm: FC<SignupFormProps> = ({ handleSubmit }) => {
       }}
     >
       <UsernameInputComponent
-        onUsernameChange={handleUsernameChange}
-        usernameErrorText={usernameErrorText}
+        control={control}
+        error={errors.username?.message}
       />
-      <EmailInputComponent
-        onEmailChange={handleEmailChange}
-        emailErrorText={emailErrorText}
-      />
+      <EmailInputComponent control={control} error={errors.email?.message} />
       <PasswordInputComponent
-        onPasswordChange={handlePasswordChange}
-        passwordErrorText={passwordErrorText}
+        control={control}
+        error={errors.password?.message}
       />
 
       <HR />

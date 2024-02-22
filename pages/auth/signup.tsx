@@ -8,7 +8,7 @@ import Link from "@/components/ui/Link";
 import { NextPageWithLayout } from "../_app";
 import AuthPageFormLayout from "@/features/auth/components/AuthPageLayout";
 import AuthLayoutTitle from "@/features/auth/components/AuthLayoutTitle";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 
 const SignUpPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -16,18 +16,8 @@ const SignUpPage: NextPageWithLayout = () => {
   const { signup } = useAuth();
   const { openToast } = useToast();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    const data = new FormData(event.currentTarget);
-
-    const username = data.get("username");
-    const email = data.get("email");
-    const password = data.get("password");
-
-    const { ok, message } = await signup({
-      username,
-      email,
-      password,
-    } as SignupCredentials);
+  const handleSubmit = async (data: SignupCredentials) => {
+    const { ok, message } = await signup(data);
 
     openToast(message, ok ? "success" : "error");
     ok && router.push("/vaults");
@@ -36,7 +26,7 @@ const SignUpPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Signup to Noti</title>
+        <title>Noti | Signup</title>
         <meta name="description" content="Signup page of Noti" />
       </Head>
       <AuthLayoutTitle title="Sign up" />

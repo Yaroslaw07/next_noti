@@ -1,7 +1,7 @@
+import MUIThemeProvider from "@/components/MuiThemeProvider";
 import { Providers } from "@/components/Providers";
-import { ToastProvider } from "@/contexts/toastContext";
-import theme from "@/lib/ui/theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ToastProvider } from "@/lib/contexts/toastContext";
+import { CssBaseline } from "@mui/material";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
@@ -23,7 +23,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
+
+      <MUIThemeProvider>
         <CssBaseline />
         <ToastProvider>
           {getLayout ? (
@@ -32,7 +33,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             <Component {...pageProps} />
           )}
         </ToastProvider>
-      </ThemeProvider>
+      </MUIThemeProvider>
     </Providers>
   );
 }

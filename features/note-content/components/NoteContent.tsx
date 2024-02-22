@@ -2,6 +2,7 @@ import { FC } from "react";
 import TextBlock from "./block-type/TextBlock";
 import { ContentBlock } from "../../notes/types/noteTypes";
 import { useBlocks } from "../hooks/useBlocks";
+import { Stack } from "@mui/material";
 
 interface NoteContentProps {
   originalBlocks: ContentBlock[];
@@ -19,7 +20,7 @@ const NoteContent: FC<NoteContentProps> = ({ originalBlocks }) => {
   };
 
   return (
-    <>
+    <Stack direction={"column"} gap={"8px"}>
       {blocks &&
         blocks
           .sort((a, b) => a.order - b.order)
@@ -33,7 +34,7 @@ const NoteContent: FC<NoteContentProps> = ({ originalBlocks }) => {
               ></TextBlock>
             );
           })}
-    </>
+    </Stack>
   );
 };
 

@@ -7,11 +7,11 @@ import { GetServerSidePropsContext } from "next";
 import fetchCall from "@/lib/api/fetch";
 import { useState } from "react";
 import { Vault } from "@/features/vaults/types/vaultTypes";
-import NewVaultModal from "@/features/vaults/components/NewVaultModal";
+import NewVaultModal from "@/features/vaults/components/modals/NewVaultModal";
 import { useRouter } from "next/router";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/lib/hooks/useToast";
 import { NextPageWithLayout } from "../_app";
-import { getVaultSocketLayout } from "@/features/vaults/components/layout/VaultSocketLayout";
+import { getVaultSocketLayout } from "@/features/socket/SocketLayout";
 
 interface VaultsPageProps {
   vaults: Vault[] | null;
@@ -72,7 +72,7 @@ const VaultsPage: NextPageWithLayout<VaultsPageProps> = ({
                 fontSize: { xs: "2rem", sm: "2.2rem" },
               }}
             >
-              Your vaults
+              Your Vaults
             </Typography>
           </Box>
           <Box

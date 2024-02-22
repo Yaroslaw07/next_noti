@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { autoSaveTime } from "@/constants";
 import { useBlockEvents } from "../../hooks/useBlockEvents";
 import { ContentBlock } from "@/features/notes/types/noteTypes";
-import { useFocusedBlockStore } from "@/features/notes/store/focusedBlockStore";
+import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 
 interface TextBlocksProps {
   block: ContentBlock;
@@ -26,6 +26,23 @@ const TextBlock: FC<TextBlocksProps> = ({
   const textUpdated = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);
   const isSetToDelete = useRef(false);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (hasChanges.current) {
+        const confirmationMessage =
+          "You have unsaved changes. Are you sure you want to leave?";
+        event.preventDefault();
+        return confirmationMessage;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     setText(props.text || "");

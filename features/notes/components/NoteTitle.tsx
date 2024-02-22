@@ -1,15 +1,19 @@
 import { TextField, debounce } from "@mui/material";
-import useNoteStore from "../store/notesStore";
+import useNoteStore from "../stores/notesStore";
 import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
 import { autoSaveTime } from "@/constants";
 import { NOTE_EVENTS } from "../notesEvents";
-import { useSocketStore } from "@/lib/socketStore";
 import { useBlockEvents } from "@/features/note-content/hooks/useBlockEvents";
+import { useSocketStore } from "@/features/socket/socketStore";
 
 const NoteTitle = () => {
-  const { currentNoteId, currentNoteTitle, setCurrentNoteTitle } =
-    useNoteStore();
+  const {
+    currentNoteId,
+    currentNoteTitle,
+    setCurrentNoteTitle,
+    setCurrentNotePinned,
+  } = useNoteStore();
   const { saveTitle } = useCurrentNote();
   const { socket } = useSocketStore();
 
@@ -49,7 +53,12 @@ const NoteTitle = () => {
       hasChanges.current = false;
     });
 
+    socket.on(NOTE_EVENTS.NOTE_PIN_UPDATED, (payload) => {
+      setCurrentNotePinned(payload.pinned);
+    });
+
     return () => {
+      socket.off(NOTE_EVENTS.NOTE_TITLE_UPDATED);
       socket.off(NOTE_EVENTS.NOTE_TITLE_UPDATED);
     };
   }, [socket]);
