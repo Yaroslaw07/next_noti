@@ -30,7 +30,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({
       router.push("/notes");
     }
 
-    enterNote(note.id, note.title);
+    enterNote(note.id, note.title, note.pinned);
     setFocusedBlockId(null);
 
     return () => {

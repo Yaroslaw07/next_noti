@@ -120,10 +120,14 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
           disableRipple
           onClick={handlePin}
         >
-          {note.pinned ? (
-            <Icons.Pinned sx={{ fontSize: "20px", marginRight: "-8px" }} />
-          ) : (
-            <Icons.ToPin sx={{ fontSize: "20px", marginRight: "-8px" }} />
+          {note.pinned && (
+            <Icons.Pinned
+              sx={{
+                color: "text.secondary",
+                fontSize: "20px",
+                marginRight: "-8px",
+              }}
+            />
           )}
         </IconButton>
       </Box>

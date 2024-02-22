@@ -9,6 +9,9 @@ interface NoteStore {
   currentNoteTitle: string | null;
   setCurrentNoteTitle: (title: string | null) => void;
 
+  currentNotePinned: boolean | null;
+  setCurrentNotePinned: (pinned: boolean | null) => void;
+
   joinNote: (socket: Socket, noteId: string) => void;
   leaveNote: (socket: Socket, noteId: string) => void;
 }
@@ -24,6 +27,12 @@ const useNoteStore = createWithEqualityFn<NoteStore>()((set, get) => ({
 
   setCurrentNoteTitle: (title: string | null) => {
     set({ currentNoteTitle: title });
+  },
+
+  currentNotePinned: null,
+
+  setCurrentNotePinned: (pinned: boolean | null) => {
+    set({ currentNotePinned: pinned });
   },
 
   joinNote: (socket: Socket, noteId: string) => {

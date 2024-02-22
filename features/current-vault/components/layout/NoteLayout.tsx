@@ -1,6 +1,5 @@
 import { Grid, Stack } from "@mui/material";
 import Sidebar from "@/features/current-vault/components/layout/sidebar/Sidebar";
-import Header from "./Header";
 import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
 import Backdrop from "@/components/ui/Backdrop";
 import { useRouter } from "next/router";
@@ -9,6 +8,7 @@ import { VAULT_EVENTS } from "@/features/vaults/vaultsEvents";
 import { useCurrentVault } from "../../hooks/useCurrentVault";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { SocketLayout } from "@/features/socket/SocketLayout";
+import Header from "./Header";
 
 interface NoteLayoutProps {
   children: React.ReactNode;

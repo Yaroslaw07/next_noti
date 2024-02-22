@@ -26,6 +26,7 @@ import {
   KeyboardDoubleArrowUpOutlined as KeyboardArrowUpOutlinedIcon,
   PushPinOutlined as PushPinOutlinedIcon,
   PushPin as PushPinIcon,
+  Style,
 } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
@@ -70,8 +71,8 @@ export const Icons = {
   ListOfNotes: ListOutlinedIcon,
   newNote: NoteAddOutlinedIcon,
 
-  ToPin: PushPinOutlinedIcon,
-  Pinned: PushPinIcon,
+  ToPin: StyledIcon(PushPinOutlinedIcon, 0.2),
+  Pinned: StyledIcon(PushPinIcon, 0.4),
 
   // options
   More: MoreHorizOutlinedIcon,

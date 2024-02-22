@@ -2,6 +2,7 @@ import {
   AppBar,
   Menu,
   MenuItem,
+  Stack,
   Theme,
   ToggleButton,
   ToggleButtonGroup,
@@ -13,8 +14,9 @@ import useNoteStore from "../../../notes/stores/notesStore";
 import { useTheme } from "next-themes";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 import { useState } from "react";
+import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 
-const getToolbarSx = (theme: Theme) => {
+export const getToolbarSx = (theme: Theme) => {
   return {
     display: "flex",
     justifyContent: "space-between",
@@ -26,12 +28,26 @@ const getToolbarSx = (theme: Theme) => {
   };
 };
 
+export const getHeaderIconSx = (theme: Theme) => {
+  return {
+    fontSize: "38px",
+    marginTop: "-8px",
+    borderRadius: "8px",
+    color: theme.palette.primary.light,
+    "&:hover": {
+      color: theme.palette.primary.dark,
+      background: theme.palette.additional?.dark,
+    },
+  };
+};
+
 const Header = () => {
-  const { currentNoteId, currentNoteTitle } = useNoteStore();
+  const { currentNoteId, currentNoteTitle, currentNotePinned } = useNoteStore();
   const { resolvedTheme, theme, setTheme } = useTheme();
   const themeConfig = getCurrentTheme(resolvedTheme);
 
-  const [alignment, setAlignment] = useState<string>(theme || "system");
+  const { updatePin } = useCurrentNote();
+
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const isModalOpen = Boolean(anchorEl);
 
@@ -64,19 +80,29 @@ const Header = () => {
             ? "Untitled"
             : currentNoteTitle}
         </Typography>
-        <Icons.More
-          sx={{
-            fontSize: "38px",
-            marginTop: "-3px",
-            borderRadius: "8px",
-            color: themeConfig.palette.primary.light,
-            "&:hover": {
-              color: themeConfig.palette.primary.dark,
-              background: themeConfig.palette.additional?.dark,
-            },
-          }}
-          onClick={(e) => handleMenuOpen(e)}
-        />
+
+        <Stack direction={"row"} gap={"12px"} alignItems={"center"}>
+          {currentNotePinned && (
+            <Icons.Pinned
+              sx={{
+                ...getHeaderIconSx(themeConfig),
+                fontSize: "28px",
+              }}
+              onClick={() => updatePin(false)}
+            />
+          )}
+          {!currentNotePinned && (
+            <Icons.ToPin
+              sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
+              onClick={() => updatePin(true)}
+            />
+          )}
+          <Icons.More
+            sx={getHeaderIconSx(themeConfig)}
+            onClick={(e) => handleMenuOpen(e)}
+          />
+        </Stack>
+
         <Menu anchorEl={anchorEl} open={isModalOpen} onClose={handleMenuClose}>
           <MenuItem
             sx={{
