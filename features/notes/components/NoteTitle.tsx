@@ -6,6 +6,7 @@ import { autoSaveTime } from "@/constants";
 import { NOTE_EVENTS } from "../notesEvents";
 import { useBlockEvents } from "@/features/note-content/hooks/useBlockEvents";
 import { useSocketStore } from "@/features/socket/socketStore";
+import { useFocusedBlockStore } from "../stores/focusedBlockStore";
 
 const NoteTitle = () => {
   const {
@@ -16,8 +17,8 @@ const NoteTitle = () => {
   } = useNoteStore();
   const { saveTitle } = useCurrentNote();
   const { socket } = useSocketStore();
-
   const { createBlock } = useBlockEvents();
+  const { focusedBlockId } = useFocusedBlockStore();
 
   const currentTitle = useRef<string | null>(null);
   const hasChanges = useRef<boolean>(false);
@@ -32,6 +33,14 @@ const NoteTitle = () => {
       saveTitle(currentTitle.current);
     }
   };
+
+  useEffect(() => {
+    const titleInput = document.getElementById("note-title-input");
+
+    if (focusedBlockId === "title" && titleInput) {
+      titleInput.focus();
+    }
+  }, [focusedBlockId]);
 
   const debounced = useCallback(
     debounce(() => {
@@ -87,6 +96,7 @@ const NoteTitle = () => {
 
   return (
     <TextField
+      id="note-title-input"
       variant="standard"
       placeholder="Undefined"
       sx={{ input: { fontSize: "40px", fontWeight: "500", height: "70px" } }}

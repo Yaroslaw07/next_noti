@@ -1,11 +1,11 @@
 import { Icons } from "@/components/Icons";
 import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { FC, useState } from "react";
-import SidebarModule from "../../../current-vault/components/layout/sidebar/base/SidebarModule";
-import { NoteInfo } from "../../types/noteInfoTypes";
+import SidebarModule from "../../current-vault/components/layout/sidebar/base/SidebarModule";
+import { NoteInfo } from "../types/noteInfoTypes";
 import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
-import { useNotesInfo } from "../../hooks/useNotesInfo";
+import { useNotesInfo } from "../hooks/useNotesInfo";
 
 interface NotesItemProps {
   note: NoteInfo;
@@ -24,10 +24,13 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation();
     setAnchorEl(event.currentTarget);
+    event.stopPropagation();
   };
+
   const handleClose = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setIsHovered(false);
     setAnchorEl(null);
   };
 

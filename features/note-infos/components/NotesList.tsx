@@ -2,13 +2,13 @@ import { Box, Stack, Typography } from "@mui/material";
 import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
 import { FC, useEffect, useState } from "react";
-import SidebarModule from "../../../current-vault/components/layout/sidebar/base/SidebarModule";
-import { NoteInfo } from "../../types/noteInfoTypes";
+import SidebarModule from "../../current-vault/components/layout/sidebar/base/SidebarModule";
+import { NoteInfo } from "../types/noteInfoTypes";
 import { useRouter } from "next/router";
 import useNoteStore from "@/features/notes/stores/notesStore";
-import { NOTE_INFOS_EVENTS } from "../../notesInfoEvents";
+import { NOTE_INFOS_EVENTS } from "../notesInfoEvents";
 import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault";
-import { useNotesInfo } from "../../hooks/useNotesInfo";
+import { useNotesInfo } from "../hooks/useNotesInfo";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { MouseEvent } from "react";
 

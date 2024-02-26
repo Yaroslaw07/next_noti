@@ -95,7 +95,7 @@ const TextArea: FC<TextAreaProps> = ({
 
   return (
     <textarea
-      placeholder="Empty content"
+      placeholder={isFocused ? "Empty content" : ""}
       ref={textareaRef}
       value={value || ""}
       onFocus={onFocus}
