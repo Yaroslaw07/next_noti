@@ -5,7 +5,7 @@ import { FC, useEffect, useState } from "react";
 import SidebarModule from "../../current-vault/components/layout/sidebar/base/SidebarModule";
 import { NoteInfo } from "../types/noteInfoTypes";
 import { useRouter } from "next/router";
-import useNoteStore from "@/features/notes/stores/notesStore";
+import useCurrentNote from "@/features/notes/stores/currentNoteStore";
 import { NOTE_INFOS_EVENTS } from "../notesInfoEvents";
 import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault";
 import { useNotesInfo } from "../hooks/useNotesInfo";
@@ -19,7 +19,7 @@ const NotesList: FC = () => {
   const { getNotes } = useNotesInfo();
 
   const { socket } = useSocketStore();
-  const { currentNoteId, currentNoteTitle } = useNoteStore();
+  const { currentNoteId, currentNoteTitle } = useCurrentNote();
 
   const [notes, setNotes] = useState<NoteInfo[]>([]);
   const [order, setOrder] = useState<"asc" | "desc">("asc");

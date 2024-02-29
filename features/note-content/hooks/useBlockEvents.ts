@@ -1,8 +1,7 @@
 import { shallow } from "zustand/shallow";
-import { BLOCK_EVENTS } from "../blocksEvents";
 import { useSocketStore } from "@/features/socket/socketStore";
 
-export const useBlockEvents = () => {
+export const useBlocks = () => {
   const socket = useSocketStore((state) => state.socket, shallow);
 
   const createBlockHandler = (order: number) => {

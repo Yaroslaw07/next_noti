@@ -1,80 +1,21 @@
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 import { useTheme } from "next-themes";
-import { FC, useEffect, useRef } from "react";
+import { CSSProperties, FC, useEffect, useRef } from "react";
 
-interface TextAreaProps {
+interface TextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   value: string;
-  onChange: (content: string) => void;
-
-  handleEnter?: () => void;
-  handleBackspace?: () => void;
-
-  onFocus?: () => void;
-  isFocused?: boolean;
-
-  moveToPrevious?: () => void;
-  moveToNext?: () => void;
-
-  onBlur?: () => void;
+  isFocused: boolean;
+  style: CSSProperties | undefined;
 }
 
 const MIN_TEXTAREA_HEIGHT = 32;
 
-const TextArea: FC<TextAreaProps> = ({
-  value,
-  onChange,
-
-  handleEnter,
-  handleBackspace,
-
-  onFocus,
-  isFocused,
-
-  moveToPrevious,
-  moveToNext,
-
-  onBlur,
-}) => {
+const TextArea: FC<TextAreaProps> = ({ value, isFocused, style, ...props }) => {
   const { resolvedTheme } = useTheme();
   const theme = getCurrentTheme(resolvedTheme);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const isBackspacePressed = event.key === "Backspace";
-
-    if (isBackspacePressed && textareaRef.current?.value.length === 0) {
-      handleBackspace && handleBackspace();
-      event.preventDefault();
-      return;
-    }
-
-    if (event.key === "Enter") {
-      handleEnter && handleEnter();
-      event.preventDefault();
-      return;
-    }
-
-    if (event.key === "ArrowUp" && textareaRef.current?.selectionStart === 0) {
-      moveToPrevious && moveToPrevious();
-      event.preventDefault();
-      return;
-    }
-
-    if (
-      event.key === "ArrowDown" &&
-      textareaRef.current?.selectionEnd === value.length
-    ) {
-      moveToNext && moveToNext();
-      event.preventDefault();
-      return;
-    }
-  };
-
-  const handleOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newContent = event.target.value;
-    onChange(newContent);
-  };
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -95,19 +36,15 @@ const TextArea: FC<TextAreaProps> = ({
 
   return (
     <textarea
-      placeholder={isFocused ? "Empty content" : ""}
       ref={textareaRef}
-      value={value || ""}
-      onFocus={onFocus}
-      onKeyDown={handleKeyDown}
-      onBlur={onBlur}
-      onChange={handleOnChange}
+      value={value}
+      autoComplete={"off"}
+      {...props}
       style={{
         width: "100%",
         resize: "none",
         outline: "none",
         border: "none",
-        fontSize: "1.1rem",
         background: "transparent",
         fontFamily: theme.typography.fontFamily,
         color: theme.palette.text.primary,
@@ -115,6 +52,7 @@ const TextArea: FC<TextAreaProps> = ({
         overflow: "hidden",
         boxSizing: "border-box",
         minHeight: MIN_TEXTAREA_HEIGHT,
+        ...style,
       }}
     />
   );

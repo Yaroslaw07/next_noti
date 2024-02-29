@@ -9,7 +9,7 @@ const darkTheme = createTheme({
     },
     secondary: {
       main: "#212121",
-      dark: "#494949",
+      dark: "#1e1e1e",
     },
     additional: {
       dark: "#303030",

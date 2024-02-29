@@ -3,12 +3,13 @@ import Sidebar from "@/features/current-vault/components/layout/sidebar/Sidebar"
 import { FC, JSXElementConstructor, ReactElement, useEffect } from "react";
 import Backdrop from "@/components/ui/Backdrop";
 import { useRouter } from "next/router";
-import useNoteStore from "../../../notes/stores/notesStore";
 import { VAULT_EVENTS } from "@/features/vaults/vaultsEvents";
 import { useCurrentVault } from "../../hooks/useCurrentVault";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { SocketLayout } from "@/features/socket/SocketLayout";
 import Header from "./Header";
+import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
+import { useNotes } from "@/features/notes/hooks/useNotes";
 
 interface NoteLayoutProps {
   children: React.ReactNode;
@@ -20,7 +21,8 @@ const NoteLayout: FC<NoteLayoutProps> = ({ children }) => {
   const { currentVault, selectVault, leaveVault } = useCurrentVault();
   const { socket } = useSocketStore();
 
-  const { joinNote, leaveNote, currentNoteId } = useNoteStore();
+  const { currentNoteId } = useCurrentNote();
+  const { joinNoteRoom, leaveNoteRoom } = useNotes();
 
   useEffect(() => {
     if (!currentVault) {
@@ -60,12 +62,12 @@ const NoteLayout: FC<NoteLayoutProps> = ({ children }) => {
 
   useEffect(() => {
     if (currentVault !== null && currentNoteId !== null && socket !== null) {
-      joinNote(socket, currentNoteId);
+      joinNoteRoom(currentNoteId);
     }
 
     return () => {
       if (socket !== null && currentNoteId !== null) {
-        leaveNote(socket, currentNoteId!);
+        leaveNoteRoom(currentNoteId);
       }
     };
   }, [currentNoteId, socket]);

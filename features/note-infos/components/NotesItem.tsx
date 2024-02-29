@@ -6,6 +6,7 @@ import { NoteInfo } from "../types/noteInfoTypes";
 import { useRouter } from "next/router";
 import { useToast } from "@/lib/hooks/useToast";
 import { useNotesInfo } from "../hooks/useNotesInfo";
+import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 
 interface NotesItemProps {
   note: NoteInfo;
@@ -18,6 +19,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
 
   const router = useRouter();
   const { removeNote, updateNotePin } = useNotesInfo();
+  const { currentNotePinned, setCurrentNotePinned } = useCurrentNote();
 
   const [isHovered, setIsHovered] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -49,11 +51,10 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
   ) => {
     event.stopPropagation();
 
-    const response = await updateNotePin(note.id, !note.pinned);
-
-    if (!response.ok) {
-      openToast(response.message, "error");
-    }
+    if (active)
+      setCurrentNotePinned(
+        event.currentTarget.textContent === "Pin" ? true : false
+      );
   };
 
   const currentTitle: string = active
@@ -108,7 +109,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
           </Typography>
         </Box>
 
-        {(note.pinned || isHovered) && (
+        {(note.pinned || currentNotePinned || isHovered) && (
           <IconButton
             sx={{
               display: "block",
@@ -122,7 +123,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
             disableRipple
             onClick={handleClick}
           >
-            {note.pinned && !isHovered ? (
+            {note.pinned || (active && currentNotePinned && !isHovered) ? (
               <Icons.Pinned
                 sx={{
                   color: "text.secondary",

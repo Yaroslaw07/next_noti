@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Icons } from "../../../../components/Icons";
-import useNoteStore from "../../../notes/stores/notesStore";
 import { useTheme } from "next-themes";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 import { useState } from "react";
@@ -42,11 +41,14 @@ export const getHeaderIconSx = (theme: Theme) => {
 };
 
 const Header = () => {
-  const { currentNoteId, currentNoteTitle, currentNotePinned } = useNoteStore();
+  const {
+    currentNoteId,
+    currentNoteTitle,
+    currentNotePinned,
+    setCurrentNotePinned,
+  } = useCurrentNote();
   const { resolvedTheme, theme, setTheme } = useTheme();
   const themeConfig = getCurrentTheme(resolvedTheme);
-
-  const { updatePin } = useCurrentNote();
 
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const isModalOpen = Boolean(anchorEl);
@@ -88,13 +90,13 @@ const Header = () => {
                 ...getHeaderIconSx(themeConfig),
                 fontSize: "28px",
               }}
-              onClick={() => updatePin(false)}
+              onClick={() => setCurrentNotePinned(false)}
             />
           )}
           {!currentNotePinned && (
             <Icons.ToPin
               sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
-              onClick={() => updatePin(true)}
+              onClick={() => setCurrentNotePinned(true)}
             />
           )}
           <Icons.More

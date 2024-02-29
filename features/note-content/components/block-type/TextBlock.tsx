@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useRef, useState } from "react";
 import TextArea from "../../../../components/ui/TextArea";
 import { debounce } from "lodash";
 import { autoSaveTime } from "@/constants";
-import { useBlockEvents } from "../../hooks/useBlockEvents";
+import { useBlocks } from "../../hooks/useBlockEvents";
 import { ContentBlock } from "@/features/notes/types/noteTypes";
 import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 
@@ -17,7 +17,7 @@ const TextBlock: FC<TextBlocksProps> = ({
   getNextBlockId,
   getPrevBlockId,
 }) => {
-  const { updateBlockProps, createBlock, deleteBlock } = useBlockEvents();
+  const { updateBlockProps, createBlock, deleteBlock } = useBlocks();
   const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
 
   const [text, setText] = useState("");

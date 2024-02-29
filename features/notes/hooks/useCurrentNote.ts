@@ -1,57 +1,77 @@
-import useNoteStore from "../stores/notesStore";
-import { NOTE_EVENTS } from "../notesEvents";
+import { useBatchStore } from "@/features/batch/batchStore";
+import useCurrentNoteStore from "../stores/currentNoteStore";
 import { shallow } from "zustand/shallow";
-import { useSocketStore } from "@/features/socket/socketStore";
+import { useRef } from "react";
+import { BATCH_EVENTS } from "@/features/batch/batchEvent";
 
 export const useCurrentNote = () => {
-  const { setCurrentNoteId, setCurrentNoteTitle, setCurrentNotePinned } =
-    useNoteStore(
-      (state) => ({
-        setCurrentNoteId: state.setCurrentNoteId,
-        setCurrentNoteTitle: state.setCurrentNoteTitle,
-        setCurrentNotePinned: state.setCurrentNotePinned,
-      }),
-      shallow
-    );
+  const {
+    currentNoteId,
+    currentNotePinned,
+    currentNoteTitle,
+    setCurrentNoteId,
+    setCurrentNoteTitle,
+    setCurrentNotePinned,
+  } = useCurrentNoteStore((state) => state, shallow);
 
-  const socket = useSocketStore((state) => state.socket, shallow);
+  const { addEvent } = useBatchStore((state) => state, shallow);
 
-  const enterNoteHandler = (
+  const titleToSave = useRef<string | null>(null);
+
+  const setCurrentNoteHandler = (
     noteId: string,
     noteTitle: string,
-    pinned: boolean
+    isPinned: boolean
   ) => {
     setCurrentNoteId(noteId);
+    setCurrentNotePinned(isPinned);
     setCurrentNoteTitle(noteTitle);
-    setCurrentNotePinned(pinned);
   };
 
-  const leaveNoteHandler = () => {
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  const setCurrentNoteTitleHandler = (title: string) => {
+    setCurrentNoteTitle(title);
+
+    title !== "" && (titleToSave.current = title);
+
+    if (timeoutIdRef.current === null) {
+      timeoutIdRef.current = setTimeout(() => {
+        addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
+          title: titleToSave.current,
+        });
+        timeoutIdRef.current = null;
+      }, 1000);
+    }
+  };
+
+  const setCurrentNotePinHandler = (isPinned: boolean) => {
+    if (currentNotePinned === isPinned) {
+      return;
+    }
+
+    setCurrentNotePinned(isPinned);
+    console.log("pinned: " + isPinned);
+    addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
+      isPinned,
+    });
+  };
+
+  const clearCurrentNoteHandler = () => {
     setCurrentNoteId(null);
     setCurrentNoteTitle(null);
     setCurrentNotePinned(null);
   };
 
-  const saveTitleHandler = (newTitle: string) => {
-    if (socket) {
-      socket.emit(NOTE_EVENTS.TO_UPDATE_NOTE_TITLE, {
-        newTitle,
-      });
-    }
-  };
-
-  const updatePinHandler = (pinned: boolean) => {
-    if (socket) {
-      socket.emit(NOTE_EVENTS.TO_UPDATE_NOTE_PIN, {
-        pinned,
-      });
-    }
-  };
-
   return {
-    enterNote: enterNoteHandler,
-    leaveNote: leaveNoteHandler,
-    updatePin: updatePinHandler,
-    saveTitle: saveTitleHandler,
+    currentNoteId,
+    currentNotePinned,
+    currentNoteTitle,
+
+    setCurrentNoteTitle: setCurrentNoteTitleHandler,
+    setCurrentNotePinned: setCurrentNotePinHandler,
+
+    setCurrentNote: setCurrentNoteHandler,
+    clearCurrentNote: clearCurrentNoteHandler,
   };
 };

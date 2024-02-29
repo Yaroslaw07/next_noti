@@ -1,38 +1,17 @@
-import { TextField, debounce } from "@mui/material";
-import useNoteStore from "../stores/notesStore";
+import { Skeleton, debounce } from "@mui/material";
 import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
-import { autoSaveTime } from "@/constants";
-import { NOTE_EVENTS } from "../notesEvents";
-import { useBlockEvents } from "@/features/note-content/hooks/useBlockEvents";
+import { useBlocks } from "@/features/note-content/hooks/useBlockEvents";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { useFocusedBlockStore } from "../stores/focusedBlockStore";
+import TextArea from "@/components/ui/TextArea";
 
 const NoteTitle = () => {
-  const {
-    currentNoteId,
-    currentNoteTitle,
-    setCurrentNoteTitle,
-    setCurrentNotePinned,
-  } = useNoteStore();
-  const { saveTitle } = useCurrentNote();
-  const { socket } = useSocketStore();
-  const { createBlock } = useBlockEvents();
-  const { focusedBlockId } = useFocusedBlockStore();
+  const { currentNoteTitle, setCurrentNoteTitle } = useCurrentNote();
+  const { createBlock } = useBlocks();
+  const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
 
   const currentTitle = useRef<string | null>(null);
-  const hasChanges = useRef<boolean>(false);
-
-  const handleSave = async () => {
-    if (
-      hasChanges.current &&
-      currentTitle.current !== null &&
-      currentTitle.current !== ""
-    ) {
-      hasChanges.current = false;
-      saveTitle(currentTitle.current);
-    }
-  };
 
   useEffect(() => {
     const titleInput = document.getElementById("note-title-input");
@@ -42,71 +21,32 @@ const NoteTitle = () => {
     }
   }, [focusedBlockId]);
 
-  const debounced = useCallback(
-    debounce(() => {
-      handleSave();
-    }, autoSaveTime),
-    [currentNoteId]
-  );
-
-  const onBlur = () => {
-    handleSave();
-  };
-
-  useEffect(() => {
-    if (socket === null) return;
-
-    socket.on(NOTE_EVENTS.NOTE_TITLE_UPDATED, (payload) => {
-      setCurrentNoteTitle(payload.title);
-      currentTitle.current = payload.title;
-      hasChanges.current = false;
-    });
-
-    socket.on(NOTE_EVENTS.NOTE_PIN_UPDATED, (payload) => {
-      setCurrentNotePinned(payload.pinned);
-    });
-
-    return () => {
-      socket.off(NOTE_EVENTS.NOTE_TITLE_UPDATED);
-      socket.off(NOTE_EVENTS.NOTE_TITLE_UPDATED);
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    if (currentNoteId === null) return;
-
-    return () => {
-      handleSave();
-    };
-  }, [currentNoteId]);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentNoteTitle(e.target.value);
-    currentTitle.current = e.target.value;
-    hasChanges.current = true;
-    debounced();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
-      createBlock(0);
+      //createBlock(0);
       e.preventDefault();
     }
   };
 
-  return (
-    <TextField
+  return currentNoteTitle == null ? (
+    <Skeleton variant="text" width={"100%"} height={"80px"} />
+  ) : (
+    <TextArea
       id="note-title-input"
-      variant="standard"
       placeholder="Undefined"
-      sx={{ input: { fontSize: "40px", fontWeight: "500", height: "70px" } }}
-      InputProps={{ disableUnderline: true }}
+      style={{ fontSize: "40px", fontWeight: "500", height: "70px" }}
       value={currentNoteTitle || ""}
       spellCheck={false}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
-      onBlur={onBlur}
-      autoComplete={"off"}
+      onClick={() => {
+        setFocusedBlockId("title");
+      }}
+      isFocused={focusedBlockId === "title"}
     />
   );
 };
