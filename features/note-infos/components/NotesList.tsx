@@ -11,6 +11,7 @@ import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault"
 import { useNotesInfo } from "../hooks/useNotesInfo";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { MouseEvent } from "react";
+import { update } from "lodash";
 
 const NotesList: FC = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const NotesList: FC = () => {
       setNotes((prev) => [...prev, createdNote]);
     });
 
-    socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, (updatedNote) => {
+    socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, ({ updatedNote }) => {
       setNotes((prev) =>
         prev.map((note) => (note.id === updatedNote.id ? updatedNote : note))
       );

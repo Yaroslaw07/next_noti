@@ -33,6 +33,19 @@ const lightTheme = createTheme({
     fontFamily: "Poppins, Space Grotesk, sans-serif",
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          "&::-webkit-scrollbar": {
+            width: "8px", // width of the scrollbar
+          },
+          "&::-webkit-scrollbar-thumb": {
+            borderRadius: "8px", // roundness of the thumb
+            backgroundColor: "#e2e2e2", // color of the thumb
+          },
+        },
+      },
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {

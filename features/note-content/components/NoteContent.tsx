@@ -1,23 +1,18 @@
 import { FC } from "react";
 import TextBlock from "./block-type/TextBlock";
-import { ContentBlock } from "../../notes/types/noteTypes";
 import { useBlocks } from "../hooks/useBlocks";
 import { Stack } from "@mui/material";
 
-interface NoteContentProps {
-  originalBlocks: ContentBlock[];
-}
+const NoteContent: FC = () => {
+  // const getNextBlockIdHandler = (order: number) => {
+  //   return getNextBlockId(order, blocks);
+  // };
 
-const NoteContent: FC<NoteContentProps> = ({ originalBlocks }) => {
-  const { blocks, getNextBlockId, getPrevBlockId } = useBlocks(originalBlocks);
+  // const getPrevBlockIdHandler = (order: number) => {
+  //   return getPrevBlockId(order, blocks);
+  // };
 
-  const getNextBlockIdHandler = (order: number) => {
-    return getNextBlockId(order, blocks);
-  };
-
-  const getPrevBlockIdHandler = (order: number) => {
-    return getPrevBlockId(order, blocks);
-  };
+  const { blocks } = useBlocks();
 
   return (
     <Stack direction={"column"} gap={"8px"}>
@@ -29,8 +24,8 @@ const NoteContent: FC<NoteContentProps> = ({ originalBlocks }) => {
               <TextBlock
                 key={block.id}
                 block={block}
-                getNextBlockId={getNextBlockIdHandler}
-                getPrevBlockId={getPrevBlockIdHandler}
+                // getNextBlockId={() => {}}
+                // getPrevBlockId={() => {}}
               ></TextBlock>
             );
           })}

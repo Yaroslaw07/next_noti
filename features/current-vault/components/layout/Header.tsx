@@ -84,20 +84,20 @@ const Header = () => {
         </Typography>
 
         <Stack direction={"row"} gap={"12px"} alignItems={"center"}>
-          {currentNotePinned && (
-            <Icons.Pinned
-              sx={{
-                ...getHeaderIconSx(themeConfig),
-                fontSize: "28px",
-              }}
-              onClick={() => setCurrentNotePinned(false)}
-            />
-          )}
-          {!currentNotePinned && (
-            <Icons.ToPin
-              sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
-              onClick={() => setCurrentNotePinned(true)}
-            />
+          {currentNoteId && (
+            <>
+              {currentNotePinned ? (
+                <Icons.Pinned
+                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
+                  onClick={() => setCurrentNotePinned(false)}
+                />
+              ) : (
+                <Icons.ToPin
+                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
+                  onClick={() => setCurrentNotePinned(true)}
+                />
+              )}
+            </>
           )}
           <Icons.More
             sx={getHeaderIconSx(themeConfig)}

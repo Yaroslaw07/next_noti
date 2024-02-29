@@ -2,7 +2,7 @@ import { useBatchStore } from "@/features/batch/batchStore";
 import useCurrentNoteStore from "../stores/currentNoteStore";
 import { shallow } from "zustand/shallow";
 import { useRef } from "react";
-import { BATCH_EVENTS } from "@/features/batch/batchEvent";
+import { BATCH_EVENTS } from "@/features/batch/batchEvents";
 
 export const useCurrentNote = () => {
   const {

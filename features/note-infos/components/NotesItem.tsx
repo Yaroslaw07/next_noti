@@ -93,7 +93,10 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
 
             gap: "8px",
             alignItems: "center",
-            width: isHovered || note.pinned ? "calc(100% - 40px)" : "100%",
+            width:
+              isHovered || note.pinned || (active && currentNotePinned)
+                ? "calc(100% - 40px)"
+                : "100%",
           }}
         >
           <Icons.Note sx={{ color: "text.secondary" }} />

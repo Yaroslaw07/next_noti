@@ -1,14 +1,14 @@
 import { Skeleton, debounce } from "@mui/material";
 import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useCallback, useEffect, useRef } from "react";
-import { useBlocks } from "@/features/note-content/hooks/useBlockEvents";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { useFocusedBlockStore } from "../stores/focusedBlockStore";
 import TextArea from "@/components/ui/TextArea";
+import { useBlocks } from "@/features/note-content/hooks/useBlocks";
 
 const NoteTitle = () => {
   const { currentNoteTitle, setCurrentNoteTitle } = useCurrentNote();
-  const { createBlock } = useBlocks();
+  const {} = useBlocks();
   const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
 
   const currentTitle = useRef<string | null>(null);
@@ -38,7 +38,7 @@ const NoteTitle = () => {
     <TextArea
       id="note-title-input"
       placeholder="Undefined"
-      style={{ fontSize: "40px", fontWeight: "500", height: "70px" }}
+      style={{ fontSize: "32px", fontWeight: "500", height: "70px" }}
       value={currentNoteTitle || ""}
       spellCheck={false}
       onChange={handleChange}
