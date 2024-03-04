@@ -3,6 +3,9 @@ import useCurrentNoteStore from "../stores/currentNoteStore";
 import { shallow } from "zustand/shallow";
 import { useRef } from "react";
 import { BATCH_EVENTS } from "@/features/batch/batchEvents";
+import { useBlocksStore } from "@/features/note-content/store/blocksStore";
+import { v4 as uuidv4 } from "uuid";
+import { useFocusedBlockStore } from "../stores/focusedBlockStore";
 
 export const useCurrentNote = () => {
   const {
@@ -14,7 +17,9 @@ export const useCurrentNote = () => {
     setCurrentNotePinned,
   } = useCurrentNoteStore((state) => state, shallow);
 
+  const { addBlock } = useBlocksStore((state) => state, shallow);
   const { addEvent } = useBatchStore((state) => state, shallow);
+  const { setFocusedBlockId } = useFocusedBlockStore();
 
   const titleToSave = useRef<string | null>(null);
 
@@ -63,6 +68,29 @@ export const useCurrentNote = () => {
     setCurrentNotePinned(null);
   };
 
+  const addBlockAfterTitle = (props?: any) => {
+    if (currentNoteId === null) {
+      return;
+    }
+
+    const newBlock = {
+      id: uuidv4(),
+      type: "text",
+      order: 0,
+      props: props || {
+        text: "",
+      },
+      updatedAt: Date.now(),
+      createdAt: Date.now(),
+    };
+
+    addEvent(BATCH_EVENTS.NOTE_BLOCK_CREATED_BATCH, newBlock);
+
+    addBlock(newBlock);
+
+    setFocusedBlockId(newBlock.id);
+  };
+
   return {
     currentNoteId,
     currentNotePinned,
@@ -73,5 +101,7 @@ export const useCurrentNote = () => {
 
     setCurrentNote: setCurrentNoteHandler,
     clearCurrentNote: clearCurrentNoteHandler,
+
+    addBlockAfterTitle,
   };
 };

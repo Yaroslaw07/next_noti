@@ -1,104 +1,69 @@
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import TextArea from "../../../../components/ui/TextArea";
-import { debounce } from "lodash";
-import { CONSTANTS } from "@/constants";
 import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 import { ContentBlock } from "../../types/blockTypes";
-import { useBlocks } from "../../hooks/useBlocks";
+import { useBlocksActions } from "../../hooks/useBlockActions";
 
 interface TextBlocksProps {
   block: ContentBlock;
-
-  // getNextBlockId: (order: number) => string | null;
-  // getPrevBlockId: (order: number) => string | null;
 }
 
-const TextBlock: FC<TextBlocksProps> = ({
-  block,
-  // getNextBlockId,
-  // getPrevBlockId,
-}) => {
+const TextBlock: FC<TextBlocksProps> = ({ block }) => {
   const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
+  const { addBlock, updateBlock, deleteBlock } = useBlocksActions({
+    id: block.id,
+    order: block.order,
+  });
 
   const [text, setText] = useState("");
   const { id, props } = block;
 
   const textUpdated = useRef<string | null>(null);
-  const hasChanges = useRef<boolean>(false);
 
   useEffect(() => {
     setText(props.text || "");
 
-    hasChanges.current = false;
     textUpdated.current = null;
   }, [props]);
 
-  // const handleSave = async () => {
-  //   if (
-  //     hasChanges.current &&
-  //     textUpdated.current !== null &&
-  //     !isSetToDelete.current
-  //   ) {
-  //     hasChanges.current = false;
-  //     updateBlockProps(id, { text: textUpdated.current });
-  //   }
-  // };
+  const handleEnter = () => {
+    addBlock();
+  };
 
-  const isFocused: boolean = focusedBlockId === id;
-
-  // const handleEnter = () => {
-  //   createBlock(order + 1);
-  // };
-
-  // const handleFocus = () => {
-  //   setFocusedBlockId(id);
-  // };
-
-  // const handleBackspace = () => {
-  //   isSetToDelete.current = true;
-  //   deleteBlock(id);
-  // };
-
-  // const moveToPrevious = () => {
-  //   handleSave();
-  //   setFocusedBlockId(getPrevBlockId(order));
-  // };
-
-  // const moveToNext = () => {
-  //   handleSave();
-  //   setFocusedBlockId(getNextBlockId(order));
-  // };
-
-  // const onBlur = () => {
-  //   handleSave();
-  // };
+  const handleBackspace = () => {
+    deleteBlock();
+  };
 
   const handleOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    updateBlock({ props: { text: event.target.value } });
     setText(event.target.value);
-    textUpdated.current = event.target.value;
-    hasChanges.current = true;
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const isEnterPressed = event.key === "Enter";
+    const isBackspacePressed = event.key === "Backspace";
+
+    if (isEnterPressed) {
+      handleEnter();
+    }
+
+    if (isBackspacePressed && text === "") {
+      handleBackspace();
+    }
+  };
+
+  const isFocused: boolean = focusedBlockId === id;
 
   return (
     <TextArea
       value={text}
+      onClick={() => {
+        setFocusedBlockId(id);
+      }}
+      onKeyDown={(e) => handleKeyDown(e)}
       onChange={handleOnChange}
-      // onBlur={onBlur}
       isFocused={isFocused}
-      style={{ fontSize: "18px" }}
-      // handleEnter={handleEnter}
-      // handleBackspace={handleBackspace}
-      // onFocus={handleFocus}
-      // isFocused={isFocused}
-      // moveToNext={moveToNext}
-      // moveToPrevious={moveToPrevious}
+      style={{ fontSize: "1.15rem" }}
     />
   );
 };

@@ -1,7 +1,9 @@
 import {
   AppBar,
+  Box,
   Menu,
   MenuItem,
+  Skeleton,
   Stack,
   Theme,
   ToggleButton,
@@ -14,6 +16,7 @@ import { useTheme } from "next-themes";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
 import { useState } from "react";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
+import { useRouter } from "next/router";
 
 export const getToolbarSx = (theme: Theme) => {
   return {
@@ -29,7 +32,7 @@ export const getToolbarSx = (theme: Theme) => {
 
 export const getHeaderIconSx = (theme: Theme) => {
   return {
-    fontSize: "38px",
+    fontSize: "30px",
     marginTop: "-8px",
     borderRadius: "8px",
     color: theme.palette.primary.light,
@@ -49,6 +52,8 @@ const Header = () => {
   } = useCurrentNote();
   const { resolvedTheme, theme, setTheme } = useTheme();
   const themeConfig = getCurrentTheme(resolvedTheme);
+
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const isModalOpen = Boolean(anchorEl);
@@ -73,27 +78,39 @@ const Header = () => {
   return (
     <AppBar component="nav" position="static" sx={{ height: "40px" }}>
       <Toolbar sx={getToolbarSx(themeConfig)}>
-        <Typography
-          variant="subtitle1"
-          sx={{ paddingTop: "0px", fontSize: "1.15rem", fontWeight: "500" }}
-        >
-          {currentNoteId === null && "No note open"}
-          {currentNoteId !== null && currentNoteTitle == ""
-            ? "Untitled"
-            : currentNoteTitle}
-        </Typography>
-
+        <Box sx={{ width: "30%" }}>
+          {currentNoteId === null && router.pathname !== "/notes" ? (
+            <Skeleton variant="text" width={"100%"} height={"40px"} />
+          ) : (
+            <Typography
+              variant="subtitle1"
+              sx={{
+                paddingTop: "0px",
+                fontSize: "1.05rem",
+                fontWeight: "500",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {currentNoteId === null && "No note open"}
+              {currentNoteId !== null && currentNoteTitle == ""
+                ? "Untitled"
+                : currentNoteTitle}
+            </Typography>
+          )}
+        </Box>
         <Stack direction={"row"} gap={"12px"} alignItems={"center"}>
           {currentNoteId && (
             <>
               {currentNotePinned ? (
                 <Icons.Pinned
-                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
+                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "24px" }}
                   onClick={() => setCurrentNotePinned(false)}
                 />
               ) : (
                 <Icons.ToPin
-                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
+                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "22px" }}
                   onClick={() => setCurrentNotePinned(true)}
                 />
               )}

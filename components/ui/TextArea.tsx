@@ -9,7 +9,7 @@ interface TextAreaProps
   style: CSSProperties | undefined;
 }
 
-const MIN_TEXTAREA_HEIGHT = 20;
+const MIN_TEXTAREA_HEIGHT = 30;
 
 const TextArea: FC<TextAreaProps> = ({ value, isFocused, style, ...props }) => {
   const { resolvedTheme } = useTheme();

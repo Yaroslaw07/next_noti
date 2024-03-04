@@ -3,6 +3,8 @@ export type ContentBlock = {
   type: string;
   props: any;
   order: number;
+  updatedAt: number;
+  createdAt: number;
 };
 
 type TextProps = {

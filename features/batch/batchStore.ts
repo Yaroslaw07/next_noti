@@ -4,7 +4,7 @@ import { createWithEqualityFn } from "zustand/traditional";
 interface BatchStore {
   events: BatchUnit[];
   anyChanges: boolean;
-  addEvent: (event: string, data: any) => void;
+  addEvent: (event: string, data?: any) => void;
   getAndClearEvents: () => BatchUnit[];
 }
 

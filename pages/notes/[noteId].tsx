@@ -2,7 +2,6 @@ import { NextPageWithLayout } from "../_app";
 import { GetServerSidePropsContext } from "next";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import { validateUUID } from "@/lib/utils";
 import { Box, Container } from "@mui/material";
 import NoteTitle from "@/features/notes/components/NoteTitle";
 import { getNotiLayout } from "@/features/current-vault/components/layout/NoteLayout";
@@ -17,6 +16,7 @@ import { useSocketStore } from "@/features/socket/socketStore";
 import { CURRENT_NOTE_SOCKET_EVENTS } from "@/features/notes/notesEvents";
 import NoteContent from "@/features/note-content/components/NoteContent";
 import { useBlocks } from "@/features/note-content/hooks/useBlocks";
+import { validate as validateUUID } from "uuid";
 
 interface NotePageProps {
   noteId: string;
@@ -84,10 +84,10 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({ noteId }) => {
           overflowY: "auto",
         }}
       >
-        <Container sx={{ marginX: "auto", width: "min(65%, 1000px)" }}>
+        <Container sx={{ marginX: "auto", width: "min(66%, 1000px)" }}>
           <Box sx={{ height: "60px" }}></Box>
           <NoteTitle />
-          <Box sx={{ height: "30px" }}></Box>
+          {/* <Box sx={{ height: "30px" }}></Box> */}
           <NoteContent />
         </Container>
       </Box>

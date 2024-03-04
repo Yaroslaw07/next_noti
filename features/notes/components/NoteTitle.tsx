@@ -1,17 +1,13 @@
-import { Skeleton, debounce } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { useCurrentNote } from "../hooks/useCurrentNote";
-import { ChangeEvent, useCallback, useEffect, useRef } from "react";
-import { useSocketStore } from "@/features/socket/socketStore";
+import { ChangeEvent, useEffect } from "react";
 import { useFocusedBlockStore } from "../stores/focusedBlockStore";
 import TextArea from "@/components/ui/TextArea";
-import { useBlocks } from "@/features/note-content/hooks/useBlocks";
 
 const NoteTitle = () => {
-  const { currentNoteTitle, setCurrentNoteTitle } = useCurrentNote();
-  const {} = useBlocks();
+  const { currentNoteTitle, setCurrentNoteTitle, addBlockAfterTitle } =
+    useCurrentNote();
   const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
-
-  const currentTitle = useRef<string | null>(null);
 
   useEffect(() => {
     const titleInput = document.getElementById("note-title-input");
@@ -27,7 +23,7 @@ const NoteTitle = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
-      //createBlock(0);
+      addBlockAfterTitle();
       e.preventDefault();
     }
   };
@@ -38,7 +34,7 @@ const NoteTitle = () => {
     <TextArea
       id="note-title-input"
       placeholder="Undefined"
-      style={{ fontSize: "32px", fontWeight: "500", height: "70px" }}
+      style={{ fontSize: "32px", fontWeight: "500" }}
       value={currentNoteTitle || ""}
       spellCheck={false}
       onChange={handleChange}
