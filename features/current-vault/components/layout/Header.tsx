@@ -32,7 +32,7 @@ export const getToolbarSx = (theme: Theme) => {
 
 export const getHeaderIconSx = (theme: Theme) => {
   return {
-    fontSize: "30px",
+    fontSize: "34px",
     marginTop: "-8px",
     borderRadius: "8px",
     color: theme.palette.primary.light,

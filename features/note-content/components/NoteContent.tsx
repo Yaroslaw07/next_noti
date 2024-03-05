@@ -2,17 +2,13 @@ import { FC } from "react";
 import TextBlock from "./block-type/TextBlock";
 import { useBlocks } from "../hooks/useBlocks";
 import { Stack } from "@mui/material";
+import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 
 const NoteContent: FC = () => {
-  // const getNextBlockIdHandler = (order: number) => {
-  //   return getNextBlockId(order, blocks);
-  // };
-
-  // const getPrevBlockIdHandler = (order: number) => {
-  //   return getPrevBlockId(order, blocks);
-  // };
-
+  const { currentNoteId } = useCurrentNote();
   const { blocks } = useBlocks();
+
+  if (!currentNoteId) return null;
 
   return (
     <Stack direction={"column"} gap={"8px"}>

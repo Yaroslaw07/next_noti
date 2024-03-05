@@ -1,42 +1,54 @@
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
+import { current } from "@reduxjs/toolkit";
 import { useTheme } from "next-themes";
-import { CSSProperties, FC, useEffect, useRef } from "react";
+import {
+  CSSProperties,
+  ForwardRefRenderFunction,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 
 interface TextAreaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   value: string;
   isFocused: boolean;
-  style: CSSProperties | undefined;
+  style?: CSSProperties;
+  minHeightPx?: number;
 }
 
-const MIN_TEXTAREA_HEIGHT = 30;
-
-const TextArea: FC<TextAreaProps> = ({ value, isFocused, style, ...props }) => {
+const TextArea: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = (
+  { value, isFocused, style, minHeightPx: minHeight = 20, ...props },
+  ref
+) => {
   const { resolvedTheme } = useTheme();
   const theme = getCurrentTheme(resolvedTheme);
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const innerRef = useRef<HTMLTextAreaElement>(null);
+
+  useImperativeHandle(ref, () => innerRef.current!);
 
   useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "inherit";
+    if (innerRef.current) {
+      innerRef.current.style.height = "inherit";
 
-      textareaRef.current.style.height = `${Math.max(
-        textareaRef.current.scrollHeight,
-        MIN_TEXTAREA_HEIGHT
+      innerRef.current.style.height = `${Math.max(
+        innerRef.current.scrollHeight,
+        minHeight
       )}px`;
     }
   }, [value]);
 
   useEffect(() => {
-    if (isFocused && textareaRef.current) {
-      textareaRef.current.focus();
+    if (isFocused && innerRef.current) {
+      innerRef.current.focus();
     }
   }, [isFocused]);
 
   return (
     <textarea
-      ref={textareaRef}
+      ref={innerRef}
       value={value}
       autoComplete={"off"}
       {...props}
@@ -50,11 +62,12 @@ const TextArea: FC<TextAreaProps> = ({ value, isFocused, style, ...props }) => {
         color: theme.palette.text.primary,
         overflow: "hidden",
         boxSizing: "border-box",
-        minHeight: MIN_TEXTAREA_HEIGHT,
+        minHeight: minHeight,
+        lineHeight: "1.5",
         ...style,
       }}
     />
   );
 };
 
-export default TextArea;
+export default forwardRef(TextArea);

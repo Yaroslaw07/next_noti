@@ -1,17 +1,33 @@
 import { useBlocksStore } from "../store/blocksStore";
 import { shallow } from "zustand/shallow";
 
+const movableBlockTypes = ["text", "header1", "header2"];
+
 export const useBlocks = () => {
-  const { blocks, setBlocks } = useBlocksStore((state) => state, shallow);
+  const { blocks, setBlocks, getBlockByOrder } = useBlocksStore(
+    (state) => state,
+    shallow
+  );
 
   const getNextBlockId = (order: number) => {
-    const block = blocks.find((block) => block.order === order + 1);
-    return block ? block.id : null;
+    for (let i = order + 1; i <= blocks.length; i++) {
+      const block = getBlockByOrder(i);
+      console.log(i, "block", block);
+      if (movableBlockTypes.includes(block!.type)) {
+        return block;
+      }
+    }
+    return null;
   };
 
   const getPrevBlockId = (order: number) => {
-    const block = blocks.find((block) => block.order === order - 1);
-    return block ? block.id : null;
+    for (let i = order - 1; i >= 0; i--) {
+      const block = getBlockByOrder(i);
+      if (movableBlockTypes.includes(block!.type)) {
+        return block;
+      }
+    }
+    return null;
   };
 
   return {

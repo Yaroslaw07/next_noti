@@ -3,24 +3,34 @@ import { createWithEqualityFn } from "zustand/traditional";
 
 interface BatchStore {
   events: BatchUnit[];
-  anyChanges: boolean;
+  anyEvents: boolean;
+
   addEvent: (event: string, data?: any) => void;
   getAndClearEvents: () => BatchUnit[];
+
+  anyChanges: boolean;
+  setAnyChanges: (anyChanges: boolean) => void;
 }
 
 export const useBatchStore = createWithEqualityFn<BatchStore>((set, get) => ({
   events: [],
-  anyChanges: false,
+  anyEvents: false,
+
   addEvent: (event, data) => {
     const timeStamp = Date.now();
     set((state) => ({
       events: [...state.events, { event, data, timeStamp }],
-      anyChanges: true,
+      anyEvents: true,
     }));
   },
   getAndClearEvents: () => {
     const events = get().events;
-    set(() => ({ events: [], anyChanges: false }));
+    set(() => ({ events: [], anyEvents: false }));
     return events;
+  },
+
+  anyChanges: false,
+  setAnyChanges: (anyChanges) => {
+    set(() => ({ anyChanges }));
   },
 }));
