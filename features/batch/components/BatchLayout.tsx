@@ -24,8 +24,6 @@ const BatchLayout: FC<BatchLayoutProps> = ({ noteId, children }) => {
 
       const timeStamp = Date.now();
 
-      console.log(batchUpdates, timeStamp);
-
       socket.emit(CURRENT_NOTE_SOCKET_EVENTS.TO_BATCH_UPDATE_NOTE, {
         batchUpdates,
         timeStamp,

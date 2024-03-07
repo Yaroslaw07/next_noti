@@ -10,10 +10,9 @@ export const useBlocks = () => {
   );
 
   const getNextBlockId = (order: number) => {
-    for (let i = order + 1; i <= blocks.length; i++) {
+    for (let i = order + 1; i < blocks.length; i++) {
       const block = getBlockByOrder(i);
-      console.log(i, "block", block);
-      if (movableBlockTypes.includes(block!.type)) {
+      if (block && movableBlockTypes.includes(block.type)) {
         return block;
       }
     }
@@ -23,7 +22,7 @@ export const useBlocks = () => {
   const getPrevBlockId = (order: number) => {
     for (let i = order - 1; i >= 0; i--) {
       const block = getBlockByOrder(i);
-      if (movableBlockTypes.includes(block!.type)) {
+      if (block && movableBlockTypes.includes(block!.type)) {
         return block;
       }
     }

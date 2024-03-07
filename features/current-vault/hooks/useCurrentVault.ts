@@ -38,7 +38,13 @@ export const useCurrentVault = () => {
   };
 
   const updateVaultHandler = async (vault: Vault) => {
-    vaultService.updateVault(vault);
+    const response = await vaultService.updateVault(vault);
+
+    if (response.ok) {
+      setCurrentVault(response.data as Vault);
+    }
+
+    return response;
   };
 
   const deleteVaultHandler = async () => {

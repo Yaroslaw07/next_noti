@@ -8,16 +8,16 @@ import { useNotesInfo } from "@/features/note-infos/hooks/useNotesInfo";
 const NewNoteModule: FC = () => {
   const router = useRouter();
 
-  const { addNote } = useNotesInfo();
+  const { addNewNote } = useNotesInfo();
   const { openToast } = useToast();
 
   const handleClick = async () => {
-    const { ok, data, message } = await addNote();
+    const response = await addNewNote();
 
-    if (!ok) {
-      openToast(message, "error");
+    if (response.ok) {
+      router.push(`/notes/${response.data.id}`);
     } else {
-      router.push(`/notes/${data.id}`);
+      openToast("Failed to create a new note", "error");
     }
   };
 

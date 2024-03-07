@@ -3,7 +3,6 @@ import NotesItem from "./NotesItem";
 import { Icons } from "@/components/Icons";
 import { FC, useEffect, useState } from "react";
 import SidebarModule from "../../current-vault/components/layout/sidebar/base/SidebarModule";
-import { NoteInfo } from "../types/noteInfoTypes";
 import { useRouter } from "next/router";
 import useCurrentNote from "@/features/notes/stores/currentNoteStore";
 import { NOTE_INFOS_EVENTS } from "../notesInfoEvents";
@@ -11,49 +10,63 @@ import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault"
 import { useNotesInfo } from "../hooks/useNotesInfo";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { MouseEvent } from "react";
-import { update } from "lodash";
 
 const NotesList: FC = () => {
   const router = useRouter();
 
   const { currentVault } = useCurrentVault();
-  const { getNotes } = useNotesInfo();
+  const { loadNotes, notes, setNotes } = useNotesInfo();
+  const { currentNoteId, currentNotePinned } = useCurrentNote();
 
   const { socket } = useSocketStore();
-  const { currentNoteId, currentNoteTitle } = useCurrentNote();
 
-  const [notes, setNotes] = useState<NoteInfo[]>([]);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
     if (currentVault === null) return;
 
     const fetchData = async () => {
-      const response = await getNotes();
-      setNotes(response.data);
+      await loadNotes();
     };
 
     fetchData();
   }, [currentVault]);
 
   useEffect(() => {
+    if (currentNoteId === null || currentNotePinned === null) {
+      return;
+    }
+
+    const updatedNotes =
+      notes?.map((note) =>
+        note.id === currentNoteId
+          ? { ...note, pinned: currentNotePinned }
+          : note
+      ) || [];
+
+    setNotes(updatedNotes);
+  }, [currentNoteId, currentNotePinned]);
+
+  useEffect(() => {
     if (socket === null) {
       return;
     }
 
-    socket.on(NOTE_INFOS_EVENTS.NOTE_CREATED, (createdNote) => {
-      setNotes((prev) => [...prev, createdNote]);
-    });
+    // socket.on(NOTE_INFOS_EVENTS.NOTE_CREATED, ({ createdNote }) => {
+    //   setNotes([...(notes || []), createdNote]);
+    // });
 
-    socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, ({ updatedNote }) => {
-      setNotes((prev) =>
-        prev.map((note) => (note.id === updatedNote.id ? updatedNote : note))
-      );
-    });
+    // socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, ({ updatedNote }) => {
+    //   setNotes(
+    //     (notes || []).map((note) =>
+    //       note.id === updatedNote.id ? updatedNote : note
+    //     )
+    //   );
+    // });
 
-    socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, (deletedNote) => {
-      setNotes((prev) => prev.filter((note) => note.id !== deletedNote.id));
-    });
+    // socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, ({ deletedNoteId }) => {
+    //   setNotes([...(notes || [])].filter((note) => note.id !== deletedNoteId));
+    // });
 
     return () => {
       socket.off(NOTE_INFOS_EVENTS.NOTE_CREATED);
@@ -125,7 +138,7 @@ const NotesList: FC = () => {
           }}
         >
           {notes
-            .filter((note) => note.pinned)
+            .filter((note) => note.isPinned)
             .sort((a, b) =>
               order === "asc"
                 ? a.createdAt < b.createdAt
@@ -136,19 +149,10 @@ const NotesList: FC = () => {
                 : -1
             )
             .map((currNote) => (
-              <NotesItem
-                key={currNote.id}
-                note={currNote}
-                active={currNote.id === currentNoteId}
-                title={
-                  currNote.id === currentNoteId
-                    ? currentNoteTitle || ""
-                    : undefined
-                }
-              />
+              <NotesItem key={currNote.id} note={currNote} />
             ))}
           {notes
-            .filter((note) => !note.pinned)
+            .filter((note) => !note.isPinned)
             .sort((a, b) =>
               order === "asc"
                 ? a.createdAt < b.createdAt
@@ -159,16 +163,7 @@ const NotesList: FC = () => {
                 : -1
             )
             .map((currNote) => (
-              <NotesItem
-                key={currNote.id}
-                note={currNote}
-                active={currNote.id === currentNoteId}
-                title={
-                  currNote.id === currentNoteId
-                    ? currentNoteTitle || ""
-                    : undefined
-                }
-              />
+              <NotesItem key={currNote.id} note={currNote} />
             ))}
         </Stack>
       )}

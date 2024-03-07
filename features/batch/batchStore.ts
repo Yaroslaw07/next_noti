@@ -23,6 +23,7 @@ export const useBatchStore = createWithEqualityFn<BatchStore>((set, get) => ({
       anyEvents: true,
     }));
   },
+
   getAndClearEvents: () => {
     const events = get().events;
     set(() => ({ events: [], anyEvents: false }));

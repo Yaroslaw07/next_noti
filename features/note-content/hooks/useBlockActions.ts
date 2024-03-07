@@ -34,6 +34,8 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
 
     addEvent(BATCH_EVENTS.NOTE_BLOCK_CREATED_BATCH, newBlock);
     addBlock(newBlock);
+
+    return newBlock;
   };
 
   const currentProps = useRef<any>({});

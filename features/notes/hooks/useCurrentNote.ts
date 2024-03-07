@@ -6,6 +6,8 @@ import { BATCH_EVENTS } from "@/features/batch/batchEvents";
 import { useBlocksStore } from "@/features/note-content/store/blocksStore";
 import { v4 as uuidv4 } from "uuid";
 import { useFocusedBlockStore } from "../stores/focusedBlockStore";
+import { useNoteInfosStore } from "@/features/note-infos/store/noteInfosStore";
+import { update } from "lodash";
 
 export const useCurrentNote = () => {
   const {
@@ -17,8 +19,11 @@ export const useCurrentNote = () => {
     setCurrentNotePinned,
   } = useCurrentNoteStore((state) => state, shallow);
 
-  const { addBlock } = useBlocksStore((state) => state, shallow);
   const { addEvent } = useBatchStore((state) => state, shallow);
+
+  const { updateNote } = useNoteInfosStore();
+
+  const { addBlock } = useBlocksStore((state) => state, shallow);
   const { setFocusedBlockId } = useFocusedBlockStore();
 
   const titleToSave = useRef<string | null>(null);
@@ -45,6 +50,7 @@ export const useCurrentNote = () => {
         addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
           title: titleToSave.current,
         });
+        updateNote({ id: currentNoteId!, title: titleToSave.current! });
         timeoutIdRef.current = null;
       }, 1000);
     }
@@ -56,7 +62,6 @@ export const useCurrentNote = () => {
     }
 
     setCurrentNotePinned(isPinned);
-    console.log("pinned: " + isPinned);
     addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
       isPinned,
     });
@@ -65,7 +70,7 @@ export const useCurrentNote = () => {
   const clearCurrentNoteHandler = () => {
     setCurrentNoteId(null);
     setCurrentNoteTitle(null);
-    setCurrentNotePinned(null);
+    setCurrentNotePinned(false);
   };
 
   const addBlockAfterTitle = (props?: any) => {

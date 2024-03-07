@@ -4,6 +4,7 @@ import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore"
 import { ContentBlock } from "../../types/blockTypes";
 import { useBlocksActions } from "../../hooks/useBlockActions";
 import { useBlocks } from "../../hooks/useBlocks";
+import next from "next";
 
 interface TextBlocksProps {
   block: ContentBlock;
@@ -28,14 +29,13 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
   }, [props]);
 
   const handleEnter = () => {
-    addBlock();
-    console.log(getNextBlockId(order)?.id);
-    setFocusedBlockId(getNextBlockId(order)?.id || null);
+    const newBlock = addBlock();
+    setFocusedBlockId(newBlock.id);
   };
 
   const handleBackspace = () => {
     deleteBlock();
-    setFocusedBlockId(getPrevBlockId(order)?.id || null);
+    setFocusedBlockId(getPrevBlockId(order)?.id || "title");
   };
 
   const handleOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -60,7 +60,7 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
     }
 
     if (isArrowUpPressed && textAreaRef.current?.selectionStart === 0) {
-      setFocusedBlockId(getPrevBlockId(order)?.id || null);
+      setFocusedBlockId(getPrevBlockId(order)?.id || "title");
     }
 
     if (
@@ -78,7 +78,7 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
     <TextArea
       ref={textAreaRef}
       value={text}
-      onClick={() => {
+      onFocus={() => {
         setFocusedBlockId(id);
       }}
       onKeyDown={(e) => handleKeyDown(e)}

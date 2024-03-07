@@ -77,20 +77,17 @@ const NoteLayout: FC<NoteLayoutProps> = ({ children }) => {
   }
 
   return (
-    <>
-      <Backdrop open={currentVault === null} />
-      <Grid container wrap="nowrap" style={{ height: "100vh", width: "100vw" }}>
-        <Grid item>
-          <Sidebar />
-        </Grid>
-        <Grid xs item>
-          <Stack spacing={0} sx={{ height: "100%", width: "100%" }}>
-            <Header />
-            {children}
-          </Stack>
-        </Grid>
+    <Grid container wrap="nowrap" style={{ height: "100vh", width: "100vw" }}>
+      <Grid item>
+        <Sidebar />
       </Grid>
-    </>
+      <Grid xs item>
+        <Stack spacing={0} sx={{ height: "100%", width: "100%" }}>
+          <Header />
+          {children}
+        </Stack>
+      </Grid>
+    </Grid>
   );
 };
 

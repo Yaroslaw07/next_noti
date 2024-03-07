@@ -23,7 +23,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!response.ok) {
     const errorMessage = await response.json();
-    console.log(response);
     res.status(response.status).json(errorMessage);
     return;
   }

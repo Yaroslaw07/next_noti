@@ -71,7 +71,7 @@ export const Icons = {
   ListOfNotes: ListOutlinedIcon,
   newNote: NoteAddOutlinedIcon,
 
-  ToPin: StyledIcon(PushPinOutlinedIcon, 0.2),
+  ToPin: StyledIcon(PushPinOutlinedIcon, 0),
   Pinned: StyledIcon(PushPinIcon, 0.4),
 
   // options

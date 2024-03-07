@@ -2,7 +2,7 @@ export type NoteInfo = {
   id: string;
   title: string;
 
-  pinned: boolean;
+  isPinned: boolean;
 
   createdAt: Date;
   updatedAt: Date;

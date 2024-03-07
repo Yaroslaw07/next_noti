@@ -1,66 +1,40 @@
 import { Icons } from "@/components/Icons";
-import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import SidebarModule from "../../current-vault/components/layout/sidebar/base/SidebarModule";
 import { NoteInfo } from "../types/noteInfoTypes";
 import { useRouter } from "next/router";
-import { useToast } from "@/lib/hooks/useToast";
-import { useNotesInfo } from "../hooks/useNotesInfo";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
+import NotesItemMenu from "./NotesItemMenu";
 
 interface NotesItemProps {
   note: NoteInfo;
-  active: boolean;
-  title?: string;
 }
 
-const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
-  const { openToast } = useToast();
-
+const NotesItem: FC<NotesItemProps> = ({ note }) => {
   const router = useRouter();
-  const { removeNote, updateNotePin } = useNotesInfo();
-  const { currentNotePinned, setCurrentNotePinned } = useCurrentNote();
+  const { currentNoteTitle, currentNoteId } = useCurrentNote();
+  const active = currentNoteId === note.id;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOptionsClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
     event.stopPropagation();
   };
 
-  const handleClose = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOptionsClose = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     setIsHovered(false);
     setAnchorEl(null);
   };
 
-  const handleDelete = async () => {
-    const response = await removeNote(note.id);
-
-    if (response.ok === false) {
-      openToast(response.message, "error");
-    } else if (active) {
-      router.replace("/notes");
-    }
-  };
-
-  const handlePin = async (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>
-  ) => {
-    event.stopPropagation();
-
-    if (active)
-      setCurrentNotePinned(
-        event.currentTarget.textContent === "Pin" ? true : false
-      );
-  };
-
   const currentTitle: string = active
-    ? !title || title === ""
+    ? !currentNoteTitle || currentNoteTitle === ""
       ? "Undefined"
-      : title.trim()
+      : currentNoteTitle.trim()
     : note.title.trim();
 
   return (
@@ -93,10 +67,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
 
             gap: "8px",
             alignItems: "center",
-            width:
-              isHovered || note.pinned || (active && currentNotePinned)
-                ? "calc(100% - 40px)"
-                : "100%",
+            width: isHovered || note.isPinned ? "calc(100% - 40px)" : "100%",
           }}
         >
           <Icons.Note sx={{ color: "text.secondary" }} />
@@ -112,7 +83,7 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
           </Typography>
         </Box>
 
-        {(note.pinned || currentNotePinned || isHovered) && (
+        {(note.isPinned || isHovered) && (
           <IconButton
             sx={{
               display: "block",
@@ -124,9 +95,9 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
             }}
             disableFocusRipple
             disableRipple
-            onClick={handleClick}
+            onClick={handleOptionsClick}
           >
-            {note.pinned || (active && currentNotePinned && !isHovered) ? (
+            {note.isPinned && !isHovered ? (
               <Icons.Pinned
                 sx={{
                   color: "text.secondary",
@@ -147,37 +118,12 @@ const NotesItem: FC<NotesItemProps> = ({ note, active, title }) => {
             )}
           </IconButton>
         )}
-        <Menu
-          open={open}
+        <NotesItemMenu
+          isOpen={open}
           anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          sx={{
-            marginLeft: "10px",
-            "& .MuiMenu-paper": {
-              backgroundColor: "additional.main",
-            },
-          }}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-            disablePadding: true,
-          }}
-        >
-          <MenuItem sx={{ display: "flex", gap: "4px" }} onClick={handlePin}>
-            {!note.pinned ? <Icons.Pinned /> : <Icons.ToPin />}
-            <Typography>{note.pinned ? "Unpin" : "Pin"}</Typography>
-          </MenuItem>
-          <MenuItem
-            sx={{ display: "flex", gap: "4px" }}
-            onClick={() => handleDelete()}
-          >
-            {<Icons.Delete />}
-            <Typography>{"Delete"}</Typography>
-          </MenuItem>
-        </Menu>
+          handleClose={handleOptionsClose}
+          note={note}
+        />
       </SidebarModule>
     </>
   );

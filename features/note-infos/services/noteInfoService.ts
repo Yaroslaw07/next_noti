@@ -19,6 +19,18 @@ export const notesInfoService = {
     );
   },
 
+  updateNotePin: async (
+    vaultId: string,
+    noteId: string,
+    isPinned: boolean
+  ): Promise<ServiceOperationResult> => {
+    return serviceApiCall(
+      () => api.put(`/notes/${noteId}`, { isPinned }, getVaultHeader(vaultId)),
+      "Note pinned successfully",
+      "Error pinning note"
+    );
+  },
+
   removeNote: async (
     vaultId: string,
     noteId: string
@@ -27,19 +39,6 @@ export const notesInfoService = {
       () => api.delete(`/notes/${noteId}`, getVaultHeader(vaultId)),
       "Note removed successfully",
       "Error removing note"
-    );
-  },
-
-  updateNotePin: async (
-    vaultId: string,
-    noteId: string,
-    pinned: boolean
-  ): Promise<ServiceOperationResult> => {
-    return serviceApiCall(
-      () =>
-        api.patch(`/notes/${noteId}/pin`, { pinned }, getVaultHeader(vaultId)),
-      "Note pin updated successfully",
-      "Error updating note pin"
     );
   },
 };
