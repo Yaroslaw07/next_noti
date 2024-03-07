@@ -65,6 +65,10 @@ export const useCurrentNote = () => {
     addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
       isPinned,
     });
+    updateNote({
+      id: currentNoteId!,
+      isPinned,
+    });
   };
 
   const clearCurrentNoteHandler = () => {
@@ -101,6 +105,7 @@ export const useCurrentNote = () => {
     currentNotePinned,
     currentNoteTitle,
 
+    setCurrentNoteId,
     setCurrentNoteTitle: setCurrentNoteTitleHandler,
     setCurrentNotePinned: setCurrentNotePinHandler,
 

@@ -3,11 +3,13 @@ import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useEffect } from "react";
 import { useFocusedBlockStore } from "../stores/focusedBlockStore";
 import TextArea from "@/components/ui/TextArea";
+import { useBlocks } from "@/features/note-content/hooks/useBlocks";
 
 const NoteTitle = () => {
   const { currentNoteTitle, setCurrentNoteTitle, addBlockAfterTitle } =
     useCurrentNote();
   const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
+  const { getNextBlockId } = useBlocks();
 
   useEffect(() => {
     const titleInput = document.getElementById("note-title-input");
@@ -24,6 +26,14 @@ const NoteTitle = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       addBlockAfterTitle();
+      e.preventDefault();
+    }
+
+    if (e.key === "ArrowDown") {
+      const nextBlockId = getNextBlockId(-1);
+      if (nextBlockId) {
+        setFocusedBlockId(nextBlockId.id);
+      }
       e.preventDefault();
     }
   };
