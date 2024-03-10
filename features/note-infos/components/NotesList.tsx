@@ -23,7 +23,7 @@ const NotesList: FC = () => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
-    if (currentVault === null) return;
+    if (currentVault === null && notes !== null) return;
 
     const fetchData = async () => {
       await loadNotes();
