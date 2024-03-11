@@ -14,7 +14,7 @@ export const useNoteInfosStore = createWithEqualityFn<NoteInfosStore>(
     notes: null,
 
     setNotes: (notes: NoteInfo[]) => {
-      set(() => ({ notes }));
+      set(() => ({ notes: notes }));
     },
 
     addNote: (note: NoteInfo) => {

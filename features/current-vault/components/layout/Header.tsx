@@ -126,7 +126,7 @@ const Header = () => {
           <MenuItem
             sx={{
               "&:hover": {
-                backgroundColor: "inherit",
+                backgroundColor: "transparent !important",
               },
             }}
             disableRipple
@@ -136,13 +136,13 @@ const Header = () => {
               exclusive
               onChange={handleThemeChange}
             >
-              <ToggleButton value="light">
+              <ToggleButton value="light" disabled={theme === "light"}>
                 <Icons.LightTheme />
               </ToggleButton>
-              <ToggleButton value="dark">
+              <ToggleButton value="dark" disabled={theme === "dark"}>
                 <Icons.DarkTheme />
               </ToggleButton>
-              <ToggleButton value="system">
+              <ToggleButton value="system" disabled={theme === "system"}>
                 <Icons.DeviceTheme />
               </ToggleButton>
             </ToggleButtonGroup>

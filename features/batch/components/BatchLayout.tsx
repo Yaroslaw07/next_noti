@@ -7,6 +7,7 @@ import { BATCH_EVENTS } from "../batchEvents";
 import { useBlocksStore } from "@/features/note-content/store/blocksStore";
 import useCurrentNoteStore from "@/features/notes/stores/currentNoteStore";
 import { BatchUnit } from "../batchTypes";
+import { useNoteInfosStore } from "@/features/note-infos/store/noteInfosStore";
 
 interface BatchLayoutProps {
   noteId: string;
@@ -17,7 +18,8 @@ const BatchLayout: FC<BatchLayoutProps> = ({ noteId, children }) => {
   const { socket } = useSocketStore();
   const { anyEvents: anyChanges, getAndClearEvents } = useBatchStore();
   const { addBlock, deleteBlock, updateBlock } = useBlocksStore();
-  const { setCurrentNotePinned, setCurrentNoteTitle } = useCurrentNoteStore();
+  const { setCurrentNoteTitle, setCurrentNotePinned } = useCurrentNoteStore();
+  const { updateNote } = useNoteInfosStore();
 
   const unsavedChanges = useRef(false);
   const lastUpdateId = useRef("");
@@ -31,8 +33,6 @@ const BatchLayout: FC<BatchLayoutProps> = ({ noteId, children }) => {
       const batchUpdates = getAndClearEvents();
 
       const id = uuidv4();
-
-      console.log("batchUpdates", batchUpdates);
 
       socket.emit(CURRENT_NOTE_SOCKET_EVENTS.TO_BATCH_UPDATE_NOTE, {
         batchUpdates,
@@ -56,18 +56,27 @@ const BatchLayout: FC<BatchLayoutProps> = ({ noteId, children }) => {
         for (const update of batchUpdates) {
           switch (update.event) {
             case BATCH_EVENTS.NOTE_BLOCK_CREATED_BATCH:
+              console.log(update.data, "addBlock");
               addBlock(update.data);
               break;
+
             case BATCH_EVENTS.NOTE_BLOCK_UPDATED_BATCH:
               console.log(update.data.id, update.data, "updateBlock");
               updateBlock(update.data.id, update.data);
               break;
+
             case BATCH_EVENTS.NOTE_BLOCK_DELETED_BATCH:
               console.log("deleteBlock", update);
               deleteBlock(update.data.id);
               break;
+
             case BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH:
-              setCurrentNoteTitle(update.data.title);
+              const { title, isPinned } = update.data;
+              title && setCurrentNoteTitle(title);
+              if (isPinned !== undefined) {
+                updateNote({ id: noteId, isPinned });
+                setCurrentNotePinned(isPinned);
+              }
               break;
           }
         }

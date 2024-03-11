@@ -22,6 +22,10 @@ export const useBlocksStore = createWithEqualityFn<blocksStore>()(
 
     addBlock: (block: ContentBlock) => {
       set((state) => {
+        if (state.blocks.some((b) => b.id === block.id)) {
+          return state;
+        }
+
         const order = block.order;
 
         const newBlocks = state.blocks.map((block) => {

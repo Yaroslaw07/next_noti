@@ -15,9 +15,9 @@ const NotesList: FC = () => {
   const router = useRouter();
 
   const { currentVault } = useCurrentVault();
+
   const { loadNotes, notes, setNotes } = useNotesInfo();
   const { currentNoteId, currentNotePinned } = useCurrentNote();
-
   const { socket } = useSocketStore();
 
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -36,6 +36,8 @@ const NotesList: FC = () => {
     if (currentNoteId === null || currentNotePinned === null) {
       return;
     }
+
+    console.log(notes);
 
     const updatedNotes =
       notes?.map((note) =>
@@ -56,24 +58,33 @@ const NotesList: FC = () => {
     //   setNotes([...(notes || []), createdNote]);
     // });
 
-    // socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, ({ updatedNote }) => {
-    //   setNotes(
-    //     (notes || []).map((note) =>
-    //       note.id === updatedNote.id ? updatedNote : note
-    //     )
-    //   );
-    // });
+    socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, ({ updatedNote }) => {
+      if (updatedNote.id === currentNoteId) {
+        return;
+      }
 
-    // socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, ({ deletedNoteId }) => {
-    //   setNotes([...(notes || [])].filter((note) => note.id !== deletedNoteId));
-    // });
+      setNotes(
+        (notes || []).map((note) =>
+          note.id === updatedNote.id ? updatedNote : note
+        )
+      );
+    });
+
+    socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, ({ deletedNoteId }) => {
+      console.log(notes, "notes");
+      setNotes(notes?.filter((note) => note.id !== deletedNoteId) || []);
+
+      if (deletedNoteId === currentNoteId) {
+        router.push("/notes");
+      }
+    });
 
     return () => {
       socket.off(NOTE_INFOS_EVENTS.NOTE_CREATED);
       socket.off(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED);
       socket.off(NOTE_INFOS_EVENTS.NOTE_DELETED);
     };
-  }, [socket]);
+  }, [socket, notes]);
 
   const toggleOrder = (event: MouseEvent<any>) => {
     event.stopPropagation();
