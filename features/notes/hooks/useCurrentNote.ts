@@ -5,9 +5,9 @@ import { useRef } from "react";
 import { BATCH_EVENTS } from "@/features/batch/batchEvents";
 import { useBlocksStore } from "@/features/note-content/store/blocksStore";
 import { v4 as uuidv4 } from "uuid";
-import { useFocusedBlockStore } from "../stores/focusedBlockStore";
+import { useFocusedStore } from "../stores/currentFocusStore";
 import { useNoteInfosStore } from "@/features/note-infos/store/noteInfosStore";
-import { update } from "lodash";
+import { useTrackingChangesStore } from "../stores/trackingChangesStore";
 
 export const useCurrentNote = () => {
   const {
@@ -20,11 +20,11 @@ export const useCurrentNote = () => {
   } = useCurrentNoteStore((state) => state, shallow);
 
   const { addEvent } = useBatchStore((state) => state, shallow);
-
   const { updateNote } = useNoteInfosStore();
-
   const { addBlock } = useBlocksStore((state) => state, shallow);
-  const { setFocusedBlockId } = useFocusedBlockStore();
+
+  const { setFocusedBlockId } = useFocusedStore();
+  const { addChangedBlockId, removeChangedBlockId } = useTrackingChangesStore();
 
   const titleToSave = useRef<string | null>(null);
 
@@ -46,11 +46,14 @@ export const useCurrentNote = () => {
     title !== "" && (titleToSave.current = title);
 
     if (timeoutIdRef.current === null) {
+      addChangedBlockId("title");
+
       timeoutIdRef.current = setTimeout(() => {
         addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
           title: titleToSave.current,
         });
         updateNote({ id: currentNoteId!, title: titleToSave.current! });
+        removeChangedBlockId("title");
         timeoutIdRef.current = null;
       }, 1000);
     }

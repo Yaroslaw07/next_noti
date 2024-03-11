@@ -2,16 +2,16 @@ import { NextPageWithLayout } from "../_app";
 import { GetServerSidePropsContext } from "next";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import { getNotiLayout } from "@/features/current-vault/components/layout/NoteLayout";
+import { getCurrentVaultLayout } from "@/features/current-vault/components/layout/CurrentVaultLayout";
 import { useEffect } from "react";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import { useNotes } from "@/features/notes/hooks/useNotes";
 import { useToast } from "@/lib/hooks/useToast";
 import { useRouter } from "next/router";
-import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 import { useBlocks } from "@/features/note-content/hooks/useBlocks";
 import { validate as validateUUID } from "uuid";
 import Note from "@/features/notes/components/Note";
+import { useFocusedStore } from "@/features/notes/stores/currentFocusStore";
 
 interface NotePageProps {
   noteId: string;
@@ -19,7 +19,7 @@ interface NotePageProps {
 
 const NotePage: NextPageWithLayout<NotePageProps> = ({ noteId }) => {
   const { setCurrentNote, clearCurrentNote } = useCurrentNote();
-  const { setFocusedBlockId } = useFocusedBlockStore();
+  const { setFocusedBlockId } = useFocusedStore();
 
   const { getNoteById, joinNoteRoom, leaveNoteRoom } = useNotes();
   const { setBlocks } = useBlocks();
@@ -60,7 +60,7 @@ const NotePage: NextPageWithLayout<NotePageProps> = ({ noteId }) => {
   );
 };
 
-NotePage.getLayout = getNotiLayout;
+NotePage.getLayout = getCurrentVaultLayout;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const cookies = parseCookies(context);

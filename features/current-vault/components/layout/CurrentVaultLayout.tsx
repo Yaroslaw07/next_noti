@@ -10,19 +10,31 @@ import { SocketLayout } from "@/features/socket/SocketLayout";
 import Header from "./Header";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import { useNotes } from "@/features/notes/hooks/useNotes";
+import { useBatchStore } from "@/features/batch/batchStore";
+import { useTrackingChangesStore } from "@/features/notes/stores/trackingChangesStore";
 
-interface NoteLayoutProps {
+interface CurrentVaultLayoutProps {
   children: React.ReactNode;
 }
 
-const NoteLayout: FC<NoteLayoutProps> = ({ children }) => {
+const CurrentVaultLayout: FC<CurrentVaultLayoutProps> = ({ children }) => {
   const router = useRouter();
 
-  const { currentVault, selectVault, leaveVault } = useCurrentVault();
   const { socket } = useSocketStore();
+  const { anyChanges } = useBatchStore();
+  const { isEmpty } = useTrackingChangesStore();
 
-  const { currentNoteId } = useCurrentNote();
-  const { joinNoteRoom, leaveNoteRoom } = useNotes();
+  const { currentVault, selectVault, leaveVault } = useCurrentVault();
+
+  const emptyTrackingChanges = isEmpty();
+
+  useEffect(() => {
+    if (anyChanges || !emptyTrackingChanges) {
+      window.onbeforeunload = () => true;
+    } else {
+      window.onbeforeunload = null;
+    }
+  }, [anyChanges, emptyTrackingChanges]);
 
   useEffect(() => {
     if (!currentVault) {
@@ -60,18 +72,6 @@ const NoteLayout: FC<NoteLayoutProps> = ({ children }) => {
     };
   }, [currentVault]);
 
-  useEffect(() => {
-    if (currentVault !== null && currentNoteId !== null && socket !== null) {
-      joinNoteRoom(currentNoteId);
-    }
-
-    return () => {
-      if (socket !== null && currentNoteId !== null) {
-        leaveNoteRoom(currentNoteId);
-      }
-    };
-  }, [currentNoteId, socket]);
-
   if (currentVault === null || socket === null) {
     return <Backdrop open={true} />;
   }
@@ -91,14 +91,14 @@ const NoteLayout: FC<NoteLayoutProps> = ({ children }) => {
   );
 };
 
-const getNotiLayout = (
+const getCurrentVaultLayout = (
   page: ReactElement<any, string | JSXElementConstructor<any>>
 ) => {
   return (
     <SocketLayout>
-      <NoteLayout>{page}</NoteLayout>
+      <CurrentVaultLayout>{page}</CurrentVaultLayout>
     </SocketLayout>
   );
 };
 
-export { NoteLayout as NotiLayout, getNotiLayout };
+export { CurrentVaultLayout as NotiLayout, getCurrentVaultLayout };

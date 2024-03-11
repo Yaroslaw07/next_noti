@@ -1,14 +1,14 @@
 import { Skeleton } from "@mui/material";
 import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useEffect } from "react";
-import { useFocusedBlockStore } from "../stores/focusedBlockStore";
+import { useFocusedStore } from "../stores/currentFocusStore";
 import TextArea from "@/components/ui/TextArea";
 import { useBlocks } from "@/features/note-content/hooks/useBlocks";
 
 const NoteTitle = () => {
   const { currentNoteTitle, setCurrentNoteTitle, addBlockAfterTitle } =
     useCurrentNote();
-  const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
+  const { focusedBlockId, setFocusedBlockId } = useFocusedStore();
   const { getNextBlockId } = useBlocks();
 
   useEffect(() => {

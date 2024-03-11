@@ -5,7 +5,7 @@ interface FocusStore {
   setFocusedBlockId: (blockId: string | null) => void;
 }
 
-export const useFocusedBlockStore = createWithEqualityFn<FocusStore>((set) => ({
+export const useFocusedStore = createWithEqualityFn<FocusStore>((set) => ({
   focusedBlockId: null,
 
   setFocusedBlockId: (blockId: string | null) => {

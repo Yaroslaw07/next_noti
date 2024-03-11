@@ -1,17 +1,16 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import TextArea from "../../../../components/ui/TextArea";
-import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
+import { useFocusedStore } from "@/features/notes/stores/currentFocusStore";
 import { ContentBlock } from "../../types/blockTypes";
 import { useBlocksActions } from "../../hooks/useBlockActions";
 import { useBlocks } from "../../hooks/useBlocks";
-import next from "next";
 
 interface TextBlocksProps {
   block: ContentBlock;
 }
 
 const TextBlock: FC<TextBlocksProps> = ({ block }) => {
-  const { focusedBlockId, setFocusedBlockId } = useFocusedBlockStore();
+  const { focusedBlockId, setFocusedBlockId } = useFocusedStore();
   const { addBlock, updateBlock, deleteBlock } = useBlocksActions({
     id: block.id,
     order: block.order,

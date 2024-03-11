@@ -4,8 +4,8 @@ import { ContentBlock } from "../types/blockTypes";
 import { useBatchStore } from "@/features/batch/batchStore";
 import { BATCH_EVENTS } from "@/features/batch/batchEvents";
 import { v4 as uuidv4 } from "uuid";
-import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
 import { useRef } from "react";
+import { useTrackingChangesStore } from "@/features/notes/stores/trackingChangesStore";
 
 interface BlocksActionsProps {
   id: string;
@@ -17,6 +17,9 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
     (state) => state,
     shallow
   );
+
+  const { addChangedBlockId, hasChangedBlockId, removeChangedBlockId } =
+    useTrackingChangesStore((state) => state, shallow);
 
   const { addEvent } = useBatchStore((state) => state, shallow) || {};
 
@@ -45,10 +48,16 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
     currentProps.current = { ...currentProps.current, ...props } || props;
 
     if (timeoutIdRef.current === null) {
+      addChangedBlockId(id);
       timeoutIdRef.current = setTimeout(() => {
+        if (!hasChangedBlockId(id)) {
+          return;
+        }
+
         props = { ...currentProps.current };
         addEvent(BATCH_EVENTS.NOTE_BLOCK_UPDATED_BATCH + "_" + id, props);
         updateBlock(id, props);
+        removeChangedBlockId(id);
         currentProps.current = {};
         timeoutIdRef.current = null;
       }, 1000);
@@ -56,6 +65,7 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
   };
 
   const deleteBlockHandler = () => {
+    removeChangedBlockId(id);
     addEvent(BATCH_EVENTS.NOTE_BLOCK_DELETED_BATCH + "_" + id);
     deleteBlock(id);
   };
