@@ -11,9 +11,12 @@ export const notesInfoService = {
     );
   },
 
-  addNote: async (vaultId: string): Promise<ServiceOperationResult> => {
+  addNote: async (
+    vaultId: string,
+    id: string
+  ): Promise<ServiceOperationResult> => {
     return serviceApiCall(
-      () => api.post("/notes/", {}, getVaultHeader(vaultId)),
+      () => api.post("/notes/", { id }, getVaultHeader(vaultId)),
       "Note added successfully",
       "Error adding note"
     );

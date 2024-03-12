@@ -5,8 +5,7 @@ const movableBlockTypes = ["text", "header1", "header2"];
 
 export const useBlocks = () => {
   const { blocks, setBlocks, getBlockByOrder } = useBlocksStore(
-    (state) => state,
-    shallow
+    (state) => state
   );
 
   const getNextBlockId = (order: number) => {

@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useFocusedStore } from "../stores/currentFocusStore";
 import { useNoteInfosStore } from "@/features/note-infos/store/noteInfosStore";
 import { useTrackingChangesStore } from "../stores/trackingChangesStore";
+import { update } from "lodash";
 
 export const useCurrentNote = () => {
   const {
@@ -51,6 +52,7 @@ export const useCurrentNote = () => {
       timeoutIdRef.current = setTimeout(() => {
         addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
           title: titleToSave.current,
+          updatedAt: Date.now(),
         });
         updateNote({ id: currentNoteId!, title: titleToSave.current! });
         removeChangedBlockId("title");
@@ -67,6 +69,7 @@ export const useCurrentNote = () => {
     setCurrentNotePinned(isPinned);
     addEvent(BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH, {
       isPinned,
+      updatedAt: Date.now(),
     });
     updateNote({
       id: currentNoteId!,

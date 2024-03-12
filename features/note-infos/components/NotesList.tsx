@@ -10,6 +10,7 @@ import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault"
 import { useNotesInfo } from "../hooks/useNotesInfo";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { MouseEvent } from "react";
+import { useNoteInfosStore } from "../store/noteInfosStore";
 
 const NotesList: FC = () => {
   const router = useRouter();
@@ -18,6 +19,8 @@ const NotesList: FC = () => {
 
   const { loadNotes, notes, setNotes } = useNotesInfo();
   const { currentNoteId, currentNotePinned } = useCurrentNote();
+
+  const { addNote, removeNote } = useNoteInfosStore();
   const { socket } = useSocketStore();
 
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -54,9 +57,9 @@ const NotesList: FC = () => {
       return;
     }
 
-    // socket.on(NOTE_INFOS_EVENTS.NOTE_CREATED, ({ createdNote }) => {
-    //   setNotes([...(notes || []), createdNote]);
-    // });
+    socket.on(NOTE_INFOS_EVENTS.NOTE_CREATED, ({ createdNote }) => {
+      addNote(createdNote);
+    });
 
     socket.on(NOTE_INFOS_EVENTS.NOTE_INFOS_UPDATED, ({ updatedNote }) => {
       if (updatedNote.id === currentNoteId) {
@@ -71,12 +74,13 @@ const NotesList: FC = () => {
     });
 
     socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, ({ deletedNoteId }) => {
-      console.log(notes, "notes");
-      setNotes(notes?.filter((note) => note.id !== deletedNoteId) || []);
+      console.log(deletedNoteId, currentNoteId);
 
       if (deletedNoteId === currentNoteId) {
         router.push("/notes");
       }
+
+      removeNote(deletedNoteId);
     });
 
     return () => {

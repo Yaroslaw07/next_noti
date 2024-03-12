@@ -80,6 +80,9 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
       onFocus={() => {
         setFocusedBlockId(id);
       }}
+      onBlur={() => {
+        setFocusedBlockId(null);
+      }}
       onKeyDown={(e) => handleKeyDown(e)}
       onChange={handleOnChange}
       isFocused={isFocused}

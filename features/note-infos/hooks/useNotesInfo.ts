@@ -16,8 +16,8 @@ export const useNotesInfo = () => {
     }
   };
 
-  const addNoteHandler = async () => {
-    const response = await notesInfoService.addNote(currentVault!.id);
+  const addNoteHandler = async (id: string) => {
+    const response = await notesInfoService.addNote(currentVault!.id, id);
 
     if (response.ok) {
       addNote(response.data);

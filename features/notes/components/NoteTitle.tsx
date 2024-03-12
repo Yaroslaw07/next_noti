@@ -6,8 +6,12 @@ import TextArea from "@/components/ui/TextArea";
 import { useBlocks } from "@/features/note-content/hooks/useBlocks";
 
 const NoteTitle = () => {
-  const { currentNoteTitle, setCurrentNoteTitle, addBlockAfterTitle } =
-    useCurrentNote();
+  const {
+    currentNoteTitle,
+    setCurrentNoteTitle,
+    addBlockAfterTitle,
+    currentNoteId,
+  } = useCurrentNote();
   const { focusedBlockId, setFocusedBlockId } = useFocusedStore();
   const { getNextBlockId } = useBlocks();
 
@@ -38,7 +42,7 @@ const NoteTitle = () => {
     }
   };
 
-  return currentNoteTitle == null ? (
+  return currentNoteTitle == null || currentNoteId === null ? (
     <Skeleton variant="text" width={"100%"} height={"80px"} />
   ) : (
     <TextArea

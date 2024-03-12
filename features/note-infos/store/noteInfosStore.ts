@@ -18,7 +18,13 @@ export const useNoteInfosStore = createWithEqualityFn<NoteInfosStore>(
     },
 
     addNote: (note: NoteInfo) => {
-      set((state) => ({ notes: [...(state.notes || []), note] }));
+      set((state) => {
+        if (get().notes?.some((n) => n.id === note.id)) {
+          return state;
+        }
+
+        return { notes: [...(state.notes || []), note] };
+      });
     },
 
     removeNote: (id: string) => {

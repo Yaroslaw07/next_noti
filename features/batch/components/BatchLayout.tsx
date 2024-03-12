@@ -8,6 +8,7 @@ import { useBlocksStore } from "@/features/note-content/store/blocksStore";
 import useCurrentNoteStore from "@/features/notes/stores/currentNoteStore";
 import { BatchUnit } from "../batchTypes";
 import { useNoteInfosStore } from "@/features/note-infos/store/noteInfosStore";
+import { useTrackingChangesStore } from "@/features/notes/stores/trackingChangesStore";
 
 interface BatchLayoutProps {
   noteId: string;
@@ -17,6 +18,8 @@ interface BatchLayoutProps {
 const BatchLayout: FC<BatchLayoutProps> = ({ noteId, children }) => {
   const { socket } = useSocketStore();
   const { anyEvents: anyChanges, getAndClearEvents } = useBatchStore();
+  const { hasChangedBlockId } = useTrackingChangesStore();
+
   const { addBlock, deleteBlock, updateBlock } = useBlocksStore();
   const { setCurrentNoteTitle, setCurrentNotePinned } = useCurrentNoteStore();
   const { updateNote } = useNoteInfosStore();
@@ -56,23 +59,26 @@ const BatchLayout: FC<BatchLayoutProps> = ({ noteId, children }) => {
         for (const update of batchUpdates) {
           switch (update.event) {
             case BATCH_EVENTS.NOTE_BLOCK_CREATED_BATCH:
-              console.log(update.data, "addBlock");
               addBlock(update.data);
               break;
 
             case BATCH_EVENTS.NOTE_BLOCK_UPDATED_BATCH:
-              console.log(update.data.id, update.data, "updateBlock");
+              if (hasChangedBlockId(update.data.id)) {
+                return;
+              }
+
               updateBlock(update.data.id, update.data);
               break;
 
             case BATCH_EVENTS.NOTE_BLOCK_DELETED_BATCH:
-              console.log("deleteBlock", update);
               deleteBlock(update.data.id);
               break;
 
             case BATCH_EVENTS.NOTE_INFO_UPDATED_BATCH:
               const { title, isPinned } = update.data;
-              title && setCurrentNoteTitle(title);
+              title &&
+                !hasChangedBlockId("title") &&
+                setCurrentNoteTitle(title);
               if (isPinned !== undefined) {
                 updateNote({ id: noteId, isPinned });
                 setCurrentNotePinned(isPinned);

@@ -54,7 +54,7 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
           return;
         }
 
-        props = { ...currentProps.current };
+        props = { ...currentProps.current, updatedAt: Date.now() };
         addEvent(BATCH_EVENTS.NOTE_BLOCK_UPDATED_BATCH + "_" + id, props);
         updateBlock(id, props);
         removeChangedBlockId(id);
