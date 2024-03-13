@@ -1,26 +1,26 @@
 import { createWithEqualityFn } from "zustand/traditional";
-import { ContentBlock } from "../types/blockTypes";
+import { Block } from "../types/blockTypes";
 
 interface blocksStore {
-  blocks: ContentBlock[];
-  setBlocks: (blocks: ContentBlock[]) => void;
+  blocks: Block[];
+  setBlocks: (blocks: Block[]) => void;
 
-  addBlock: (block: ContentBlock) => void;
-  updateBlock: (id: string, props: Partial<ContentBlock>) => void;
+  addBlock: (block: Block) => void;
+  updateBlock: (id: string, props: Partial<Block>) => void;
   deleteBlock: (id: string) => void;
 
-  getBlockByOrder: (order: number) => ContentBlock | null;
+  getBlockByOrder: (order: number) => Block | null;
 }
 
 export const useBlocksStore = createWithEqualityFn<blocksStore>()(
   (set, get) => ({
     blocks: [],
 
-    setBlocks: (blocks: ContentBlock[]) => {
+    setBlocks: (blocks: Block[]) => {
       set({ blocks });
     },
 
-    addBlock: (block: ContentBlock) => {
+    addBlock: (block: Block) => {
       set((state) => {
         if (state.blocks.some((b) => b.id === block.id)) {
           return state;
@@ -44,7 +44,7 @@ export const useBlocksStore = createWithEqualityFn<blocksStore>()(
       });
     },
 
-    updateBlock: (id: string, props: Partial<ContentBlock>) => {
+    updateBlock: (id: string, props: Partial<Block>) => {
       set((state) => {
         const index = state.blocks.findIndex((block) => block.id === id);
 
@@ -62,14 +62,14 @@ export const useBlocksStore = createWithEqualityFn<blocksStore>()(
     deleteBlock: (id: string) => {
       set((state: any) => {
         const order = state.blocks.find(
-          (block: ContentBlock) => block.id === id
+          (block: Block) => block.id === id
         )?.order;
 
         if (order === undefined) {
           return state;
         }
 
-        state.blocks = state.blocks.map((block: ContentBlock) => {
+        state.blocks = state.blocks.map((block: Block) => {
           if (block.order > order) {
             return { ...block, order: block.order - 1 };
           } else {
@@ -78,7 +78,7 @@ export const useBlocksStore = createWithEqualityFn<blocksStore>()(
         });
 
         return {
-          blocks: state.blocks.filter((block: ContentBlock) => block.id !== id),
+          blocks: state.blocks.filter((block: Block) => block.id !== id),
         };
       });
     },

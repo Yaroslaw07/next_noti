@@ -1,8 +1,8 @@
 import BatchLayout from "@/features/batch/components/BatchLayout";
-import NoteContent from "@/features/note-content/components/NoteContent";
 import { Box, Container } from "@mui/material";
 import { FC } from "react";
 import NoteTitle from "./NoteTitle";
+import Blocks from "@/features/blocks/components/Blocks";
 
 interface NoteProps {
   noteId: string;
@@ -19,10 +19,16 @@ const Note: FC<NoteProps> = ({ noteId }) => {
           overflowY: "auto",
         }}
       >
-        <Container sx={{ marginX: "auto", width: "min(66%, 1000px)" }}>
+        <Container
+          sx={{
+            marginX: "auto",
+            width: "min(66%, 1000px)",
+            overflow: "hidden",
+          }}
+        >
           <Box sx={{ height: "60px" }}></Box>
           <NoteTitle />
-          <NoteContent />
+          <Blocks />
         </Container>
       </Box>
     </BatchLayout>

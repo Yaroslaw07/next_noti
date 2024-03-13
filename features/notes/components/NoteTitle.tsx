@@ -1,9 +1,9 @@
-import { Skeleton } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import { useCurrentNote } from "../hooks/useCurrentNote";
 import { ChangeEvent, useEffect } from "react";
 import { useFocusedStore } from "../stores/currentFocusStore";
 import TextArea from "@/components/ui/TextArea";
-import { useBlocks } from "@/features/note-content/hooks/useBlocks";
+import { useBlocks } from "@/features/blocks/hooks/useBlocks";
 
 const NoteTitle = () => {
   const {
@@ -45,19 +45,24 @@ const NoteTitle = () => {
   return currentNoteTitle == null || currentNoteId === null ? (
     <Skeleton variant="text" width={"100%"} height={"80px"} />
   ) : (
-    <TextArea
-      id="note-title-input"
-      placeholder="Undefined"
-      style={{ fontSize: "32px", fontWeight: "500" }}
-      value={currentNoteTitle || ""}
-      spellCheck={false}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      onClick={() => {
-        setFocusedBlockId("title");
-      }}
-      isFocused={focusedBlockId === "title"}
-    />
+    <Box maxHeight={"100%"}>
+      <TextArea
+        id="note-title-input"
+        placeholder="Undefined"
+        style={{
+          fontSize: "32px",
+          fontWeight: "500",
+        }}
+        value={currentNoteTitle || ""}
+        spellCheck={false}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onClick={() => {
+          setFocusedBlockId("title");
+        }}
+        isFocused={focusedBlockId === "title"}
+      />
+    </Box>
   );
 };
 

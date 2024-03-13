@@ -14,7 +14,7 @@ import {
 import { Icons } from "../../../../components/Icons";
 import { useTheme } from "next-themes";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import { useRouter } from "next/router";
 
@@ -43,7 +43,11 @@ export const getHeaderIconSx = (theme: Theme) => {
   };
 };
 
-const Header = () => {
+interface HeaderProps {
+  isVisible: boolean;
+}
+
+const Header: FC<HeaderProps> = ({ isVisible }) => {
   const {
     currentNoteId,
     currentNoteTitle,
@@ -75,8 +79,23 @@ const Header = () => {
     setTheme(value);
   };
 
+  const truncatedTitle =
+    currentNoteTitle && currentNoteTitle.length > 20
+      ? `${currentNoteTitle.substring(0, 20)}...`
+      : currentNoteTitle;
+
   return (
-    <AppBar component="nav" position="static" sx={{ height: "40px" }}>
+    <AppBar
+      component="nav"
+      position="static"
+      sx={{
+        height: "40px",
+        opacity: isVisible ? "100" : "0",
+        transition: isVisible
+          ? "opacity 0.3s ease-in-out"
+          : "opacity 0.3s ease-in-out",
+      }}
+    >
       <Toolbar sx={getToolbarSx(themeConfig)}>
         <Box sx={{ width: "30%" }}>
           {currentNoteId === null && router.pathname !== "/notes" ? (
@@ -96,7 +115,7 @@ const Header = () => {
               {currentNoteId === null && "No note open"}
               {currentNoteId !== null && currentNoteTitle == ""
                 ? "Untitled"
-                : currentNoteTitle}
+                : truncatedTitle}
             </Typography>
           )}
         </Box>

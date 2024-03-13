@@ -1,5 +1,4 @@
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
-import { current } from "@reduxjs/toolkit";
 import { useTheme } from "next-themes";
 import {
   CSSProperties,
@@ -19,7 +18,7 @@ interface TextAreaProps
 }
 
 const TextArea: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = (
-  { value, isFocused, style, minHeightPx: minHeight = 20, ...props },
+  { value, isFocused, style, minHeightPx = 40, ...props },
   ref
 ) => {
   const { resolvedTheme } = useTheme();
@@ -35,7 +34,7 @@ const TextArea: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = (
 
       innerRef.current.style.height = `${Math.max(
         innerRef.current.scrollHeight,
-        minHeight
+        minHeightPx
       )}px`;
     }
   }, [value]);
@@ -54,6 +53,8 @@ const TextArea: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = (
       {...props}
       style={{
         width: "100%",
+        minHeight: `${minHeightPx}px`,
+        maxHeight: "100%",
         resize: "none",
         outline: "none",
         border: "none",
@@ -62,8 +63,6 @@ const TextArea: ForwardRefRenderFunction<HTMLTextAreaElement, TextAreaProps> = (
         color: theme.palette.text.primary,
         overflow: "hidden",
         boxSizing: "border-box",
-        minHeight: minHeight,
-        lineHeight: "1.5",
         ...style,
       }}
     />

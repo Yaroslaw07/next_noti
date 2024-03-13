@@ -26,7 +26,7 @@ import {
   KeyboardDoubleArrowUpOutlined as KeyboardArrowUpOutlinedIcon,
   PushPinOutlined as PushPinOutlinedIcon,
   PushPin as PushPinIcon,
-  Style,
+  DragIndicatorOutlined as DragIndicatorOutlinedIcon,
 } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
@@ -64,6 +64,9 @@ export const Icons = {
   //vaults
   ChangeVault: ViewAgendaOutlinedIcon,
   Vault: DoorFrontOutlinedIcon,
+
+  //blocks
+  BlockWrapperIcon: DragIndicatorOutlinedIcon,
 
   //notes
   SelectItem: StyledIcon(MenuOpenOutlinedIcon, 0.6),

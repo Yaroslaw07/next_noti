@@ -40,7 +40,14 @@ const VaultSidebar = () => {
           ...(anchorEl && { backgroundColor: "additional.dark" }),
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            width: "80%",
+          }}
+        >
           <Icons.Vault sx={{ fontSize: "30px", color: "text.secondary" }} />
           <Typography
             sx={{
@@ -48,6 +55,9 @@ const VaultSidebar = () => {
               fontWeight: "500",
               color: "text.secondary",
               marginTop: "2px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             {currentVault?.name}

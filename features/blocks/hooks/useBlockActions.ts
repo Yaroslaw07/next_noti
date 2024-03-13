@@ -1,11 +1,12 @@
 import { shallow } from "zustand/shallow";
 import { useBlocksStore } from "../store/blocksStore";
-import { ContentBlock } from "../types/blockTypes";
+import { Block } from "../types/blockTypes";
 import { useBatchStore } from "@/features/batch/batchStore";
 import { BATCH_EVENTS } from "@/features/batch/batchEvents";
 import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 import { useTrackingChangesStore } from "@/features/notes/stores/trackingChangesStore";
+import { useEditModeStore } from "@/features/notes/stores/editModeStore";
 
 interface BlocksActionsProps {
   id: string;
@@ -20,11 +21,12 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
 
   const { addChangedBlockId, hasChangedBlockId, removeChangedBlockId } =
     useTrackingChangesStore((state) => state, shallow);
+  const { editMode, setEditMode } = useEditModeStore();
 
   const { addEvent } = useBatchStore((state) => state, shallow) || {};
 
   const addBlockHandler = (props?: any) => {
-    const newBlock: ContentBlock = {
+    const newBlock: Block = {
       id: uuidv4(),
       type: "text",
       order: order + 1,
@@ -44,8 +46,10 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
   const currentProps = useRef<any>({});
   const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
-  const updateBlockHandler = (props: Partial<ContentBlock>) => {
+  const updateBlockHandler = (props: Partial<Block>) => {
     currentProps.current = { ...currentProps.current, ...props } || props;
+
+    !editMode && setEditMode(true);
 
     if (timeoutIdRef.current === null) {
       addChangedBlockId(id);

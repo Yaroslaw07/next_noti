@@ -4,7 +4,7 @@ import { useBatchStore } from "../batchStore";
 import { CURRENT_NOTE_SOCKET_EVENTS } from "@/features/notes/notesEvents";
 import { v4 as uuidv4 } from "uuid";
 import { BATCH_EVENTS } from "../batchEvents";
-import { useBlocksStore } from "@/features/note-content/store/blocksStore";
+import { useBlocksStore } from "@/features/blocks/store/blocksStore";
 import useCurrentNoteStore from "@/features/notes/stores/currentNoteStore";
 import { BatchUnit } from "../batchTypes";
 import { useNoteInfosStore } from "@/features/note-infos/store/noteInfosStore";

@@ -83,7 +83,7 @@ const VaultSettingsModal: FC<VaultSettingsModalProps> = ({
           width: "400px",
           borderRadius: "12px",
           borderColor: "primary.main",
-          borderWidth: "1.5px",
+          borderWidth: "1px",
           borderStyle: "solid",
           boxShadow: "0 3px 5px 2px rgba(0, 0, 0, 0.1)",
           padding: "18px",
@@ -115,7 +115,11 @@ const VaultSettingsModal: FC<VaultSettingsModalProps> = ({
           >
             Update
           </Button>
-          <Button onClick={handleReset} sx={{ width: "50%" }}>
+          <Button
+            onClick={handleReset}
+            sx={{ width: "50%" }}
+            disabled={!hasChanges}
+          >
             Cancel
           </Button>
         </Stack>
@@ -125,7 +129,7 @@ const VaultSettingsModal: FC<VaultSettingsModalProps> = ({
           spacing={1}
           sx={{
             width: "100%",
-            backgroundColor: "additional.main",
+            backgroundColor: "additional.dark",
             padding: "10px 20px",
             borderRadius: "8px",
             borderColor: "warning.main",

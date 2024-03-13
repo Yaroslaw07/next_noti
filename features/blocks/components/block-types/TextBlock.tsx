@@ -1,12 +1,12 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import TextArea from "../../../../components/ui/TextArea";
 import { useFocusedStore } from "@/features/notes/stores/currentFocusStore";
-import { ContentBlock } from "../../types/blockTypes";
+import { Block } from "../../types/blockTypes";
 import { useBlocksActions } from "../../hooks/useBlockActions";
 import { useBlocks } from "../../hooks/useBlocks";
 
 interface TextBlocksProps {
-  block: ContentBlock;
+  block: Block;
 }
 
 const TextBlock: FC<TextBlocksProps> = ({ block }) => {
@@ -86,7 +86,7 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
       onKeyDown={(e) => handleKeyDown(e)}
       onChange={handleOnChange}
       isFocused={isFocused}
-      style={{ fontSize: "1.1rem" }}
+      style={{ fontSize: "1.1rem", lineHeight: "1.4" }}
       placeholder={isFocused ? "Start typing..." : ""}
     />
   );

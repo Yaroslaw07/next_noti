@@ -8,10 +8,9 @@ import { useCurrentVault } from "../../hooks/useCurrentVault";
 import { useSocketStore } from "@/features/socket/socketStore";
 import { SocketLayout } from "@/features/socket/SocketLayout";
 import Header from "./Header";
-import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
-import { useNotes } from "@/features/notes/hooks/useNotes";
 import { useBatchStore } from "@/features/batch/batchStore";
 import { useTrackingChangesStore } from "@/features/notes/stores/trackingChangesStore";
+import { useEditModeStore } from "@/features/notes/stores/editModeStore";
 
 interface CurrentVaultLayoutProps {
   children: React.ReactNode;
@@ -20,13 +19,19 @@ interface CurrentVaultLayoutProps {
 const CurrentVaultLayout: FC<CurrentVaultLayoutProps> = ({ children }) => {
   const router = useRouter();
 
-  const { socket } = useSocketStore();
-  const { anyChanges } = useBatchStore();
-  const { isEmpty } = useTrackingChangesStore();
-
   const { currentVault, selectVault, leaveVault } = useCurrentVault();
 
+  const { socket } = useSocketStore();
+  const { anyChanges } = useBatchStore();
+
+  const { isEmpty } = useTrackingChangesStore();
+  const { editMode, setEditMode } = useEditModeStore();
+
   const emptyTrackingChanges = isEmpty();
+
+  const disableEditMode = () => {
+    editMode && setEditMode(false);
+  };
 
   useEffect(() => {
     if (anyChanges || !emptyTrackingChanges) {
@@ -82,8 +87,12 @@ const CurrentVaultLayout: FC<CurrentVaultLayoutProps> = ({ children }) => {
         <Sidebar />
       </Grid>
       <Grid xs item>
-        <Stack spacing={0} sx={{ height: "100%", width: "100%" }}>
-          <Header />
+        <Stack
+          spacing={0}
+          sx={{ height: "100%", width: "100%" }}
+          onMouseMove={disableEditMode}
+        >
+          <Header isVisible={!editMode} />
           {children}
         </Stack>
       </Grid>

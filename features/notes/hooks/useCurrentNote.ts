@@ -3,12 +3,13 @@ import useCurrentNoteStore from "../stores/currentNoteStore";
 import { shallow } from "zustand/shallow";
 import { useRef } from "react";
 import { BATCH_EVENTS } from "@/features/batch/batchEvents";
-import { useBlocksStore } from "@/features/note-content/store/blocksStore";
+import { useBlocksStore } from "@/features/blocks/store/blocksStore";
 import { v4 as uuidv4 } from "uuid";
 import { useFocusedStore } from "../stores/currentFocusStore";
 import { useNoteInfosStore } from "@/features/note-infos/store/noteInfosStore";
 import { useTrackingChangesStore } from "../stores/trackingChangesStore";
 import { update } from "lodash";
+import { useEditModeStore } from "../stores/editModeStore";
 
 export const useCurrentNote = () => {
   const {
@@ -25,6 +26,7 @@ export const useCurrentNote = () => {
   const { addBlock } = useBlocksStore((state) => state, shallow);
 
   const { setFocusedBlockId } = useFocusedStore();
+  const { editMode, setEditMode } = useEditModeStore();
   const { addChangedBlockId, removeChangedBlockId } = useTrackingChangesStore();
 
   const titleToSave = useRef<string | null>(null);
@@ -44,6 +46,7 @@ export const useCurrentNote = () => {
   const setCurrentNoteTitleHandler = (title: string) => {
     setCurrentNoteTitle(title);
 
+    !editMode && setEditMode(true);
     title !== "" && (titleToSave.current = title);
 
     if (timeoutIdRef.current === null) {

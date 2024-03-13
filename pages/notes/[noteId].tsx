@@ -8,7 +8,7 @@ import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import { useNotes } from "@/features/notes/hooks/useNotes";
 import { useToast } from "@/lib/hooks/useToast";
 import { useRouter } from "next/router";
-import { useBlocks } from "@/features/note-content/hooks/useBlocks";
+import { useBlocks } from "@/features/blocks/hooks/useBlocks";
 import { validate as validateUUID } from "uuid";
 import Note from "@/features/notes/components/Note";
 import { useFocusedStore } from "@/features/notes/stores/currentFocusStore";
