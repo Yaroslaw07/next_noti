@@ -4,6 +4,7 @@ import { useFocusedStore } from "@/features/notes/stores/currentFocusStore";
 import { Block } from "../../types/blockTypes";
 import { useBlocksActions } from "../../hooks/useBlockActions";
 import { useBlocks } from "../../hooks/useBlocks";
+import { useEditModeStore } from "@/features/notes/stores/editModeStore";
 
 interface TextBlocksProps {
   block: Block;
@@ -11,7 +12,13 @@ interface TextBlocksProps {
 
 const TextBlock: FC<TextBlocksProps> = ({ block }) => {
   const { focusedBlockId, setFocusedBlockId } = useFocusedStore();
-  const { addBlock, updateBlock, deleteBlock } = useBlocksActions({
+  const { editMode, setEditMode } = useEditModeStore();
+
+  const {
+    addBlock,
+    updateBlockProps: updateBlock,
+    deleteBlock,
+  } = useBlocksActions({
     id: block.id,
     order: block.order,
   });
@@ -43,6 +50,8 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    !editMode && setEditMode(true);
+
     const isEnterPressed = event.key === "Enter";
     const isBackspacePressed = event.key === "Backspace";
     const isArrowUpPressed = event.key === "ArrowUp";

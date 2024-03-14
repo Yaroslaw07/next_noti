@@ -82,16 +82,17 @@ const CurrentVaultLayout: FC<CurrentVaultLayoutProps> = ({ children }) => {
   }
 
   return (
-    <Grid container wrap="nowrap" style={{ height: "100vh", width: "100vw" }}>
+    <Grid
+      container
+      wrap="nowrap"
+      style={{ height: "100vh", width: "100vw" }}
+      onMouseMove={disableEditMode}
+    >
       <Grid item>
         <Sidebar />
       </Grid>
       <Grid xs item>
-        <Stack
-          spacing={0}
-          sx={{ height: "100%", width: "100%" }}
-          onMouseMove={disableEditMode}
-        >
+        <Stack spacing={0} sx={{ height: "100%", width: "100%" }}>
           <Header isVisible={!editMode} />
           {children}
         </Stack>

@@ -10,7 +10,6 @@ export const useNotesInfo = () => {
 
   const loadNotesHandler = async () => {
     const response = await notesInfoService.getNotes(currentVault!.id);
-    console.log(response.data.notes);
     if (response.ok) {
       setNotes(response.data.notes);
     }

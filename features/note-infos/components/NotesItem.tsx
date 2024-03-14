@@ -1,6 +1,6 @@
 import { Icons } from "@/components/Icons";
 import { Box, IconButton, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 import SidebarModule from "../../current-vault/components/layout/sidebar/base/SidebarModule";
 import { NoteInfo } from "../types/noteInfoTypes";
 import { useRouter } from "next/router";
@@ -15,6 +15,8 @@ const NotesItem: FC<NotesItemProps> = ({ note }) => {
   const router = useRouter();
   const { currentNoteTitle, currentNoteId } = useCurrentNote();
   const active = currentNoteId === note.id;
+
+  console.log("NotesItem", note.id);
 
   const [isHovered, setIsHovered] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -129,4 +131,4 @@ const NotesItem: FC<NotesItemProps> = ({ note }) => {
   );
 };
 
-export default NotesItem;
+export default memo(NotesItem);

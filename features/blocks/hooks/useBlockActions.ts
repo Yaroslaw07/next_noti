@@ -6,7 +6,6 @@ import { BATCH_EVENTS } from "@/features/batch/batchEvents";
 import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 import { useTrackingChangesStore } from "@/features/notes/stores/trackingChangesStore";
-import { useEditModeStore } from "@/features/notes/stores/editModeStore";
 
 interface BlocksActionsProps {
   id: string;
@@ -21,7 +20,6 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
 
   const { addChangedBlockId, hasChangedBlockId, removeChangedBlockId } =
     useTrackingChangesStore((state) => state, shallow);
-  const { editMode, setEditMode } = useEditModeStore();
 
   const { addEvent } = useBatchStore((state) => state, shallow) || {};
 
@@ -46,10 +44,8 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
   const currentProps = useRef<any>({});
   const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
-  const updateBlockHandler = (props: Partial<Block>) => {
+  const updateBlockPropsHandler = (props: Partial<Block>) => {
     currentProps.current = { ...currentProps.current, ...props } || props;
-
-    !editMode && setEditMode(true);
 
     if (timeoutIdRef.current === null) {
       addChangedBlockId(id);
@@ -76,7 +72,7 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
 
   return {
     addBlock: addBlockHandler,
-    updateBlock: updateBlockHandler,
+    updateBlockProps: updateBlockPropsHandler,
     deleteBlock: deleteBlockHandler,
   };
 };

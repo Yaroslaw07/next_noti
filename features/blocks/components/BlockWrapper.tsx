@@ -1,9 +1,10 @@
 import { Icons } from "@/components/Icons";
 import { useEditModeStore } from "@/features/notes/stores/editModeStore";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
-import { Box, ButtonBase, Grid, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useTheme } from "next-themes";
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, memo, useState } from "react";
+import BlockWrapperMenu from "./BlockWrapperMenu";
 
 interface BlockWrapperProps {
   children: ReactNode;
@@ -19,6 +20,17 @@ const BlockWrapper: FC<BlockWrapperProps> = ({ children, id, type }) => {
 
   const [isHovered, setIsHovered] = useState(false);
 
+  const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleOpen = (event: React.MouseEvent<SVGSVGElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Stack
       spacing={1}
@@ -31,6 +43,7 @@ const BlockWrapper: FC<BlockWrapperProps> = ({ children, id, type }) => {
       <Stack>
         <Box sx={{ height: "4px", width: "24px" }}></Box>
         <Icons.BlockWrapperIcon
+          onClick={(e) => handleOpen(e)}
           sx={{
             color: "text.secondary",
             fontSize: "21px",
@@ -44,8 +57,15 @@ const BlockWrapper: FC<BlockWrapperProps> = ({ children, id, type }) => {
         />
       </Stack>
       {children}
+      <BlockWrapperMenu
+        id={id}
+        type={type}
+        anchorEl={anchorEl}
+        handleClose={handleClose}
+        open={open}
+      />
     </Stack>
   );
 };
 
-export default BlockWrapper;
+export default memo(BlockWrapper);

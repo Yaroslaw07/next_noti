@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       <MUIThemeProvider>
-        <CssBaseline />
+        <CssBaseline enableColorScheme />
         <ToastProvider>
           {getLayout ? (
             getLayout(<Component {...pageProps} />)

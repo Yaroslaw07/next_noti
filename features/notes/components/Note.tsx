@@ -17,13 +17,13 @@ const Note: FC<NoteProps> = ({ noteId }) => {
           height: "100%",
           width: "100%",
           overflowY: "auto",
+          scrollbarWidth: "thin",
         }}
       >
         <Container
           sx={{
             marginX: "auto",
             width: "min(66%, 1000px)",
-            overflow: "hidden",
           }}
         >
           <Box sx={{ height: "60px" }}></Box>

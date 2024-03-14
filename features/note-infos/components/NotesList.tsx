@@ -40,8 +40,6 @@ const NotesList: FC = () => {
       return;
     }
 
-    console.log(notes);
-
     const updatedNotes =
       notes?.map((note) =>
         note.id === currentNoteId
@@ -74,8 +72,6 @@ const NotesList: FC = () => {
     });
 
     socket.on(NOTE_INFOS_EVENTS.NOTE_DELETED, ({ deletedNoteId }) => {
-      console.log(deletedNoteId, currentNoteId);
-
       if (deletedNoteId === currentNoteId) {
         router.push("/notes");
       }
@@ -123,7 +119,7 @@ const NotesList: FC = () => {
         </Box>
 
         {order === "asc" ? (
-          <Icons.DoubleArrowDown
+          <Icons.TimeNewFirst
             sx={{
               color: "text.secondary",
               fontSize: "20px",
@@ -131,7 +127,7 @@ const NotesList: FC = () => {
             onClick={(e) => toggleOrder(e)}
           />
         ) : (
-          <Icons.DoubleArrowUp
+          <Icons.TimeOldFirst
             sx={{
               color: "text.secondary",
               fontSize: "20px",
