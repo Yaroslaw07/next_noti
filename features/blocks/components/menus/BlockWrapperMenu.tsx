@@ -1,21 +1,22 @@
 import { Icons } from "@/components/Icons";
 import { Menu, MenuItem, Stack, Typography } from "@mui/material";
 import { FC } from "react";
-import { useBlocksActions } from "../hooks/useBlockActions";
+import { useBlocksActions } from "../../hooks/useBlockActions";
 
 interface BlockWrapperMenuProps {
   id: string;
-  type: string;
   anchorEl: null | SVGSVGElement;
-  open: boolean;
+  isOpen: boolean;
+  handleChangeTypeOption: () => void;
   handleClose: () => void;
 }
 
 const BlockWrapperMenu: FC<BlockWrapperMenuProps> = ({
   id,
   anchorEl,
+  handleChangeTypeOption,
   handleClose,
-  open,
+  isOpen: open,
 }) => {
   const { deleteBlock } = useBlocksActions({ id, order: 0 });
 
@@ -26,7 +27,6 @@ const BlockWrapperMenu: FC<BlockWrapperMenuProps> = ({
 
   return (
     <Menu
-      id="basic-menu"
       anchorEl={anchorEl}
       open={open}
       onClose={handleClose}
@@ -36,7 +36,7 @@ const BlockWrapperMenu: FC<BlockWrapperMenuProps> = ({
         dense: true,
       }}
     >
-      <MenuItem onClick={handleClose} disableRipple>
+      <MenuItem onClick={handleChangeTypeOption} disableRipple>
         <Stack spacing={2} direction={"row"} alignItems={"center"}>
           <Typography>Change Type</Typography>
           <Icons.KeyboardRight sx={{ fontSize: "20px" }} />

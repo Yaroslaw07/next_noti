@@ -1,9 +1,10 @@
 import { FC } from "react";
-import TextBlock from "./block-types/TextBlock";
 import { useBlocks } from "../hooks/useBlocks";
 import { Stack } from "@mui/material";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
 import BlockWrapper from "./BlockWrapper";
+import { blockTypeInfos } from "../types/blockTypeInfos";
+import { BlockType } from "../types/blockTypes";
 
 const Blocks: FC = () => {
   const { currentNoteId } = useCurrentNote();
@@ -17,11 +18,20 @@ const Blocks: FC = () => {
         blocks
           .sort((a, b) => a.order - b.order)
           .map((block) => {
-            return (
-              <BlockWrapper key={block.id} id={block.id} type={block.type}>
-                <TextBlock key={block.id} block={block}></TextBlock>
-              </BlockWrapper>
-            );
+            if (Object.values(BlockType).includes(block.type as BlockType)) {
+              const blockTypeInfo = blockTypeInfos[block.type as BlockType];
+
+              return (
+                <BlockWrapper key={block.id} id={block.id} type={block.type}>
+                  <blockTypeInfo.component
+                    key={block.id}
+                    block={block}
+                  ></blockTypeInfo.component>
+                </BlockWrapper>
+              );
+            } else {
+              return null;
+            }
           })}
     </Stack>
   );

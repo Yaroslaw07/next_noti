@@ -1,6 +1,6 @@
 import { BlockType } from "./blockTypes";
 
-export const bloc: {
+export const blocksConversions: {
   [key in BlockType]: (props: any) => any;
 } = {
   [BlockType.DIVIDER]: () => ({}),

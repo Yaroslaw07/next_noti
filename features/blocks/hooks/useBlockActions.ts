@@ -1,11 +1,13 @@
 import { shallow } from "zustand/shallow";
 import { useBlocksStore } from "../store/blocksStore";
-import { Block } from "../types/blockTypes";
+import { Block, BlockType } from "../types/blockTypes";
 import { useBatchStore } from "@/features/batch/batchStore";
 import { BATCH_EVENTS } from "@/features/batch/batchEvents";
 import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 import { useTrackingChangesStore } from "@/features/notes/stores/trackingChangesStore";
+import { blocksConversions } from "../types/blockConversionTypes";
+import { useToast } from "@/lib/hooks/useToast";
 
 interface BlocksActionsProps {
   id: string;
@@ -13,7 +15,7 @@ interface BlocksActionsProps {
 }
 
 export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
-  const { addBlock, updateBlock, deleteBlock } = useBlocksStore(
+  const { addBlock, updateBlock, deleteBlock, getBlockById } = useBlocksStore(
     (state) => state,
     shallow
   );
@@ -22,6 +24,8 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
     useTrackingChangesStore((state) => state, shallow);
 
   const { addEvent } = useBatchStore((state) => state, shallow) || {};
+
+  const { openToast } = useToast();
 
   const addBlockHandler = (props?: any) => {
     const newBlock: Block = {
@@ -44,8 +48,9 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
   const currentProps = useRef<any>({});
   const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
-  const updateBlockPropsHandler = (props: Partial<Block>) => {
-    currentProps.current = { ...currentProps.current, ...props } || props;
+  const updateBlockPropsHandler = (updateData: Partial<Block>) => {
+    currentProps.current =
+      { ...currentProps.current, ...updateData } || updateData;
 
     if (timeoutIdRef.current === null) {
       addChangedBlockId(id);
@@ -54,14 +59,33 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
           return;
         }
 
-        props = { ...currentProps.current, updatedAt: Date.now() };
-        addEvent(BATCH_EVENTS.NOTE_BLOCK_UPDATED_BATCH + "_" + id, props);
-        updateBlock(id, props);
+        updateData = { ...currentProps.current, updatedAt: Date.now() };
+        addEvent(BATCH_EVENTS.NOTE_BLOCK_UPDATED_BATCH + "_" + id, updateData);
+        updateBlock(id, updateData);
         removeChangedBlockId(id);
         currentProps.current = {};
         timeoutIdRef.current = null;
       }, 1000);
     }
+  };
+
+  const updateBlockTypeHandler = (newType: BlockType) => {
+    const conversionsHandler = blocksConversions[newType];
+
+    const block = getBlockById(id);
+
+    if (!block) {
+      return;
+    }
+
+    const updatedBlock = {
+      ...block,
+      type: newType,
+      props: conversionsHandler(block.props),
+    };
+
+    addEvent(BATCH_EVENTS.NOTE_BLOCK_UPDATED_BATCH + "_" + id, updatedBlock);
+    updateBlock(id, updatedBlock);
   };
 
   const deleteBlockHandler = () => {
@@ -73,6 +97,7 @@ export const useBlocksActions = ({ id, order }: BlocksActionsProps) => {
   return {
     addBlock: addBlockHandler,
     updateBlockProps: updateBlockPropsHandler,
+    updateBlockType: updateBlockTypeHandler,
     deleteBlock: deleteBlockHandler,
   };
 };

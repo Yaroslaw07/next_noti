@@ -50,7 +50,7 @@ const NoteTitle = () => {
         id="note-title-input"
         placeholder="Undefined"
         style={{
-          fontSize: "32px",
+          fontSize: "2.4rem",
           fontWeight: "500",
         }}
         value={currentNoteTitle || ""}

@@ -37,11 +37,11 @@ const darkTheme = createTheme({
       styleOverrides: {
         body: {
           "&::-webkit-scrollbar": {
-            width: "8px", // width of the scrollbar
+            width: "8px",
           },
           "&::-webkit-scrollbar-thumb": {
-            borderRadius: "8px", // roundness of the thumb
-            backgroundColor: "#2b2b2b", // color of the thumb
+            borderRadius: "8px",
+            backgroundColor: "#2b2b2b",
           },
         },
       },

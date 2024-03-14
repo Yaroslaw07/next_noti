@@ -10,6 +10,7 @@ interface blocksStore {
   deleteBlock: (id: string) => void;
 
   getBlockByOrder: (order: number) => Block | null;
+  getBlockById: (id: string) => Block | null;
 }
 
 export const useBlocksStore = createWithEqualityFn<blocksStore>()(
@@ -85,6 +86,10 @@ export const useBlocksStore = createWithEqualityFn<blocksStore>()(
 
     getBlockByOrder(order) {
       return get().blocks.find((block) => block.order == order) || null;
+    },
+
+    getBlockById(id) {
+      return get().blocks.find((block) => block.id === id) || null;
     },
   })
 );

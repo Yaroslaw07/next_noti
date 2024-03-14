@@ -1,7 +1,7 @@
 import { useBlocksStore } from "../store/blocksStore";
 import { shallow } from "zustand/shallow";
 
-const movableBlockTypes = ["text", "header1", "header2"];
+const movableBlockTypes = ["text", "header1", "header2", "header3"];
 
 export const useBlocks = () => {
   const { blocks, setBlocks, getBlockByOrder } = useBlocksStore(
