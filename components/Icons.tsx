@@ -22,11 +22,11 @@ import {
   LightModeOutlined as LightModeOutlinedIcon,
   DarkModeOutlined as DarkModeOutlinedIcon,
   MonitorOutlined as MonitorIconOutlinedIcon,
-  KeyboardDoubleArrowDownOutlined as KeyboardArrowDownOutlinedIcon,
-  KeyboardDoubleArrowUpOutlined as KeyboardArrowUpOutlinedIcon,
   PushPinOutlined as PushPinOutlinedIcon,
   PushPin as PushPinIcon,
-  Style,
+  DragIndicatorOutlined as DragIndicatorOutlinedIcon,
+  HourglassBottomOutlined as HourglassBottomOutlinedIcon,
+  HourglassTopOutlined as HourglassTopOutlinedIcon,
 } from "@mui/icons-material";
 
 import styled from "@emotion/styled";
@@ -58,12 +58,16 @@ export const Icons = {
   Search: SearchOutlinedIcon,
   ArrowDown: KeyboardArrowDownIcon,
 
-  DoubleArrowDown: KeyboardArrowDownOutlinedIcon,
-  DoubleArrowUp: KeyboardArrowUpOutlinedIcon,
+  //time
+  TimeOldFirst: HourglassBottomOutlinedIcon,
+  TimeNewFirst: HourglassTopOutlinedIcon,
 
   //vaults
   ChangeVault: ViewAgendaOutlinedIcon,
   Vault: DoorFrontOutlinedIcon,
+
+  //blocks
+  BlockWrapperIcon: DragIndicatorOutlinedIcon,
 
   //notes
   SelectItem: StyledIcon(MenuOpenOutlinedIcon, 0.6),
@@ -71,7 +75,7 @@ export const Icons = {
   ListOfNotes: ListOutlinedIcon,
   newNote: NoteAddOutlinedIcon,
 
-  ToPin: StyledIcon(PushPinOutlinedIcon, 0.2),
+  ToPin: StyledIcon(PushPinOutlinedIcon, 0),
   Pinned: StyledIcon(PushPinIcon, 0.4),
 
   // options

@@ -1,28 +1,51 @@
+import { shallow } from "zustand/shallow";
 import useCurrentVaultStore from "../../current-vault/stores/currentVaultStore";
 import notesInfoService from "../services/noteInfoService";
+import { useNoteInfosStore } from "../store/noteInfosStore";
 
 export const useNotesInfo = () => {
   const { currentVault } = useCurrentVaultStore();
+  const { notes, setNotes, addNote, removeNote, updateNote } =
+    useNoteInfosStore((state) => state, shallow);
 
-  const getNotesHandler = async () => {
-    return notesInfoService.getNotes(currentVault!.id);
+  const loadNotesHandler = async () => {
+    const response = await notesInfoService.getNotes(currentVault!.id);
+    if (response.ok) {
+      setNotes(response.data.notes);
+    }
   };
 
-  const addNoteHandler = async () => {
-    return notesInfoService.addNote(currentVault!.id);
+  const addNoteHandler = async (id: string) => {
+    const response = await notesInfoService.addNote(currentVault!.id, id);
+
+    if (response.ok) {
+      addNote(response.data);
+    }
+
+    return response;
   };
 
   const removeNoteHandler = async (noteId: string) => {
-    return notesInfoService.removeNote(currentVault!.id, noteId);
+    removeNote(noteId);
+
+    return await notesInfoService.removeNote(currentVault!.id, noteId);
   };
 
-  const updateNotePinHandler = async (noteId: string, pinned: boolean) => {
-    return notesInfoService.updateNotePin(currentVault!.id, noteId, pinned);
+  const updateNotePinHandler = async (noteId: string, isPinned: boolean) => {
+    updateNote({ id: noteId, isPinned: isPinned });
+
+    return await notesInfoService.updateNotePin(
+      currentVault!.id,
+      noteId,
+      isPinned
+    );
   };
 
   return {
-    getNotes: getNotesHandler,
-    addNote: addNoteHandler,
+    notes,
+    setNotes,
+    loadNotes: loadNotesHandler,
+    addNewNote: addNoteHandler,
     removeNote: removeNoteHandler,
     updateNotePin: updateNotePinHandler,
   };

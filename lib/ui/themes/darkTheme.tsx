@@ -9,7 +9,7 @@ const darkTheme = createTheme({
     },
     secondary: {
       main: "#212121",
-      dark: "#494949",
+      dark: "#1e1e1e",
     },
     additional: {
       dark: "#303030",
@@ -37,11 +37,11 @@ const darkTheme = createTheme({
       styleOverrides: {
         body: {
           "&::-webkit-scrollbar": {
-            width: "40px", // width of the scrollbar
+            width: "8px",
           },
           "&::-webkit-scrollbar-thumb": {
-            borderRadius: "40px", // roundness of the thumb
-            backgroundColor: "#888", // color of the thumb
+            borderRadius: "8px",
+            backgroundColor: "#2b2b2b",
           },
         },
       },

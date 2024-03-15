@@ -3,16 +3,11 @@ import api from "@/lib/api/api";
 import { serviceApiCall } from "@/lib/api/serviceApiCall";
 
 export const notesService = {
-  updateTitle: async (vaultId: string, noteId: string, newTitle: string) => {
+  getNote: async (vaultId: string, noteId: string) => {
     return serviceApiCall(
-      () =>
-        api.put(
-          `/notes/${noteId}/title`,
-          { title: newTitle },
-          getVaultHeader(vaultId)
-        ),
-      "Title updated successfully",
-      "Error updating title"
+      () => api.get(`/notes/${noteId}`, getVaultHeader(vaultId)),
+      "Successfully fetched note",
+      "Failed to fetch note"
     );
   },
 };

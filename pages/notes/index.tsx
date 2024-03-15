@@ -3,7 +3,7 @@ import Head from "next/head";
 import NoNote from "@/features/notes/components/NoNote";
 import { parseCookies } from "nookies";
 import { GetServerSidePropsContext } from "next";
-import { getNotiLayout } from "@/features/current-vault/components/layout/NoteLayout";
+import { getCurrentVaultLayout } from "@/features/current-vault/components/layout/CurrentVaultLayout";
 
 const NoNotePage: NextPageWithLayout = () => {
   return (
@@ -34,7 +34,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 NoNotePage.getLayout = (page) => {
-  return getNotiLayout(page);
+  return getCurrentVaultLayout(page);
 };
 
 export default NoNotePage;

@@ -1,7 +1,9 @@
 import {
   AppBar,
+  Box,
   Menu,
   MenuItem,
+  Skeleton,
   Stack,
   Theme,
   ToggleButton,
@@ -10,11 +12,11 @@ import {
   Typography,
 } from "@mui/material";
 import { Icons } from "../../../../components/Icons";
-import useNoteStore from "../../../notes/stores/notesStore";
 import { useTheme } from "next-themes";
 import { getCurrentTheme } from "@/lib/ui/getCurrentTheme";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
+import { useRouter } from "next/router";
 
 export const getToolbarSx = (theme: Theme) => {
   return {
@@ -30,7 +32,7 @@ export const getToolbarSx = (theme: Theme) => {
 
 export const getHeaderIconSx = (theme: Theme) => {
   return {
-    fontSize: "38px",
+    fontSize: "34px",
     marginTop: "-8px",
     borderRadius: "8px",
     color: theme.palette.primary.light,
@@ -41,12 +43,21 @@ export const getHeaderIconSx = (theme: Theme) => {
   };
 };
 
-const Header = () => {
-  const { currentNoteId, currentNoteTitle, currentNotePinned } = useNoteStore();
+interface HeaderProps {
+  isVisible: boolean;
+}
+
+const Header: FC<HeaderProps> = ({ isVisible }) => {
+  const {
+    currentNoteId,
+    currentNoteTitle,
+    currentNotePinned,
+    setCurrentNotePinned,
+  } = useCurrentNote();
   const { resolvedTheme, theme, setTheme } = useTheme();
   const themeConfig = getCurrentTheme(resolvedTheme);
 
-  const { updatePin } = useCurrentNote();
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
   const isModalOpen = Boolean(anchorEl);
@@ -68,34 +79,61 @@ const Header = () => {
     setTheme(value);
   };
 
-  return (
-    <AppBar component="nav" position="static" sx={{ height: "40px" }}>
-      <Toolbar sx={getToolbarSx(themeConfig)}>
-        <Typography
-          variant="subtitle1"
-          sx={{ paddingTop: "0px", fontSize: "1.15rem", fontWeight: "500" }}
-        >
-          {currentNoteId === null && "No note open"}
-          {currentNoteId !== null && currentNoteTitle == ""
-            ? "Untitled"
-            : currentNoteTitle}
-        </Typography>
+  const truncatedTitle =
+    currentNoteTitle && currentNoteTitle.length > 20
+      ? `${currentNoteTitle.substring(0, 20)}...`
+      : currentNoteTitle;
 
-        <Stack direction={"row"} gap={"12px"} alignItems={"center"}>
-          {currentNotePinned && (
-            <Icons.Pinned
+  return (
+    <AppBar
+      component="nav"
+      position="static"
+      sx={{
+        height: "40px",
+        opacity: isVisible ? "100" : "0",
+        transition: isVisible
+          ? "opacity 0.3s ease-in-out"
+          : "opacity 0.3s ease-in-out",
+      }}
+    >
+      <Toolbar sx={getToolbarSx(themeConfig)}>
+        <Box sx={{ width: "30%" }}>
+          {currentNoteId === null && router.pathname !== "/notes" ? (
+            <Skeleton variant="text" width={"100%"} height={"40px"} />
+          ) : (
+            <Typography
+              variant="subtitle1"
               sx={{
-                ...getHeaderIconSx(themeConfig),
-                fontSize: "28px",
+                paddingTop: "0px",
+                fontSize: "1.05rem",
+                fontWeight: "500",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
-              onClick={() => updatePin(false)}
-            />
+            >
+              {currentNoteId === null && "No note open"}
+              {currentNoteId !== null && currentNoteTitle == ""
+                ? "Untitled"
+                : truncatedTitle}
+            </Typography>
           )}
-          {!currentNotePinned && (
-            <Icons.ToPin
-              sx={{ ...getHeaderIconSx(themeConfig), fontSize: "28px" }}
-              onClick={() => updatePin(true)}
-            />
+        </Box>
+        <Stack direction={"row"} gap={"12px"} alignItems={"center"}>
+          {currentNoteId && (
+            <>
+              {currentNotePinned ? (
+                <Icons.Pinned
+                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "24px" }}
+                  onClick={() => setCurrentNotePinned(false)}
+                />
+              ) : (
+                <Icons.ToPin
+                  sx={{ ...getHeaderIconSx(themeConfig), fontSize: "22px" }}
+                  onClick={() => setCurrentNotePinned(true)}
+                />
+              )}
+            </>
           )}
           <Icons.More
             sx={getHeaderIconSx(themeConfig)}
@@ -107,7 +145,7 @@ const Header = () => {
           <MenuItem
             sx={{
               "&:hover": {
-                backgroundColor: "inherit",
+                backgroundColor: "transparent !important",
               },
             }}
             disableRipple
@@ -117,13 +155,13 @@ const Header = () => {
               exclusive
               onChange={handleThemeChange}
             >
-              <ToggleButton value="light">
+              <ToggleButton value="light" disabled={theme === "light"}>
                 <Icons.LightTheme />
               </ToggleButton>
-              <ToggleButton value="dark">
+              <ToggleButton value="dark" disabled={theme === "dark"}>
                 <Icons.DarkTheme />
               </ToggleButton>
-              <ToggleButton value="system">
+              <ToggleButton value="system" disabled={theme === "system"}>
                 <Icons.DeviceTheme />
               </ToggleButton>
             </ToggleButtonGroup>

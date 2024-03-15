@@ -1,69 +1,68 @@
-import { Note as NoteType } from "@/features/notes/types/noteTypes";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { NextPageWithLayout } from "../_app";
 import { GetServerSidePropsContext } from "next";
-import fetchCall from "@/lib/api/fetch";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import { Box, Container } from "@mui/material";
-import NoteTitle from "@/features/notes/components/NoteTitle";
+import { getCurrentVaultLayout } from "@/features/current-vault/components/layout/CurrentVaultLayout";
+import { useEffect } from "react";
 import { useCurrentNote } from "@/features/notes/hooks/useCurrentNote";
-import NoteContent from "@/features/note-content/components/NoteContent";
-import { useFocusedBlockStore } from "@/features/notes/stores/focusedBlockStore";
-import { getNotiLayout } from "@/features/current-vault/components/layout/NoteLayout";
+import { useNotes } from "@/features/notes/hooks/useNotes";
+import { useToast } from "@/lib/hooks/useToast";
+import { useRouter } from "next/router";
+import { useBlocks } from "@/features/blocks/hooks/useBlocks";
+import { validate as validateUUID } from "uuid";
+import Note from "@/features/notes/components/Note";
+import { useFocusedStore } from "@/features/notes/stores/currentFocusStore";
 
 interface NotePageProps {
-  note: NoteType;
+  noteId: string;
 }
 
-const NotePage: NextPageWithLayout<NotePageProps> = ({
-  note,
-}: NotePageProps) => {
+const NotePage: NextPageWithLayout<NotePageProps> = ({ noteId }) => {
+  const { setCurrentNote, clearCurrentNote } = useCurrentNote();
+  const { setFocusedBlockId } = useFocusedStore();
+
+  const { getNoteById, joinNoteRoom, leaveNoteRoom } = useNotes();
+  const { setBlocks } = useBlocks();
+
+  const { openToast } = useToast();
   const router = useRouter();
 
-  const { enterNote, leaveNote } = useCurrentNote();
-  const { setFocusedBlockId } = useFocusedBlockStore();
-
   useEffect(() => {
-    if (note == null) {
-      router.push("/notes");
-    }
+    const fetchNote = async () => {
+      const resp = await getNoteById(noteId);
+      if (resp.ok) {
+        const { note } = resp.data;
+        joinNoteRoom(note.id);
+        setCurrentNote(note.id, note.title, note.isPinned);
+        setBlocks(note.blocks);
+      } else {
+        openToast("Failed to fetch note " + noteId, "error");
+        router.push("/notes");
+      }
+    };
 
-    enterNote(note.id, note.title, note.pinned);
-    setFocusedBlockId(null);
+    fetchNote();
 
     return () => {
-      leaveNote();
+      leaveNoteRoom(noteId);
+      clearCurrentNote();
+      setFocusedBlockId(null);
     };
-  }, [note?.id]);
+  }, [noteId]);
 
   return (
     <>
       <Head>
         <title>Noti | Notes</title>
       </Head>
-      <Box
-        component="main"
-        sx={{
-          height: "100%",
-          width: "100%",
-          overflowY: "auto",
-        }}
-      >
-        <Container sx={{ marginX: "auto", width: "min(65%, 1000px)" }}>
-          <Box sx={{ height: "60px" }}></Box>
-          <NoteTitle />
-          <Box sx={{ height: "30px" }}></Box>
-          <NoteContent originalBlocks={note.blocks} />
-        </Container>
-      </Box>
+      <Note noteId={noteId} />
     </>
   );
 };
 
+NotePage.getLayout = getCurrentVaultLayout;
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const noteId = context.query.noteId as string;
   const cookies = parseCookies(context);
 
   if (!cookies.currentVault) {
@@ -75,14 +74,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  const response = await fetchCall(context, `/notes/${noteId}`, {
-    method: "GET",
-    headers: {
-      vault_id: JSON.parse(cookies.currentVault).id,
-    },
-  });
+  const noteId = context.query.noteId as string;
 
-  if (response == undefined || response.status !== 200) {
+  if (!validateUUID(noteId)) {
     return {
       redirect: {
         destination: "/notes",
@@ -93,13 +87,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      note: await response?.json(),
+      noteId,
     },
   };
 }
-
-NotePage.getLayout = (page) => {
-  return getNotiLayout(page);
-};
 
 export default NotePage;
