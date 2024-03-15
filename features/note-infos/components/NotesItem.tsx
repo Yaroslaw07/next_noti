@@ -16,8 +16,6 @@ const NotesItem: FC<NotesItemProps> = ({ note }) => {
   const { currentNoteTitle, currentNoteId } = useCurrentNote();
   const active = currentNoteId === note.id;
 
-  console.log("NotesItem", note.id);
-
   const [isHovered, setIsHovered] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);

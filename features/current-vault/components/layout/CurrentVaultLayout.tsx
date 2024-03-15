@@ -46,9 +46,9 @@ const CurrentVaultLayout: FC<CurrentVaultLayoutProps> = ({ children }) => {
       return;
     }
 
-    const initNoteSocket = async () => {
+    const initVaultSocket = async () => {
       try {
-        if (socket === null) {
+        if (socket === undefined) {
           router.push("/vaults");
           return;
         }
@@ -59,7 +59,8 @@ const CurrentVaultLayout: FC<CurrentVaultLayoutProps> = ({ children }) => {
         router.push("/auth/login");
       }
     };
-    initNoteSocket();
+
+    initVaultSocket();
 
     socket?.on(VAULT_EVENTS.VAULT_UPDATED, (vault) => {
       selectVault(vault);

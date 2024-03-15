@@ -5,6 +5,7 @@ import { Block } from "../../types/blockTypes";
 import { useBlocksActions } from "../../hooks/useBlockActions";
 import { useBlocks } from "../../hooks/useBlocks";
 import { useEditModeStore } from "@/features/notes/stores/editModeStore";
+import BlockChangeTypeMenu from "../menus/BlockChangeTypeMenu";
 
 interface TextBlocksProps {
   block: Block;
@@ -26,7 +27,9 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
   const { getNextBlockId, getPrevBlockId } = useBlocks();
 
   const [text, setText] = useState("");
-  const { id, props, order } = block;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { id, props, order, type } = block;
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -45,6 +48,11 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
   };
 
   const handleOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (event.target.value === "/") {
+      setIsMenuOpen(true);
+      return;
+    }
+
     updateBlock({ props: { text: event.target.value } });
     setText(event.target.value);
   };
@@ -83,21 +91,35 @@ const TextBlock: FC<TextBlocksProps> = ({ block }) => {
   const isFocused: boolean = focusedBlockId === id;
 
   return (
-    <TextArea
-      ref={textAreaRef}
-      value={text}
-      onFocus={() => {
-        setFocusedBlockId(id);
-      }}
-      onBlur={() => {
-        setFocusedBlockId(null);
-      }}
-      onKeyDown={(e) => handleKeyDown(e)}
-      onChange={handleOnChange}
-      isFocused={isFocused}
-      style={{ fontSize: "1.1rem", lineHeight: "1.4" }}
-      placeholder={isFocused ? "Start typing..." : ""}
-    />
+    <>
+      <TextArea
+        ref={textAreaRef}
+        value={text}
+        onFocus={() => {
+          setFocusedBlockId(id);
+        }}
+        onBlur={() => {
+          setFocusedBlockId(null);
+        }}
+        onKeyDown={(e) => handleKeyDown(e)}
+        onChange={handleOnChange}
+        isFocused={isFocused}
+        style={{ fontSize: "1.1rem", lineHeight: "1.4" }}
+        placeholder={
+          isFocused ? "Start typing or '/' for change type of block" : ""
+        }
+      />
+
+      <BlockChangeTypeMenu
+        id={id}
+        currentType={type}
+        anchorEl={textAreaRef.current}
+        isOpen={isMenuOpen}
+        handleClose={() => {
+          setIsMenuOpen(false);
+        }}
+      />
+    </>
   );
 };
 

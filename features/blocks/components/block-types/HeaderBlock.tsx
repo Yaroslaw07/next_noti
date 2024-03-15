@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
-import { Block } from "../../types/blockTypes";
+import { Block, BlockType } from "../../types/blockTypes";
 import { useFocusedStore } from "@/features/notes/stores/currentFocusStore";
 import { useEditModeStore } from "@/features/notes/stores/editModeStore";
 import { useBlocksActions } from "../../hooks/useBlockActions";
@@ -30,11 +30,7 @@ const HeaderBlock: FC<HeaderBlockProps> = ({ block, style }) => {
   const { focusedBlockId, setFocusedBlockId } = useFocusedStore();
   const { editMode, setEditMode } = useEditModeStore();
 
-  const {
-    addBlock,
-    updateBlockProps: updateBlock,
-    deleteBlock,
-  } = useBlocksActions({
+  const { addBlock, updateBlockProps, updateBlockType } = useBlocksActions({
     id: block.id,
     order: block.order,
   });
@@ -56,12 +52,11 @@ const HeaderBlock: FC<HeaderBlockProps> = ({ block, style }) => {
   };
 
   const handleBackspace = () => {
-    deleteBlock();
-    setFocusedBlockId(getPrevBlockId(order)?.id || "title");
+    updateBlockType(BlockType.TEXT);
   };
 
   const handleOnChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    updateBlock({ props: { text: event.target.value } });
+    updateBlockProps({ props: { text: event.target.value } });
     setText(event.target.value);
   };
 

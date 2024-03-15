@@ -6,7 +6,7 @@ import { useBlocksActions } from "../../hooks/useBlockActions";
 interface BlockChangeTypeMenuProps {
   id: string;
   currentType: string | null;
-  anchorEl: null | SVGSVGElement;
+  anchorEl: null | SVGSVGElement | HTMLTextAreaElement;
   isOpen: boolean;
   handleClose: () => void;
 }
