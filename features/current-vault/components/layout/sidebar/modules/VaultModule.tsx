@@ -3,7 +3,7 @@ import { Icons } from "@/components/Icons";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import SidebarModule from "./base/SidebarModule";
+import SidebarModule from "../base/SidebarModule";
 import VaultModuleMenuItem from "./VaultModuleMenuItem";
 import { useCurrentVault } from "@/features/current-vault/hooks/useCurrentVault";
 

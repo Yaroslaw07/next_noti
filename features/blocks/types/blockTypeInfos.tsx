@@ -6,12 +6,13 @@ import HeaderBlock, {
   headerStyle2,
   headerStyle3,
 } from "../components/block-types/HeaderBlock";
+import DividerBlock from "../components/block-types/DividerBlock";
 
 export const blockTypeInfos: { [key in BlockType]: BlockTypeInfo } = {
   [BlockType.DIVIDER]: {
     type: BlockType.DIVIDER,
     title: "Divider",
-    component: HR,
+    component: DividerBlock,
   },
   [BlockType.HEADER_1]: {
     type: BlockType.HEADER_1,

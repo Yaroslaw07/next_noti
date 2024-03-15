@@ -2,10 +2,18 @@ import { getVaultHeader } from "@/features/auth/services/authService";
 import api from "@/lib/api/api";
 import { serviceApiCall } from "@/lib/api/serviceApiCall";
 
+interface NotesQueryParams {
+  searchedText?: string;
+  isPinned?: boolean;
+}
+
 export const notesInfoService = {
-  getNotes: async (vaultId: string): Promise<ServiceOperationResult> => {
+  getNotes: async (
+    vaultId: string,
+    params: NotesQueryParams
+  ): Promise<ServiceOperationResult> => {
     return serviceApiCall(
-      () => api.get("/notes/", getVaultHeader(vaultId)),
+      () => api.get("/notes/", { ...getVaultHeader(vaultId), params: params }),
       "Notes loaded successfully",
       "Error loading notes"
     );

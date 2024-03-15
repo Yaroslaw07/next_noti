@@ -9,19 +9,16 @@ import TextArea from "@/components/ui/TextArea";
 export const headerStyle1: React.CSSProperties = {
   fontSize: "2.2rem",
   fontWeight: "500",
-  color: "#333",
 };
 
 export const headerStyle2: React.CSSProperties = {
   fontSize: "2rem",
   fontWeight: "500",
-  color: "#333",
 };
 
 export const headerStyle3: React.CSSProperties = {
   fontSize: "1.8rem",
   fontWeight: "500",
-  color: "#333",
 };
 
 interface HeaderBlockProps {
@@ -110,7 +107,7 @@ const HeaderBlock: FC<HeaderBlockProps> = ({ block, style }) => {
       isFocused={isFocused}
       onFocus={() => setFocusedBlockId(id)}
       onBlur={() => setFocusedBlockId(null)}
-      style={{ fontSize: "2rem", fontWeight: "bold" }}
+      style={style}
     />
   );
 };

@@ -33,13 +33,13 @@ const BlockWrapperMenu: FC<BlockWrapperMenuProps> = ({
       MenuListProps={{
         "aria-labelledby": "basic-button",
         disablePadding: true,
-        dense: true,
       }}
+      sx={{ marginTop: "8px" }}
     >
       <MenuItem onClick={handleChangeTypeOption} disableRipple>
         <Stack spacing={2} direction={"row"} alignItems={"center"}>
           <Typography>Change Type</Typography>
-          <Icons.KeyboardRight sx={{ fontSize: "20px" }} />
+          <Icons.KeyboardRight sx={{ fontSize: "24px" }} />
         </Stack>
       </MenuItem>
       <MenuItem onClick={handleDelete} sx={{ width: "100%" }} disableRipple>
@@ -51,7 +51,7 @@ const BlockWrapperMenu: FC<BlockWrapperMenuProps> = ({
           sx={{ width: "100%" }}
         >
           <Typography>Delete</Typography>
-          <Icons.Delete sx={{ fontSize: "20px" }} />
+          <Icons.Delete sx={{ fontSize: "24px" }} />
         </Stack>
       </MenuItem>
     </Menu>
